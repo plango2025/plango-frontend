@@ -1,0 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  //옆에 사이드바만큼 띄움
+  .main-container {
+    height: 100%;   
+    margin-left: 140px;
+  }
