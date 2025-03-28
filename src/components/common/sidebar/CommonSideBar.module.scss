@@ -1,0 +1,26 @@
+$LOGO_WIDTH:72px;
+$LOGO_TOP_MARGIN:47px;
+.sidebar{
+  position: fixed;
+  width: main.$SIDEBAR_WIDTH;
+  height: 100%;
+  background-color: main.$accent-primary;
+  top:0;
+  left:0;
+
+&__logo{
+    position: relative;
+    width: $LOGO_WIDTH;
+    height: $LOGO_WIDTH;
+    left: 34px;
+    top:$LOGO_TOP_MARGIN;
+}
+  &__iconList{
+        position: relative;
+
+    width:100%;
+    height: calc(100% - $LOGO_TOP_MARGIN - $LOGO_WIDTH);
+    margin-top:calc($LOGO_TOP_MARGIN + $LOGO_WIDTH) 
+  }
+  
+}

@@ -1,0 +1,25 @@
+@use './color';
+@use './font';
+@use './size.scss';
+
+@forward './color';
+@forward './font';
+@forward './size.scss';
+
+@font-face {
+    font-family: 'pretendard';
+    src: url('../font/woff2/Pretendard-Medium.woff2') format('woff2'),
+       url('../font/woff/Pretendard-Medium.woff') format('woff');
+font-weight: normal;
+  font-style: normal;
+    }
+
+* {
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    font-family: 'pretendard', sans-serif;
+    font-weight: 400;
+}

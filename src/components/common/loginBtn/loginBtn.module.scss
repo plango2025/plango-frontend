@@ -1,0 +1,17 @@
+.container{
+    position: fixed;
+top: 50px;
+left:1384px;
+}
+.loginBtn{
+    width: 173px;
+    height: 70px;
+    background-color: main.$accent-primary;
+border-radius: 40px;
+color: main.$bg-light;
+font-weight: main.$fontweightExtraBold;
+font-size: subtitle-s;
+outline: none;
+border:none
+
+}
