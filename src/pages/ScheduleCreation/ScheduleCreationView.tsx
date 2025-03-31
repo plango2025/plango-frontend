@@ -1,26 +1,17 @@
-import React from "react";
-import CommonStepperPresenter from "@/components/common/stepper/CommonStepperPresenter";
-import "./ScheduleCreation.scss";
-import SideBar from "@/components/common/sidebar/CommonSidebar";
-
-// Step 타입 정의
-interface Step {
-  label: string;
-  content: React.ReactNode; // content는 JSX 요소로 설정
-}
+import React from "react"
+import styles from "./ScheduleCreation.module.scss" // 스타일 직접 적용
+import SideBar from "@/components/common/sidebar/CommonSidebar"
+import StepperPresenter from "./scheduleCreationFeatures/Stepper/StepperView"
 
 export default function ScheduleCreationView() {
   return (
-    <div className="schedule-creation">
-
-      <SideBar/>
-    
+    <div className= " schedule-creation">
+      <SideBar />
       <main>
-        <div className="main-container">
-          <CommonStepperPresenter/>
+        <div className = {styles.mainContainer}>
+          <StepperPresenter />
         </div>
       </main>
-
     </div>
-  );
+  )
 }
