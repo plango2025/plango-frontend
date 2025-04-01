@@ -1,33 +1,32 @@
-
 .searchBar {
-    width: 480px;
-    height: 80px;
-    display: flex;
-    border: 1px solid #ccc;
-    padding: 5px;
-    background-color: rgb(179, 179, 179);
-    border-radius: 125px;
+  width: 480px;
+  height: 80px;
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 5px;
+  background-color: rgb(179, 179, 179);
+  border-radius: 125px;
 }
 
 .input {
-    border: none;
-    border-radius: 25px;
-    outline: none;
-    flex-grow: 1;
-    padding: 8px;
-    font-size: 16px;
-    background-color: rgb(179, 179, 179);
+  border: none;
+  border-radius: 25px;
+  outline: none;
+  flex-grow: 1;
+  padding: 8px;
+  font-size: 16px;
+  background-color: rgb(179, 179, 179);
 }
 
 .button {
-    background-color: #f0f0f0;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 15px;
-    font-size: 16px;
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 15px;
+  font-size: 16px;
 }
 
 .button :hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }

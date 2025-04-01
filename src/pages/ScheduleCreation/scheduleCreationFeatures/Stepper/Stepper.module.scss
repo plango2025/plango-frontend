@@ -1,11 +1,10 @@
 //stepper 라이브러리에 gap4들어있어서 0 필수
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    gap: 0;
-  }
-
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  gap: 0;
+}
 
 //stepper 회색쪽 layout
 .layout1 {
@@ -26,12 +25,10 @@
   align-items: center;
   justify-content: center;
   background-color: red;
-
 }
 
-
 //회색쪽 레이아웃 시작 -----------------------------------------------
-.stepperProgress{
+.stepperProgress {
   display: flex;
   width: 100%;
   height: 100%;
@@ -40,7 +37,7 @@
 }
 
 //1-2-3-4-5-6-7-8
-.indicatorLayout{
+.indicatorLayout {
   display: flex;
 }
 
@@ -52,14 +49,13 @@
 
 .progressTitle {
   font-size: 18px;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
-.progeressSubTitle{
+.progeressSubTitle {
   font-size: 12px;
   font-weight: 200;
 }
-
 
 //main 내용 시작 -------------------------------------
 .stepContent {
@@ -69,6 +65,7 @@
   align-items: center;
   justify-content: center;
   border: 1px green solid;
+  min-width: 500px; /* 최소 크기 제한 */
 }
 
 .stepperContent {
@@ -87,7 +84,7 @@
 
 .stepTitle {
   font-size: 48px;
-  font-weight: bold; 
+  font-weight: bold;
   margin-bottom: 8px;
 }
 
@@ -96,22 +93,21 @@
   color: grey;
 }
 
-.contentLayout{
+.contentLayout {
   width: 100%;
   height: 100%;
   background-color: white;
 }
 //stepPage1--------------------------
 
-.containerSp1{
+.containerSp1 {
   display: flex;
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: center;
-  transform: translateY(-30%);  /* 10% 위로 이동 */
+  transform: translateY(-30%); /* 10% 위로 이동 */
 }
-
 
 //stepPage3--------------------------
 
@@ -121,7 +117,7 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-  transform: translateY(-15%);  /* 10% 위로 이동 */
+  transform: translateY(-15%); /* 10% 위로 이동 */
 }
 
 .checkboxesContainerSp3 {
@@ -141,6 +137,4 @@
   gap: 20px; /* 열 간격 */
 }
 
-
-
-//stepPage4---------------------------- 
+//stepPage4----------------------------
