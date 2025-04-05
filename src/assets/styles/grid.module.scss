@@ -1,0 +1,71 @@
+// 기본 설정
+$grid-columns: 12; // 12컬럼 그리드
+$grid-gutter: 30px; // 컬럼 간의 간격
+$column-width: 72px; // 각 컬럼의 너비
+
+// 그리드 컨테이너
+.container {
+  display: grid;
+  grid-template-columns: repeat($grid-columns, $column-width); // 12개의 동일한 너비를 갖는 컬럼
+  column-gap: $grid-gutter; // 간격 설정
+  justify-items: center; // 모든 그리드 항목을 중앙 정렬
+  margin: 0 auto; // 중앙 정렬을 위해 auto margin 추가
+  height:100vh;
+  width:74.625rem; //1194 px
+  border: 1px solid red; // 그리드 항목 경계선 추가
+  position: relative;  /* 자식 요소를 기준으로 절대 위치를 잡을 수 있도록 설정 */
+
+}
+
+// 각 그리드 항목
+.grid-item {
+
+  grid-column: span 1; // 기본적으로 1개의 컬럼을 차지
+}
+
+// 컬럼 크기 설정 (span으로 여러 컬럼을 차지할 때)
+.col-span-2 {
+  grid-column: span 2; // 2개의 컬럼을 차지
+}
+
+.col-span-3 {
+  grid-column: span 3; // 3개의 컬럼을 차지
+}
+
+.col-span-4 {
+  grid-column: span 4; // 4개의 컬럼을 차지
+}
+
+.col-span-6 {
+  grid-column: span 6; // 6개의 컬럼을 차지
+}
+
+.col-span-12 {
+  grid-column: span 12; // 12개의 컬럼을 차지
+}
+
+
+// 반응형 설정 (브레이크포인트에 따른 조정)
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(12, $column-width); // 12컬럼 유지
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    grid-template-columns: repeat(8, $column-width); // 화면이 작아지면 8컬럼으로 변경
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: repeat(6, $column-width); // 화면이 더 작아지면 6컬럼으로 변경
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    grid-template-columns: repeat(4, $column-width); // 화면이 더 작아지면 4컬럼으로 변경
+  }
+}
