@@ -2,15 +2,15 @@ import { Content } from "node_modules/@chakra-ui/react/dist/types/components/act
 
 export const steps = [
   {
-    progressTitle: "STEP 1 필수 코스",
-    progressSubTitle: "디지니랜드",
-    title: "꼭 가야 하는 장소가 있나요?",
+    progressTitle: "STEP 1 여행지 ",
+    title: "어디로 떠나고 싶으세요?",
     subTitle: "일정에 포함될 수 있도록 반영해드려요.",
     content: "stepPage1",
   },
   {
-    progressTitle: "STEP 2 여행지 ",
-    title: "어디로 떠나고 싶으세요?",
+    progressTitle: "STEP 2 필수 코스",
+    progressSubTitle: "디지니랜드",
+    title: "꼭 가야 하는 장소가 있나요?",
     subTitle: "일정에 포함될 수 있도록 반영해드려요.",
     content: "stepPage2",
   },
@@ -46,7 +46,9 @@ export const steps = [
     content: "stepPage7",
   },
   {
-    progressTitle: "Step 4",
-    title: "Step 3 title",
+    progressTitle: "STEP 8 추가사항",
+    title: "추가로 원하는 사항이 있나요?",
+    subTitle: "특별히 고려해야 할 점이 있다면 입력해주세요.",
+    content: "stepPage8",
   },
 ];

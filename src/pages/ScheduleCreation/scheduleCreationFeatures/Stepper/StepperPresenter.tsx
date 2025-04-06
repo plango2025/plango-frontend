@@ -22,6 +22,8 @@ const stepPageChanger = (data) => {
       return <StepPages.StepPage6 />;
     case "stepPage7":
       return <StepPages.StepPage7 />;
+    case "StepPage8":
+      return <StepPages.StepPage8 />;
 
     default:
       return null; // 기본 페이지 또는 null 처리

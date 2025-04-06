@@ -1,0 +1,24 @@
+.imply {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.boxStyle {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.buttonLayout {
+  display: flex;
+  align-items: center;
+
+  height: 100%;
+}
+
+.buttonStyle {
+  width: 70px;
+  height: 50%;
+  border-radius: 50px;
+  background-color: teal;
+}

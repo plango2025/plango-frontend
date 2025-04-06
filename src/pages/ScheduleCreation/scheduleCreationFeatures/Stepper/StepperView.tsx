@@ -57,7 +57,7 @@ const CommonStepperPresenter = () => {
         ))}
         <Steps.CompletedContent>All steps are complete!</Steps.CompletedContent>
 
-        <ButtonGroup size="sm" variant="outline">
+        <ButtonGroup size="lg" variant="outline" className={styles.buttonGroup}>
           <Steps.PrevTrigger asChild>
             <Button>Prev</Button>
           </Steps.PrevTrigger>
@@ -66,6 +66,10 @@ const CommonStepperPresenter = () => {
           </Steps.NextTrigger>
         </ButtonGroup>
       </Stack>
+
+
+
+
     </Steps.Root>
   );
 };

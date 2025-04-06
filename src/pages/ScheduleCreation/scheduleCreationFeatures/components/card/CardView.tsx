@@ -1,30 +1,38 @@
-import { Badge, Box, Button, Card, HStack, Image } from "@chakra-ui/react"
-
+import {
+  Badge,
+  Box,
+  Button,
+  Card,
+  HStack,
+  Image,
+  Spacer,
+} from "@chakra-ui/react";
+import styles from "./CardView.module.scss";
 export const CardView = () => (
   <Card.Root flexDirection="row" overflow="hidden" maxW="xl">
     <Image
       objectFit="cover"
       maxW="200px"
-      src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-      alt="Caffe Latte"
+      src="https://lh3.googleusercontent.com/gps-cs-s/AB5caB_e0M0es76YU8P_4Gj-wRZlRs6WtXBpKDrJHjQyGu_qn_2O1DjwA9b8uZ8YHhm1ghL3vy01k-0dJRIsG1UiAibxwxFfNIDKSXHHGG7UVouZZWPxbrvV6GumShZAxXdXqkVw2MyX=s680-w680-h510"
+      alt="지브리 테마파크"
     />
-    <Box>
+    <Box className={styles.boxStyle}>
       <Card.Body>
-        <Card.Title mb="2">The perfect latte</Card.Title>
+        <Card.Title mb="2">지브리 테마 파크</Card.Title>
         <Card.Description>
           Caffè latte is a coffee beverage of Italian origin made with espresso
           and steamed milk.
         </Card.Description>
         <HStack mt="4">
-          <Badge>Hot</Badge>
-          <Badge>Caffeine</Badge>
+          <Badge>미정</Badge>
+          <Badge>미정</Badge>
         </HStack>
       </Card.Body>
-      <Card.Footer>
-        <Button>Buy Latte</Button>
-      </Card.Footer>
+      <div className={styles.buttonLayout}>
+        <Button className={styles.buttonStyle}>+</Button>
+      </div>
     </Box>
   </Card.Root>
-)
+);
 
 export default CardView;

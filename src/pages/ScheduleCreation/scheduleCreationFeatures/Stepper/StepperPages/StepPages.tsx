@@ -2,28 +2,13 @@ import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar";
 import styles from "./StepPages.module.scss";
 import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CardView from "../../components/card/CardView";
+import CommonSlider from "@/components/common/slider/CommonSlider";
 
-// StepPage1 컴포넌트 선언
-const StepPage1 = () => {
-  return (
-    <div className={styles.containerSp1}>
-      <div className={styles.searchBarContainerSp1}>
-        <SearchBarPresenter />
-      </div>
-
-      <div className={styles.cardViewContainer}>
-        <CardView />
-      </div>
-    </div>
-  );
-};
-
-const step2CommonCheckboxLabels1 = ["랜덤추천", "직접입력"];
-const step2CommonCheckboxLabels2 = [
-  "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
+const step2CommonCheckboxLabels1 = [
+  "대한민국",
+  "일본",
+  "필리핀",
+  "대만",
   "직접입력",
   "직접입력",
   "직접입력",
@@ -34,8 +19,8 @@ const step2CommonCheckboxLabels2 = [
   "직접입력",
 ];
 
-// StepPage2 컴포넌트 선언
-const StepPage2 = () => {
+// StepPage1 컴포넌트 선언
+const StepPage1 = () => {
   // 3x2 배열을 생성
   const rows = 3;
   const cols = 4;
@@ -44,7 +29,7 @@ const StepPage2 = () => {
     <div key={rowIndex} className={styles.rowSp3}>
       {Array.from({ length: cols }, (_, colIndex) => {
         const index = rowIndex * cols + colIndex; // 각 체크박스의 고유한 인덱스 계산
-        const label = step2CommonCheckboxLabels2[index]; // 해당 인덱스의 레이블 가져오기
+        const label = step2CommonCheckboxLabels1[index]; // 해당 인덱스의 레이블 가져오기
         return (
           <CommonCheckbox key={`${rowIndex}-${colIndex}`} labels={[label]} /> // 각 체크박스에 해당하는 라벨 전달
         );
@@ -53,12 +38,30 @@ const StepPage2 = () => {
   ));
 
   return (
+    <div className={styles.containerSp1}>
+      <div className={styles.searchBarContainerSp1}>
+        <SearchBarPresenter />
+      </div>
+      <div className={styles.checkboxesContainerSp1}>
+        <div className={styles.gridSp3}>{checkboxes}</div>
+      </div>
+    </div>
+  );
+};
+
+// StepPage2 컴포넌트 선언
+const StepPage2 = () => {
+  return (
     <div className={styles.containerSp2}>
       <div className={styles.searchBarContainerSp2}>
         <SearchBarPresenter />
       </div>
-      <div className={styles.checkboxesContainerSp2}>
-        <div className={styles.gridSp3}>{checkboxes}</div>
+
+      <div className={styles.cardViewContainerSp2}>
+        <CardView />
+        <CardView />
+        <CardView />
+        <CardView />
       </div>
     </div>
   );
@@ -224,12 +227,18 @@ const StepPage6 = () => {
 const StepPage7 = () => {
   return (
     <div className={styles.containerSp1}>
-      <div className={styles.searchBarContainerSp1}>
-        <SearchBarPresenter />
-      </div>
-
       <div className={styles.cardViewContainer}>
-        <CardView />
+        <CommonSlider />
+      </div>
+    </div>
+  );
+};
+
+const StepPage8 = () => {
+  return (
+    <div className={styles.containerSp1}>
+      <div className={styles.cardViewContainer}>
+        <CommonSlider />
       </div>
     </div>
   );
@@ -243,4 +252,5 @@ export const StepPages = {
   StepPage5,
   StepPage6,
   StepPage7,
+  StepPage8,
 };

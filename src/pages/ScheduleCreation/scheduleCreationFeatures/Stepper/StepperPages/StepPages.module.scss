@@ -12,8 +12,9 @@
   margin-top: 50px;
 }
 
-.cardViewContainer {
-  margin-top: 5%;
+.checkboxesContainerSp1 {
+  display: flex;
+  margin-top: 50px;
 }
 
 //stepPage2--------------------------
@@ -30,9 +31,10 @@
   margin-top: 50px;
 }
 
-.checkboxesContainerSp2 {
-  display: flex;
-  margin-top: 50px;
+.cardViewContainerSp2 {
+  margin-top: 5%;
+  border-radius: 10px;
+  overflow: auto; // 스크롤 가능하게 설정
 }
 
 //stepPage3--------------------------
