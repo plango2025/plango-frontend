@@ -1,27 +1,46 @@
-$LOGO_WIDTH:72px;
-$LOGO_TOP_MARGIN:47px;
+$LOGO_WIDTH: 4.5rem;
+$LOGO_TOP_MARGIN: 2.938rem;
+$ICON_WIDTH: 2.5rem;
 
-.sidebar{
+.sidebar {
   position: fixed;
   width: main.$SIDEBAR_WIDTH;
   height: 100%;
-  background-color: main.$accent-primary;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
 
-&__logo{
+  &__logo {
     position: relative;
     width: $LOGO_WIDTH;
     height: $LOGO_WIDTH;
-    left: 34px;
-    top:$LOGO_TOP_MARGIN;
-}
-  &__iconList{
-        position: relative;
-
-    width:100%;
-    height: calc(100% - $LOGO_TOP_MARGIN - $LOGO_WIDTH);
-    margin-top:calc($LOGO_TOP_MARGIN + $LOGO_WIDTH) 
+    left: 2.125rem;
+    top: $LOGO_TOP_MARGIN;
   }
-  
+  &__iconList {
+    position: relative;
+
+    width: 100%;
+    height: calc(100% - $LOGO_TOP_MARGIN - $LOGO_WIDTH);
+    margin-top: calc($LOGO_TOP_MARGIN + $LOGO_WIDTH);
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    align-items: center;
+
+    &__icon {
+      width: $ICON_WIDTH;
+          svg path{
+             transition: fill 0.1s ease;
+          }    
+ svg:hover path{
+        fill:#253422;
+        
+      }
+
+     
+    }
+  }
 }
+
+
+      // 안된다!!! 된다며!!!된다며!!!

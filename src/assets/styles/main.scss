@@ -1,10 +1,12 @@
 @use './color';
 @use './font';
-@use './size.scss';
-
+@use './size';
+// @use './grid';
 @forward './color';
 @forward './font';
-@forward './size.scss';
+@forward './size';
+// @forward './grid';
+
 
 @font-face {
     font-family: 'pretendard';

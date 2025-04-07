@@ -1,7 +1,8 @@
-.container{
-    position: fixed;
+.loginContainer{
+    position: absolute;
+   grid-column: span 2; 
 top: 50px;
-left:1384px;
+right:0;
 }
 .loginBtn{
     width: 173px;
