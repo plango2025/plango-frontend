@@ -10,6 +10,10 @@ html{
      user-select: none;
 }
 
+.container {
+  @extend .container;
+}
+
   .main {
     position: relative;
     width: 100%;

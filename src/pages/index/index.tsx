@@ -1,7 +1,7 @@
 import styles from './styles/index.module.scss'
 import CommonHeader from '@/components/common/header/CommonHeader';
 import CommonNav from '@/components/common/navigation/CommonNav';
-import CommonSearchBar from '@/components/common/searchBar/CommonSerachBar';
+import CommonSearchBar from '@/components/common/searchBar/CommonSearchbar';
 function index() {
   return (
     <div className={styles.page}>

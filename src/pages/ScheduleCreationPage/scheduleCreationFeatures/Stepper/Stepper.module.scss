@@ -1,0 +1,131 @@
+//stepper 라이브러리에 gap4들어있어서 0 필수
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+
+//stepper 회색쪽 layout
+.layout1 {
+  display: flex;
+  width: 450px;
+  min-height: 100vh;
+  padding: 100px 0 100px 0;
+  background-color: whitesmoke;
+  flex-shrink: 0;
+  overflow: hidden; // 자식들이 넘치지 않게
+  
+}
+
+
+//가운데 내용
+.layout2 {
+  display: grid;
+  grid-template-rows: 1fr auto; // 위는 유동, 아래는 고정
+  flex: 1;
+  height: 100vh;
+  flex-direction: column; // ⭐ 세로로 나눔
+  flex-basis: 1000px; /* 최소 너비 설정 */
+  min-width: 800px; /* 최소 크기 제한 */
+  align-items: center;
+}
+
+.layout2Division{ 
+  min-height: 50rem;
+  display: flex;
+  flex: 1;
+  flex-basis: 1000px; /* 최소 너비 설정 */
+  min-width: 800px; /* 최소 크기 제한 */
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+//회색쪽 레이아웃 시작 -----------------------------------------------
+.stepperProgress {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  text-align: left;
+  margin-left: 100px;
+  flex-direction: column; /* Steps 컴포넌트 내부 아이템이 세로로 배열되도록 명시 */
+}
+
+
+
+//1-2-3-4-5-6-7-8
+.indicatorLayout {
+  display: flex;
+}
+
+//title과 subtitle관리
+.progressTitles {
+  display: inline;
+  margin-left: 10px;
+}
+
+.progressTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.progeressSubTitle {
+  font-size: 12px;
+  font-weight: 200;
+}
+
+
+
+//main 내용 시작 -------------------------------------
+.stepContent {
+  display: flex;
+  width: 60%;
+  height: 60%;
+  align-items: center;
+  justify-content: center;
+  //border: 1px green solid;
+  min-width: 800px; /* 최소 크기 제한 */
+}
+
+.stepperContent {
+  width: 100%;
+  height: 100%;
+}
+
+.titleBox {
+  width: 100%;
+  display: flex; /* 플렉스를 사용해 세로 정렬 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  justify-content: flex-start; /* 위쪽에 정렬 */
+  text-align: center;
+  background-color: white;
+}
+
+.stepTitle {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.stepSubTitle {
+  margin-bottom: 8px;
+  color: grey;
+}
+
+.contentLayout {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.buttonLayout{
+  border-top: 1px solid #eee; // 구분선 (선택)
+  display: flex;
+  height: 7rem;
+  justify-content: center;
+  align-items: center;
+
+}
+

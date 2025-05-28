@@ -1,0 +1,138 @@
+.container {
+    display: flex;
+}
+
+.mainContainerLayout{
+    width: 100%;
+    @extend .col-span-12;
+    justify-items: center;
+    align-items: center;
+
+
+}
+
+
+.topLayout {
+    display: flex;
+    width: 100%;
+    @extend .col-span-12;
+    height: 35%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    
+}
+
+
+.tapLayout{
+    display: flex;
+    width: 100%;
+    background-color: darkgreen;
+}
+
+
+.myLayout {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    background-color: brown;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 5); // 진한 그림자
+    
+    &__myLayout1{
+        display: flex;
+        align-items: center;
+        background-color: rebeccapurple;
+        width: 50%;
+        height: 100%;
+    }
+
+    &__myLayout2{
+        display: flex;
+        align-items: center;
+        width: 50%;
+        height: 100%;
+    }
+
+    &__faceLayout {
+        width: 250px;
+        height: 250px;
+        margin-left: 3rem;
+        background-color: white;
+        border-radius: 250px;
+        flex-shrink: 0; // 크기 줄어들지 않도록
+    }
+    &__button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #00000088;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    }
+
+    &__fileInput {
+        display: none;
+    }
+    
+    &__textarea1 {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; // 수직 가운데 정렬
+        margin-right: 3rem;
+        text-align: left;
+        height: 80%;
+        background-color: white;
+        margin-left: 3rem;
+        &__name {
+            font-size:24px;
+            font-weight: bold;
+        }
+        &__address {
+
+        }
+        &__birthday {
+            
+        }
+        &__tag {
+            
+        }
+    }
+
+    &__textarea2 {
+        height: 80%;
+        display: flex;
+        align-items: center;
+        margin-left: 3rem;
+        background-color: burlywood;
+        overflow: hidden;
+        text-overflow: ellipsis; /* 넘치면 ... 처리 */
+        margin-right: 3rem;
+    }
+}
+
+
+
+
+.bottomLayout {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: space-between; // 요소 사이에 균등한 공간
+    gap: 1rem; // 요소 사이의 간격 (선택적, 위 아래 여백 등에도 사용)
+    align-items: center;
+    justify-content: center;
+    
+
+}

@@ -1,0 +1,39 @@
+.imageLayout {
+    width: 200px;
+    height: 150px;
+    align-items: center;
+    justify-content: center;
+}
+  
+  .boxStyle {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .buttonLayout {
+    display: flex;
+    align-items: center;
+  
+    height: 100%;
+  }
+  
+  .buttonStyle {
+    width: 70px;
+    height: 50%;
+    border-radius: 50px;
+    background-color: teal;
+  }
+  
+.titleStyle {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.descriptionStyle {
+    margin-left: 1rem;
+}
+
+.badgeStyle{
+    margin-left: 1rem;
+}

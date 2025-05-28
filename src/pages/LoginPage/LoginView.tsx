@@ -1,13 +1,12 @@
 import styles from "./LoginPage.module.scss"; // SCSS 모듈 import
 import SideBar from "@/components/common/sidebar/CommonSidebar";
-import gridStyle from "@assets/styles/grid.module.scss";
 import KakaoLoginBtn from "./KakaoLoginBtn/KakaoLoginBtn";
 
 const LoginView: React.FC = () => {
   
  
   return (
-    <div className={gridStyle.container}>
+    <div className={styles.container}>
       {/* 사이드바 */}
       <SideBar />
       <div className={styles.container__title}>

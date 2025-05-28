@@ -3,11 +3,12 @@ $LOGO_TOP_MARGIN: 2.938rem;
 $ICON_WIDTH: 2.5rem;
 
 .sidebar {
-  position: fixed;
+  position: absolute;
   width: main.$SIDEBAR_WIDTH;
   height: 100%;
   top: 0;
   left: 0;
+  
 
   &__logo {
     position: relative;

@@ -1,0 +1,53 @@
+
+.root {
+    overflow: hidden;
+    border-radius: 40px;
+}
+
+
+.title{
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.buttonLayout {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between; /* 아이콘 사이 동일한 간격 */
+    align-items: center;
+    margin: 0 15% 0 15%;
+    border-bottom: 1px solid black;
+}
+
+.bodyLayout {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.description{
+    width: 80%;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.iconLayout{
+    margin: 0.5rem 0 1rem 0;
+}
+
+.iconD {
+    display: flex;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: grey;
+    align-items: center;
+    img {
+        width: 2rem;
+        height: 2rem;
+    }
+    text{
+        margin-left: 0.5rem;
+    }
+}

@@ -1,6 +1,7 @@
 import styles from "../LoginPage.module.scss"; // SCSS 모듈 import
 import axios from 'axios';
 import { useState } from 'react';
+
 function KakaoLoginBtn() {
 const [user, setUser] = useState<KakaoUser | null>(null); // null → 로그인 안 됨  { nickname: string, id: string } → 로그인 됨
 const [error, setError] = useState<string | null>(null);

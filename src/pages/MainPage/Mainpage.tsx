@@ -1,10 +1,9 @@
 import LoginBtn from "@components/common/loginBtn/LoginBtn";
 import styles from "./Mainpage.module.scss";
-import gridStyle from '@assets/styles/grid.module.scss';
 
 export default function MainPage() {
   return (
-    <div className={gridStyle.container}>
+    <div className={styles.container}>
       {/* 로그인 버튼 */}
       <LoginBtn />
       {/* 메인1. 상단 로고 및 버튼 */}

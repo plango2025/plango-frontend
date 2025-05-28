@@ -5,6 +5,7 @@ $TOP_MARGIN: 160px;
 $LOGO_SIZE: 48px;
 
 .container {
+  @extend .container;
   &__title {
     grid-column: 3 / span 8;
     text-align: center;
