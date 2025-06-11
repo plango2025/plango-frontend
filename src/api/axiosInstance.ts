@@ -10,7 +10,7 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   requiresAuth?: boolean; //요청에 인증이 필요한 지 여부 (false면 Authorization 헤더 안 붙임임)
   _retry?: boolean; // 401 재요청 방지용 플래그
 }
-//토근을 받아서 axios 인스턴스를 반환하는 함수
+//토큰을 받아서 axios 인스턴스를 반환하는 함수
 export const createApiWithToken = (
   accessToken: string | null,
   setAccessToken: (token: string) => void

@@ -44,11 +44,11 @@ padding-left: 0.5rem;
 `;
 export const Rating = styled.div`
   padding-left: 0.5rem;
+  z-index: 1;
 
   display: flex;
   font-size: 1rem;
-  color: rgb(255, 211, 54);
-  margin-top: 1rem;
+  color: rgb(255, 217, 0);
   span {
     color: #333333;
     padding-left: 1rem;

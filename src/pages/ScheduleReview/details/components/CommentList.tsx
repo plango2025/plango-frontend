@@ -1,12 +1,26 @@
-// 댓글 목록 컴포넌트
+import {
+  Wrapper,
+  Title,
+  List,
+  Item,
+  Header,
+  Avatar,
+  UserInfo,
+  UserName,
+  CreatedAt,
+  Content,
+} from "./CommentList.style";
 
 interface Comment {
-  id: number;
-  userId: string;
-  userName: string;
-  userAvatar: string;
-  createdAt: string;
+  comment_id: number;
+  target_id: number; //이건 리뷰id
+  target_type: string; //SCHEDULE_REVIEW
+  user_id: string;
   content: string;
+  user_nickname: string;
+  user_avatar: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface CommentListProps {
@@ -15,42 +29,25 @@ interface CommentListProps {
 
 const CommentList = ({ comments }: CommentListProps) => {
   return (
-    <div>
-      <h3>댓글 ({comments.length}개)</h3>
-      <ul>
+    <Wrapper>
+      <Title>댓글 ({comments.length}개)</Title>
+      <List>
         {comments.map((c) => (
-          <li
-            key={c.id}
-            style={{
-              marginBottom: "1rem",
-              listStyle: "none",
-              borderBottom: "1px solid #eee",
-              paddingBottom: "1rem",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img
-                src={c.userAvatar}
-                alt={c.userName}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: "50%",
-                  marginRight: 10,
-                }}
-              />
-              <div>
-                <strong>{c.userName}</strong>
-                <div style={{ fontSize: 12, color: "#888" }}>
-                  {new Date(c.createdAt).toLocaleString()}
-                </div>
-              </div>
-            </div>
-            <p style={{ marginTop: 8 }}>{c.content}</p>
-          </li>
+          <Item key={c.comment_id}>
+            <Header>
+              <Avatar src={c.user_avatar} alt={c.user_nickname} />
+              <UserInfo>
+                <UserName>{c.user_nickname}</UserName>
+                <CreatedAt>
+                  {new Date(c.created_at).toLocaleString("ko-KR")}
+                </CreatedAt>
+              </UserInfo>
+            </Header>
+            <Content>{c.content}</Content>
+          </Item>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Wrapper>
   );
 };
 
