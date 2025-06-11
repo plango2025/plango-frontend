@@ -4,11 +4,10 @@ import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CardView from "../../components/card/CardView";
 import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
-import ParentComponent from "@/components/common/slider/CommonSlider.presenter"
+import ParentComponent from "@/components/common/slider/CommonSlider.presenter";
 import React, { useState } from "react";
 
 //context 사용할라고 전역 변수
-  
 
 const step1CommonCheckboxLabels1 = [
   "대한민국",
@@ -16,37 +15,33 @@ const step1CommonCheckboxLabels1 = [
   "필리핀",
   "대만",
   "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
-  "직접입력",
+  "직접입력1",
+  "직접입력2",
+  "직접입력3",
+  "직접입력4",
+  "직접입력5",
+  "직접입력6",
+  "직접입력7",
 ];
 
 // StepPage1 컴포넌트 선언
 const StepPage1 = () => {
-  const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
+  const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        required_place: prev.required_place?.filter((place) => place.name !== label),
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        required_place: [...(prev.required_place || []), { name: label, address: "강원도" }],
-      }));
-    }
+  const handleCheckboxClick = (label: string, checked: boolean) => {
+    setTravelPlan((prev) => {
+      if (prev.required_place?.[0]?.name === label) {
+        return {
+          ...prev,
+          required_place: [], // 선택 해제
+        };
+      } else {
+        return {
+          ...prev,
+          required_place: [{ name: label, address: "강원도" }], // 단일 항목 선택
+        };
+      }
+    });
   };
 
   const rows = 3;
@@ -54,39 +49,42 @@ const StepPage1 = () => {
 
   const checkboxes = Array.from({ length: rows }, (_, rowIndex) => (
     <div key={rowIndex} className={styles.rowSp3}>
+      {" "}
       {Array.from({ length: cols }, (_, colIndex) => {
         const index = rowIndex * cols + colIndex;
-        const label = step1CommonCheckboxLabels1[index];
+        const label = step1CommonCheckboxLabels1[index]; // 단일 선택된 항목과 비교
+
+        const isChecked = travelPlan.required_place?.[0]?.name === label;
+
         return (
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
-            onChange={(label, checked) => handleCheckboxClick(label, checked)} // ✅ 체크 이벤트 받기
+            onChange={(clickedLabel, clickedChecked) =>
+              handleCheckboxClick(clickedLabel, clickedChecked)
+            }
+            isChecked={isChecked}
           />
         );
-      })}
+      })}{" "}
     </div>
   ));
 
-  console.log("Current Travel Plan:", travelPlan);
-
   return (
     <div className={styles.containerSp1}>
+      {" "}
       <div className={styles.searchBarContainerSp1}>
-        <SearchBarPresenter />
-      </div>
+        <SearchBarPresenter />{" "}
+      </div>{" "}
       <div className={styles.checkboxesContainerSp1}>
-        <div className={styles.gridSp3}>{checkboxes}</div>
-      </div>
+        <div className={styles.gridSp3}>{checkboxes}</div>{" "}
+      </div>{" "}
     </div>
   );
 };
 
 // StepPage2 컴포넌트 선언
 const StepPage2 = () => {
-  const { travelPlan, setTravelPlan } = useTravelPlan();
-  console.log("Current Travel Plan:", travelPlan);
-  
   return (
     <div className={styles.containerSp2}>
       <div className={styles.searchBarContainerSp2}>
@@ -114,27 +112,31 @@ const step3CommonCheckboxLabels = [
 
 const StepPage3 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        duration: null,
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        duration: label,
-      }));
-    }
+  // 이 함수는 'duration' 필드가 단일 값을 가지도록 변경합니다.
+  const handleCheckboxClick = (label: string, checked: boolean) => {
+    // 'checked' 값은 CommonCheckbox 내부에서 이미 토글된 상태를 반영할 것이므로,
+    // 여기서는 단순히 'label' 값을 'duration'에 할당합니다.
+    // 만약 체크 해제를 허용한다면 'checked'가 false일 때 null을 할당할 수 있습니다.
+
+    setTravelPlan((prev) => {
+      // 이미 선택된 항목을 다시 클릭하여 '해제'하는 경우
+      if (prev.duration === label) {
+        // 이미 선택된 항목을 다시 클릭하면 선택 해제 (null 할당)
+        return {
+          ...prev,
+          duration: null,
+        };
+      } else {
+        // 새로운 항목을 선택하는 경우 (단일 선택)
+        return {
+          ...prev,
+          duration: label,
+        };
+      }
+    });
   };
-  
+
   // 3x2 배열을 생성
   const rows = 2;
   const cols = 3;
@@ -144,8 +146,20 @@ const StepPage3 = () => {
       {Array.from({ length: cols }, (_, colIndex) => {
         const index = rowIndex * cols + colIndex; // 각 체크박스의 고유한 인덱스 계산
         const label = step3CommonCheckboxLabels[index]; // 해당 인덱스의 레이블 가져오기
+
+        // 현재 체크박스가 travelPlan.duration에 저장된 값과 일치하는지 확인하여
+        // CommonCheckbox 컴포넌트의 'checked' 상태를 제어합니다.
+        const isChecked = travelPlan.duration === label;
+
         return (
-          <CommonCheckbox key={`${rowIndex}-${colIndex}`} labels={[label]} onChange={(label, checked) => handleCheckboxClick(label, checked)}/> // 각 체크박스에 해당하는 라벨 전달
+          <CommonCheckbox
+            key={`${rowIndex}-${colIndex}`}
+            labels={[label]}
+            onChange={(clickedLabel, clickedChecked) =>
+              handleCheckboxClick(clickedLabel, clickedChecked)
+            }
+            isChecked={isChecked} // CommonCheckbox에 현재 선택 상태를 전달
+          />
         );
       })}
     </div>
@@ -159,7 +173,6 @@ const StepPage3 = () => {
     </div>
   );
 };
-
 const step4CommonCheckboxLabels = [
   "혼자",
   "연인과",
@@ -174,39 +187,44 @@ const step4CommonCheckboxLabels = [
 
 const StepPage4 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        companion: null,
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        companion: label,
-      }));
-    }
+  // 단일 선택만 가능하도록 수정
+  const handleCheckboxClick = (label: string, checked: boolean) => {
+    setTravelPlan((prev) => {
+      if (prev.companion === label) {
+        return {
+          ...prev,
+          companion: null, // 이미 선택된 항목 클릭 → 해제
+        };
+      } else {
+        return {
+          ...prev,
+          companion: label, // 새로운 항목 선택
+        };
+      }
+    });
   };
 
-
-  // 3x2 배열을 생성
+  // 3x3 배열 생성
   const rows = 3;
   const cols = 3;
 
   const checkboxes = Array.from({ length: rows }, (_, rowIndex) => (
     <div key={rowIndex} className={styles.rowSp3}>
       {Array.from({ length: cols }, (_, colIndex) => {
-        const index = rowIndex * cols + colIndex; // 각 체크박스의 고유한 인덱스 계산
-        const label = step4CommonCheckboxLabels[index]; // 해당 인덱스의 레이블 가져오기
+        const index = rowIndex * cols + colIndex;
+        const label = step4CommonCheckboxLabels[index];
+        const isChecked = travelPlan.companion === label;
+
         return (
-          <CommonCheckbox key={`${rowIndex}-${colIndex}`} labels={[label]} onChange={(label, checked) => handleCheckboxClick(label, checked)}/> // 각 체크박스에 해당하는 라벨 전달
+          <CommonCheckbox
+            key={`${rowIndex}-${colIndex}`}
+            labels={[label]}
+            onChange={(clickedLabel, clickedChecked) =>
+              handleCheckboxClick(clickedLabel, clickedChecked)
+            }
+            isChecked={isChecked}
+          />
         );
       })}
     </div>
@@ -242,39 +260,44 @@ const step5CommonCheckboxLabels = [
 
 const StepPage5 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        style: null,
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        style: label,
-      }));
-    }
+  // 단일 선택만 가능하도록 수정
+  const handleCheckboxClick = (label: string, checked: boolean) => {
+    setTravelPlan((prev) => {
+      if (prev.style === label) {
+        return {
+          ...prev,
+          style: null, // 선택 해제
+        };
+      } else {
+        return {
+          ...prev,
+          style: label, // 새로 선택
+        };
+      }
+    });
   };
 
-
-  // 3x2 배열을 생성
+  // 4x3 배열 생성
   const rows = 4;
   const cols = 3;
 
   const checkboxes = Array.from({ length: rows }, (_, rowIndex) => (
     <div key={rowIndex} className={styles.rowSp3}>
       {Array.from({ length: cols }, (_, colIndex) => {
-        const index = rowIndex * cols + colIndex; // 각 체크박스의 고유한 인덱스 계산
-        const label = step5CommonCheckboxLabels[index]; // 해당 인덱스의 레이블 가져오기
+        const index = rowIndex * cols + colIndex;
+        const label = step5CommonCheckboxLabels[index];
+        const isChecked = travelPlan.style === label;
+
         return (
-          <CommonCheckbox key={`${rowIndex}-${colIndex}`} labels={[label]} onChange={(label, checked) => handleCheckboxClick(label, checked)}/> // 각 체크박스에 해당하는 라벨 전달
+          <CommonCheckbox
+            key={`${rowIndex}-${colIndex}`}
+            labels={[label]}
+            onChange={(clickedLabel, clickedChecked) =>
+              handleCheckboxClick(clickedLabel, clickedChecked)
+            }
+            isChecked={isChecked}
+          />
         );
       })}
     </div>
@@ -292,7 +315,6 @@ const StepPage5 = () => {
     </div>
   );
 };
-
 const step6CommonCheckboxLabels = [
   "강행군 (하루 5곳 이상)",
   "적당한 일정 (하루 2-3곳)",
@@ -302,38 +324,44 @@ const step6CommonCheckboxLabels = [
 
 const StepPage6 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        schedule_count: null,
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        schedule_count: label,
-      }));
-    }
+  // 단일 선택 로직
+  const handleCheckboxClick = (label: string, checked: boolean) => {
+    setTravelPlan((prev) => {
+      if (prev.schedule_count === label) {
+        return {
+          ...prev,
+          schedule_count: null, // 선택 해제
+        };
+      } else {
+        return {
+          ...prev,
+          schedule_count: label, // 새로 선택
+        };
+      }
+    });
   };
 
-  // 3x2 배열을 생성
   const rows = 4;
   const cols = 1;
 
   const checkboxes = Array.from({ length: rows }, (_, rowIndex) => (
     <div key={rowIndex} className={styles.rowSp3}>
       {Array.from({ length: cols }, (_, colIndex) => {
-        const index = rowIndex * cols + colIndex; // 각 체크박스의 고유한 인덱스 계산
-        const label = step6CommonCheckboxLabels[index]; // 해당 인덱스의 레이블 가져오기
+        const index = rowIndex * cols + colIndex;
+        const label = step6CommonCheckboxLabels[index];
+        const isChecked = travelPlan.schedule_count === label;
+
         return (
-          <CommonCheckbox key={`${rowIndex}-${colIndex}`} labels={[label]} large onChange={(label, checked) => handleCheckboxClick(label, checked)} /> // 각 체크박스에 해당하는 라벨 전달
+          <CommonCheckbox
+            key={`${rowIndex}-${colIndex}`}
+            labels={[label]}
+            large
+            onChange={(clickedLabel, clickedChecked) =>
+              handleCheckboxClick(clickedLabel, clickedChecked)
+            }
+            isChecked={isChecked}
+          />
         );
       })}
     </div>
@@ -352,7 +380,6 @@ const StepPage6 = () => {
   );
 };
 
-
 //예산
 const StepPage7 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // context에서 travelPlan과 setTravelPlan 가져오기
@@ -360,18 +387,18 @@ const StepPage7 = () => {
 
   const handleSliderValueChange = (value: number) => {
     setSliderValue(value); // 슬라이더 값 업데이트
-    
+
     setTravelPlan((prev) => ({
       ...prev,
       budget: value, // 슬라이더 값을 budget에 설정
     }));
     console.log("Updated Budget:", value); // 값 확인용 콘솔
   };
-  
+
   return (
     <div className={styles.containerSp1}>
       <div className={styles.CommonSliderContainerSp7}>
-        <CommonSlider onValueChange={handleSliderValueChange}/>
+        <CommonSlider onValueChange={handleSliderValueChange} />
       </div>
     </div>
   );
@@ -389,20 +416,23 @@ const StepPage8 = () => {
       // 선택 해제 (제거)
       setTravelPlan((prev) => ({
         ...prev,
-        extra : null,
+        extra: null,
       }));
     } else {
       // 선택 추가
       setTravelPlan((prev) => ({
         ...prev,
-        extra : label,
+        extra: label,
       }));
     }
   };
 
   return (
-        <div className={styles.inputContainerSp8}>
-          <textarea className={styles.textareaSp8} placeholder="여기에 글을 입력하세요."/>
+    <div className={styles.inputContainerSp8}>
+      <textarea
+        className={styles.textareaSp8}
+        placeholder="여기에 글을 입력하세요."
+      />
     </div>
   );
 };

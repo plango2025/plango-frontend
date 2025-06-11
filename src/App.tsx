@@ -1,12 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPresenter from './pages/LoginPage/LoginPresenter';
-import MainPage from './pages/MainPage/Mainpage';
-import ScheduleCreationView from '@/pages/ScheduleCreationPage/ScheduleCreationView'
-import MyPageView from "./pages/myPage/MyPageView"
+import LoginPresenter from "./pages/LoginPage/LoginPresenter";
+import MainPage from "./pages/MainPage/Mainpage";
+import ScheduleCreationView from "@/pages/ScheduleCreationPage/ScheduleCreationView";
+import MyPageView from "./pages/myPage/MyPageView";
+import ScheduleResultPageView from "@/pages/ScheduleResultPage/ScheduleResultPageView";
 
-import { useState } from 'react';
+import { useState } from "react";
 function App() {
-  const [accessToken, serAccessToken]= useState<String|null>(null)
+  const [accessToken, serAccessToken] = useState<String | null>(null);
   return (
     <div>
       <BrowserRouter>
@@ -16,6 +17,10 @@ function App() {
           <Route path="/login" element={<LoginPresenter />}></Route>
           <Route path="/schedule" element={<ScheduleCreationView />}></Route>
           <Route path="/myPage" element={<MyPageView />}></Route>
+          <Route
+            path="/scheduleResult"
+            element={<ScheduleResultPageView />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

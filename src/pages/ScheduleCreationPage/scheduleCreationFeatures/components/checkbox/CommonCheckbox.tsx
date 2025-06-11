@@ -1,49 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckboxCard } from "@chakra-ui/react";
 import styles from "./CommonCheckbox.module.scss";
 
 interface CommonCheckboxProps {
-  labels: string[];
+  labels: string[]; // Still an array, but we'll assume labels.length is 1 for single-select scenarios
   large?: boolean;
   onChange?: (label: string, checked: boolean) => void;
+  isChecked?: boolean; // External control for checked state
 }
 
-const CommonCheckbox: React.FC<CommonCheckboxProps> = ({ labels, large = false, onChange }) => {
-  const [selectedValues, setSelectedValues] = useState<Set<number>>(new Set());
+const CommonCheckbox: React.FC<CommonCheckboxProps> = ({
+  labels,
+  large = false,
+  onChange,
+  isChecked = false, // Default to false if not provided
+}) => {
+  // We'll primarily use the `isChecked` prop for controlling the state
+  // and manage `selectedValues` only if `isChecked` is not provided (i.e., for multi-select scenarios).
+  // For the StepPage3 use case, `isChecked` will always be provided.
 
-  const handleCheckboxChange = (index: number, checked: boolean) => {
-   
-    
-    const newSelectedValues = new Set(selectedValues);
-    checked ? newSelectedValues.add(index) : newSelectedValues.delete(index);
-    setSelectedValues(newSelectedValues);
+  // If you strictly want single selection from the outside, you can remove `selectedValues` state
+  // and directly use `isChecked` prop.
+  // However, keeping it makes the component more versatile if used elsewhere for multi-select.
+  const [internalSelected, setInternalSelected] = useState<boolean>(false);
 
+  useEffect(() => {
+    // Sync internal state with external isChecked prop
+    // This makes the component "controlled" when isChecked is passed.
+    setInternalSelected(isChecked);
+  }, [isChecked]);
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    const label = labels[0]; // Assuming only one label per CommonCheckbox instance for single-select
+
+    // We don't update internal state here if isChecked prop is provided,
+    // as the parent (StepPage3) is responsible for controlling it.
+    // If isChecked is NOT provided, then update internal state.
     if (onChange) {
-      onChange(labels[index], checked); // ✅ 외부 콜백 호출
+      onChange(label, checked); // Notify parent of change
     }
   };
 
+  const isActuallyChecked = isChecked; // Use the prop directly for rendering
+
   return (
     <div>
-      {labels.map((label, index) => (
+      {/* Assuming labels.length is always 1 for this specific single-select use case */}
+      {labels.length > 0 && (
         <CheckboxCard.Root
-          key={index}
           colorPalette="teal"
           className={`${styles.customCheckboxCard} 
-                      ${large ? styles.large : ""} 
-                      ${selectedValues.has(index) ? styles.selected : ""}`}
+                       ${large ? styles.large : ""} 
+                       ${isActuallyChecked ? styles.selected : ""}`} // Use isActuallyChecked for styling
         >
           <CheckboxCard.HiddenInput
-            checked={selectedValues.has(index)}
-            onChange={(e) => handleCheckboxChange(index, e.target.checked)}
+            checked={isActuallyChecked} // Controlled by the external prop
+            onChange={handleCheckboxChange}
+            // `readOnly` or `pointerEvents: 'none'` on the input for controlled behavior
+            readOnly // Make input read-only, controlled by parent's `onChange`
           />
           <CheckboxCard.Control className={styles.customCheckboxControl}>
             <CheckboxCard.Label className={styles.customCheckboxLabel}>
-              {label}
+              {labels[0]} {/* Display the first label */}
             </CheckboxCard.Label>
           </CheckboxCard.Control>
         </CheckboxCard.Root>
-      ))}
+      )}
     </div>
   );
 };

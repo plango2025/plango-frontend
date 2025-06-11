@@ -31,10 +31,11 @@
     "react-album": "file:",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "react-kakao-maps-sdk": "^1.2.0",
     "react-router-dom": "^7.3.0",
     "react-simple-toasts": "^6.1.0",
     "recoil": "^0.7.7",
-    "sort-by": "^1.1.0"
+    "sort-by": "^0.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -48,7 +49,7 @@
     "object-path": "^0.11.8",
     "sass": "^1.85.1",
     "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
+    "typescript-eslint": "^7.3.1",
     "vite": "^6.2.0"
   }
 }
