@@ -8,8 +8,12 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import React from "react"; // React 임포트 추가
 import styles from "./scheduleSidebar.module.scss";
+import { scheduleSidebarPresenter } from "./scheduleSidebarPresenter"; // StepItem 변환 함수
+import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { ScheduleResponse } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagesModel";
+import { getTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagePresenter";
 
 // StepItem 인터페이스 정의
 export interface StepItem {
@@ -25,13 +29,35 @@ interface ScheduleSidebarProps {
 }
 
 const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
-  // stepsData가 제공되지 않으면 기본값을 사용
-  const actualSteps: StepItem[] = stepsData || steps;
+  const { id } = useParams<{ id: string }>();
+  const [data, setData] = useState<ScheduleResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  useEffect(() => {
+    if (!id) return;
 
+    const fetchData = async () => {
+      try {
+        const res = await getTravelPlan(id);
+        setData(res);
+      } catch (err) {
+        setError("일정 데이터를 불러오는 데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+  
+  // stepsData가 제공되지 않으면 기본값을 사용
+  const actualSteps = stepsData || (data ? scheduleSidebarPresenter(data.schedule) : steps);
+  const stepItems = data ? scheduleSidebarPresenter(data.schedule) : [];
   return (
     <>
       <div className={styles.layout}>
-        <div className={styles.title}>강릉 - 당일치기</div>
+        <div className={styles.title}>{actualSteps.map((step) => step.title)}</div>
         <Flex className={styles.flexContent}>
           {/* 왼쪽 열: 스텝 목록 */}
           <Box flex="1">
@@ -87,7 +113,7 @@ const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
                       <Text fontWeight="bold" fontSize="lg">
                         {step.title}
                       </Text>
-                      <Text>{step.description}</Text>
+                       <Text>{step.description}</Text>
                     </Box>
                   </Flex>
                 </Box>

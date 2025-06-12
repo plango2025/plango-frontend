@@ -11,23 +11,30 @@ const CommonStepperPresenter = () => {
   const steps = getSteps();
   const navigate = useNavigate(); // useNavigate 훅 사용
 
-  const handleComplete = async () => {
-    try {
-      // 여행 계획 전송
-      if (!travelPlan) {
-        console.error("여행 계획이 없습니다.");
-        return;
-      }
 
-      await sendTravelPlan(travelPlan); // travelPlan이 Partial<TravelPlan>이므로 타입 단언
-      console.log("여행 계획 전송 완료!");
-
-      // 여행 계획 완료 후, 완료 페이지로 이동
-      navigate('/test', { state: { travelPlan } }); // navigate 함수 사용하여 이동 및 상태 전달
-    } catch (error) {
-      console.error("여행 계획 전송 실패:", error);
+const handleComplete = async () => {
+  try {
+    if (!travelPlan) {
+      console.error("여행 계획이 없습니다.");
+      return;
+      
     }
-  };
+
+    console.log("전송 전 travelPlan 확인:", travelPlan);
+    const result = await sendTravelPlan(travelPlan); // ← 여기서 예외 가능성
+    console.log("여행 계획 전송 완료:", result);
+
+    navigate('/scheduleResult', { state: { travelPlan } });
+    console.log("페이지 이동 시도");
+  } catch (error) {
+    console.error("여행 계획 전송 실패:", error);
+  }
+};
+
+
+const handleComplete2 = async () => {
+  navigate('/scheduleResult', { state: { travelPlan } });
+};
 
   return (
     <Steps.Root
@@ -76,7 +83,7 @@ const CommonStepperPresenter = () => {
           ))}
           <Steps.CompletedContent>
             {/* 완료 버튼 클릭 시 handleComplete 호출 */}
-            <Button onClick={handleComplete}>여행 계획 완료</Button>
+            <Button onClick={handleComplete2}>여행 계획 완료</Button>
           </Steps.CompletedContent>
         </div>
 

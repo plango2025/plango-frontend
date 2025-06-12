@@ -7,21 +7,13 @@ import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
 import ParentComponent from "@/components/common/slider/CommonSlider.presenter";
 import React, { useState } from "react";
 
-//context 사용할라고 전역 변수
+
+
 
 const step1CommonCheckboxLabels1 = [
-  "대한민국",
-  "일본",
-  "필리핀",
-  "대만",
-  "직접입력",
-  "직접입력1",
-  "직접입력2",
-  "직접입력3",
-  "직접입력4",
-  "직접입력5",
-  "직접입력6",
-  "직접입력7",
+  "남이섬", "쁘띠프랑스", "가평역", "춘천역",
+  "강원도청", "김유정역", "제이드가든", "아침고요수목원",
+  "강촌레일파크", "엘리시안 강촌", "대명 비발디파크", "국립춘천숲체원"
 ];
 
 // StepPage1 컴포넌트 선언
@@ -43,7 +35,7 @@ const StepPage1 = () => {
       }
     });
   };
-
+  console.log("여행 일정", travelPlan); // 값 확인용 콘솔
   const rows = 3;
   const cols = 4;
 
@@ -381,28 +373,34 @@ const StepPage6 = () => {
 };
 
 //예산
+
 const StepPage7 = () => {
-  const { travelPlan, setTravelPlan } = useTravelPlan(); // context에서 travelPlan과 setTravelPlan 가져오기
-  const [sliderValue, setSliderValue] = useState<number>(50); // 슬라이더 값 상태
+  const { travelPlan, setTravelPlan } = useTravelPlan();
+  const [sliderValue, setSliderValue] = useState<number>(travelPlan?.budget ?? 50);
 
   const handleSliderValueChange = (value: number) => {
-    setSliderValue(value); // 슬라이더 값 업데이트
+    setSliderValue(value);
+  };
 
+  const handleSave = () => {
     setTravelPlan((prev) => ({
       ...prev,
-      budget: value, // 슬라이더 값을 budget에 설정
+      budget: sliderValue,
     }));
-    console.log("Updated Budget:", value); // 값 확인용 콘솔
+    console.log("Budget saved:", sliderValue);
   };
 
   return (
     <div className={styles.containerSp1}>
       <div className={styles.CommonSliderContainerSp7}>
         <CommonSlider onValueChange={handleSliderValueChange} />
+        <button onClick={handleSave}>예산 저장</button>
       </div>
     </div>
   );
 };
+
+export default StepPage7;
 
 const StepPage8 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
