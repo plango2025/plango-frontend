@@ -1,4 +1,3 @@
-// 📁 ReviewDetailPage/presenter.ts
 import { useEffect, useState } from "react";
 import { Review, User, Comment } from "../types/types";
 import {
@@ -56,5 +55,5 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     })();
   }, [id]);
 
-  return { review, user, comments, likeCount, loading };
+  return { review, user, comments,setComments, likeCount, loading };
 };

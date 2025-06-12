@@ -18,17 +18,16 @@ import { useEffect, useState } from "react";
 import SchedulePreview from "./components/SchedulePreview";
 import { LuUpload } from "react-icons/lu";
 import { useAccessToken } from '@/context/AccessTokenContext';
-import { createApiWithToken } from '@/api/axiosInstance';
+import { createApiWithToken, CustomAxiosRequestConfig } from '@/api/axiosInstance';
 
 const ReviewForm = () => {
   const navigate = useNavigate();
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(accessToken, setAccessToken);
-
+  
   // 리뷰 등록
   const submitReview = async () => {
     try {
-      const accessToken = localStorage.getItem("access_token");
 
       if (!accessToken) {
         alert("로그인이 필요합니다.");
@@ -48,7 +47,7 @@ const ReviewForm = () => {
 
       const response = await api.post("/reviews", body, {
         requiresAuth: true, 
-      });
+      } as CustomAxiosRequestConfig);
 
       console.log("리뷰 등록 성공:", response.data);
       alert("리뷰가 등록되었습니다.");
@@ -82,7 +81,7 @@ const ReviewForm = () => {
           "Content-Type": "multipart/form-data",
         },
         requiresAuth: true, // 👈 인증 필요
-      });
+      } as CustomAxiosRequestConfig);
 
       urls.push(res.data.url);
     }

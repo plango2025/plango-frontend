@@ -10,12 +10,13 @@ import { BackGround, Wrapper } from './PlaceInfo.style';
 import { usePlaceSearch } from './../presenter/PlaceInfoPresenter';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
+// import CommentSection from '@/components/commentSection/CommentSection';
 const PlaceInfo = () => {
   const [params] = useSearchParams();
   const keyword = params.get("keyword");//url에서 장소키워드 가지고옴
     const { preview, detail, llmResult, loading, searchPlace }= usePlaceSearch();
     useEffect(() => {
-      if (keyword) searchPlace(keyword); //키워드 중심으로 장소 찾기기
+      if (keyword) searchPlace(keyword); //키워드 중심으로 장소 찾기
     }, [keyword, searchPlace]);
 
     if (loading || !preview || !detail || !llmResult) {
@@ -64,6 +65,12 @@ const PlaceInfo = () => {
                 introData={detail.intro_info}
               />
             </div>
+            {/* <CommentSection
+              targetId={review.review_id} //장소이름으로 
+              targetType="PLACE_REVIEW"
+              initialComments={comments}
+              currentUser={user}
+            /> */}
           </Wrapper>
         </GridItem>
       </AppLayout>

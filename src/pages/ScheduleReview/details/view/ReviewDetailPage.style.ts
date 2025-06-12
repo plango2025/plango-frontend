@@ -77,6 +77,6 @@ display: flex;
   font-weight: 500;
   color: #444;
   margin-top: 1.5rem;
-
-
+`
+export const CommentSubmitBtn = styled.button`
 `

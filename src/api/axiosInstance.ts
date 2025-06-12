@@ -6,7 +6,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 // - 재발급 실패 시 로그인 페이지로 이동
 
 // ✅ 커스텀 타입 확장 
-interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   requiresAuth?: boolean; //요청에 인증이 필요한 지 여부 (false면 Authorization 헤더 안 붙임임)
   _retry?: boolean; // 401 재요청 방지용 플래그
 }
