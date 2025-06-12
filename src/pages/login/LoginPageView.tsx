@@ -1,13 +1,13 @@
 import styles from "./LoginPage.module.scss";
 import SideBar from "@/components/common/sidebar/CommonSidebar";
-import gridStyle from "@assets/styles/grid.module.scss";
+
 import { useLoginPresenter } from "./LoginPresenter";
 
 const LoginPageView: React.FC = () => {
   const { handleLogin, error } = useLoginPresenter();
 
   return (
-    <div className={gridStyle.container}>
+    <div >
       <SideBar />
       <div className={styles.container__title}>
         <span className={styles.container__title__desc}>
