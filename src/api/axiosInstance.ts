@@ -16,7 +16,7 @@ export const createApiWithToken = (
   setAccessToken: (token: string) => void
 ) => {
   const api = axios.create({
-    baseURL: "/api",
+    baseURL: "http://localhost:8080/api",
     withCredentials: true, // ✅ refresh_token 쿠키 자동 포함
   });
 
