@@ -1,8 +1,14 @@
-import axios from "axios";
+import {
+  createApiWithToken,
+  CustomAxiosRequestConfig,
+} from "@/api/axiosInstance";
 
 export const requestKakaoLoginUrl = async (): Promise<string> => {
-  const res = await axios.get("/api/oauth/kakao/login", {
-    headers: { "Content-Type": "application/json" },
-  });
+  const api = createApiWithToken(null, () => {}); 
+
+  const res = await api.get("/oauth/kakao/login", {
+    requiresAuth: false, 
+  } as CustomAxiosRequestConfig);
+
   return res.data;
 };
