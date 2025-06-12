@@ -1,0 +1,68 @@
+$SIDEBAR_WIDTH: 140px;
+$INPUT_WIDTH: 680px;
+$INPUT_HEIGHT: 80px;
+$TOP_MARGIN: 160px;
+$LOGO_SIZE: 48px;
+
+.container {
+  &__title {
+    grid-column: 3 / span 8;
+    text-align: center;
+
+    margin-top: 100px;
+    &__desc {
+      font-size: main.$subtitl-l;
+      font-weight: main.$fontweightBold;
+    }
+    &__logo {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      img {
+        width: $LOGO_SIZE;
+        height: $LOGO_SIZE;
+      }
+      h1 {
+        font-size: main.$titleFontSize;
+        font-weight: main.$fontweightBold;
+      }
+    }
+  }
+  &__center {
+    grid-column: 4 / span 6;
+    grid-row: 2/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+
+    &__img {
+      width: 80%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  &__kakao_login {
+    grid-row: 3/4;
+    width: 23rem;
+    height: 5.625rem;
+    border-radius: 80px;
+    background-color: #fee500;
+    padding: 20px;
+    position: fixed;
+    display: flex;
+    bottom: 60px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: main.$text-m;
+    .kakaoIcon {
+      position: absolute;
+      left: 30px;
+    }
+    &:hover {
+      background-color: #ead300;
+    }
+  }
+}

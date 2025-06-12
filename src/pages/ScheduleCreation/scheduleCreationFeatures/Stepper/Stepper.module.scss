@@ -1,0 +1,140 @@
+//stepper 라이브러리에 gap4들어있어서 0 필수
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+//stepper 회색쪽 layout
+.layout1 {
+  width: 500px;
+  height: 100vh;
+  padding: 100px 0 100px 0;
+  background-color: grey;
+  flex-shrink: 0;
+}
+
+//가운데 내용
+.layout2 {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  flex-basis: 1000px; /* 최소 너비 설정 */
+  min-width: 500px; /* 최소 크기 제한 */
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+}
+
+//회색쪽 레이아웃 시작 -----------------------------------------------
+.stepperProgress {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  margin-left: 100px;
+}
+
+//1-2-3-4-5-6-7-8
+.indicatorLayout {
+  display: flex;
+}
+
+//title과 subtitle관리
+.progressTitles {
+  display: inline;
+  margin-left: 10px;
+}
+
+.progressTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.progeressSubTitle {
+  font-size: 12px;
+  font-weight: 200;
+}
+
+//main 내용 시작 -------------------------------------
+.stepContent {
+  display: flex;
+  width: 60%;
+  height: 60%;
+  align-items: center;
+  justify-content: center;
+  border: 1px green solid;
+  min-width: 500px; /* 최소 크기 제한 */
+}
+
+.stepperContent {
+  width: 100%;
+  height: 100%;
+}
+
+.titleBox {
+  width: 100%;
+  display: flex; /* 플렉스를 사용해 세로 정렬 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  justify-content: flex-start; /* 위쪽에 정렬 */
+  text-align: center;
+  background-color: wheat;
+}
+
+.stepTitle {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.stepSubTitle {
+  margin-bottom: 8px;
+  color: grey;
+}
+
+.contentLayout {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+//stepPage1--------------------------
+
+.containerSp1 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-30%); /* 10% 위로 이동 */
+}
+
+//stepPage3--------------------------
+
+.containerSp3 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-15%); /* 10% 위로 이동 */
+}
+
+.checkboxesContainerSp3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gridSp3 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 행 간격 */
+}
+
+.rowSp3 {
+  display: flex;
+  gap: 20px; /* 열 간격 */
+}
+
+//stepPage4----------------------------
