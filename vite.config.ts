@@ -4,6 +4,16 @@ import {fileURLToPath, URL} from 'url'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://13.238.28.77:8080", // 백엔드 주소
+        changeOrigin: true,
+        secure: false, //http 니깐깐
+      },
+    },
+  },
+  //위 코드는 실제로 "http://13.238.28.77:8080" 이 주소로 요청이 가게 만든다.
   plugins: [react()],
   resolve: {
     alias: {

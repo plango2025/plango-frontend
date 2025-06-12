@@ -1,0 +1,53 @@
+import styles from "./LoginPage.module.scss";
+import SideBar from "@/components/common/sidebar/CommonSidebar";
+import gridStyle from "@assets/styles/grid.module.scss";
+import { useLoginPresenter } from "./LoginPresenter";
+
+const LoginPageView: React.FC = () => {
+  const { handleLogin, error } = useLoginPresenter();
+
+  return (
+    <div className={gridStyle.container}>
+      <SideBar />
+      <div className={styles.container__title}>
+        <span className={styles.container__title__desc}>
+          여행 계획? 이젠 클릭 한 번으로 끝!
+        </span>
+        <div className={styles.container__title__logo}>
+          <img src="/src/assets/images/icons/plane.png" alt="Plango Logo" />
+          <h1>Plango</h1>
+        </div>
+      </div>
+      <div className={styles.container__center}>
+        <img
+          className={styles.container__center__img}
+          src="/src/assets/images/login/background.png"
+          alt="Background Image"
+        />
+      </div>
+
+      <button onClick={handleLogin} className={styles.container__kakao_login}>
+        <div className={styles.kakaoIcon}>
+          <svg
+            width="36"
+            height="34"
+            viewBox="0 0 36 34"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M18 0.199951C8.05835 0.199951 0 6.42587 0 14.1045C0 18.88 3.11681 23.0899 7.86305 25.5939L5.86606 32.8889C5.68962 33.5335 6.42683 34.0473 6.99293 33.6738L15.7467 27.8964C16.4854 27.9676 17.2362 28.0093 18 28.0093C27.9409 28.0093 35.9999 21.7836 35.9999 14.1045C35.9999 6.42587 27.9409 0.199951 18 0.199951"
+              fill="black"
+            />
+          </svg>
+        </div>
+        카카오 로그인
+      </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+  );
+};
+
+export default LoginPageView;

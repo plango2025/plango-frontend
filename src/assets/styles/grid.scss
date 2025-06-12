@@ -12,7 +12,6 @@ $column-width: 72px; // 각 컬럼의 너비
   margin: 0 auto; // 중앙 정렬을 위해 auto margin 추가
   height:100vh;
   width:74.625rem; //1194 px
-  border: 1px solid red; // 그리드 항목 경계선 추가
   position: relative;  /* 자식 요소를 기준으로 절대 위치를 잡을 수 있도록 설정 */
 }
 
