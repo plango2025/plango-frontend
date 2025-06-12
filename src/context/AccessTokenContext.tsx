@@ -18,11 +18,10 @@ export const AccessTokenProvider:React.FC<{children:React.ReactNode}>=({children
   )
 }
 
-//AccessTokenContext에 저장된 acessToken, setAccessToken을 꺼내쓰기 위한
-//커스텀 훅!! 다른 컴포넌트에서  이런식으로 사용할 수 있음
-//const { accessToken, setAccessToken } = useAccessToken();
+// AccessTokenContext에 저장된 acessToken, setAccessToken을 꺼내쓰기 위한 커스텀 훅!
+// 사용 예시) const { accessToken, setAccessToken } = useAccessToken();
 //- `AccessTokenProvider`로 감싸지 않았을 경우 `context`는 `undefined`가 됨
-//- 그럴 때는 명확한 에러를 던져서 개발자가 잘못 사용한 걸 알려주는 거야 🔥
+//- 그럴 때는 명확한 에러를 던져서 개발자가 잘못 사용한 걸 알려준다.
 export const useAccessToken = ()=>{
   const context = useContext(AccessTokenContext);
   if(!context) throw new Error("useAccessToken must be used within AccessTokenProvider");

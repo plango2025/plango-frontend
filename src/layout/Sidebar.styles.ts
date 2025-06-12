@@ -1,48 +1,70 @@
-// components/CommonSidebar/CommonSidebar.styles.ts
+// CommonSidebar.styles.ts
 import styled from "styled-components";
+import { CONTAINER_WIDTH } from "./GridLayout";
 
-const LOGO_WIDTH = "4.5rem";
-const LOGO_TOP_MARGIN = "2.938rem";
-const ICON_WIDTH = "2.5rem";
-const SIDEBAR_WIDTH = "5.625rem"; // 약 90px
+// ✅ 숫자로 관리
+const LOGO_WIDTH = 4.5; // rem
+const LOGO_TOP_MARGIN = 2.938; // rem
+const ICON_WIDTH = 2.5; // rem
+const SIDEBAR_WIDTH = 8.25; // rem
+const BREAKPOINT = CONTAINER_WIDTH + SIDEBAR_WIDTH; // rem
 
 export const SidebarContainer = styled.div`
   position: fixed;
-  width: ${SIDEBAR_WIDTH};
+  width: ${SIDEBAR_WIDTH}rem;
+  display:  flex;
+  flex-direction: column;
   height: 100%;
   top: 0;
   left: 0;
   background-color: white;
+  z-index: 1;
+
+  @media (max-width: ${BREAKPOINT}rem) {
+    display: none;
+  }
+`;
+export const LogoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: ${LOGO_WIDTH}rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${LOGO_TOP_MARGIN}rem;
+  /* margin-bottom: ${LOGO_TOP_MARGIN}rem; */
 `;
 
 export const SidebarLogo = styled.img`
   position: relative;
-  width: ${LOGO_WIDTH};
-  height: ${LOGO_WIDTH};
-  left: 2.125rem;
-  top: ${LOGO_TOP_MARGIN};
+  width: ${LOGO_WIDTH}rem;
+  height: ${LOGO_WIDTH}rem;
+  
 `;
 
 export const IconList = styled.ul`
   position: relative;
   width: 100%;
-  height: calc(100% - ${LOGO_TOP_MARGIN} - ${LOGO_WIDTH});
-  margin-top: calc(${LOGO_TOP_MARGIN} + ${LOGO_WIDTH});
+  height: calc(100% - ${LOGO_TOP_MARGIN}rem - ${LOGO_WIDTH}rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  justify-content: space-evenly;
+
+  gap: 2rem;
 `;
 
 export const IconItem = styled.li`
-  width: ${ICON_WIDTH};
+  font-size: ${ICON_WIDTH}rem;
+  color: #919294;
+  cursor: pointer;
+  width: ${ICON_WIDTH}rem;
 
-  svg path {
-    transition: fill 0.1s ease;
-    cursor: pointer;
-  }
-
-  svg:hover path {
-    fill: #253422;
+  height: ${ICON_WIDTH}rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #50adff;
   }
 `;

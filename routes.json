@@ -1,0 +1,5 @@
+{
+  "/api/reviews/:id": "/reviews/:id",
+  "/api/users/:id": "/users/:id",
+  "/api/reviews/:id/comments": "/comments?reviewId=:id"
+}

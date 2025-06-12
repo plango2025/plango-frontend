@@ -56,10 +56,16 @@ $LOGO_SIZE: 48px;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: main.$text-m;
+    font-size: main.$subtitle-s;
+    font-weight: main.$fontweightBold;
+    
+
+    
     .kakaoIcon {
       position: absolute;
       left: 30px;
+
+
     }
     &:hover {
       background-color: #ead300;

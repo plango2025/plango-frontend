@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, GridItem } from './GridLayout';
+import { Container} from './GridLayout';
 import Sidebar from './Sidebar';
 
 interface Props {
@@ -8,11 +8,14 @@ interface Props {
 
 const AppLayout = ({ children }: Props) => {
   return (
-    <Container>
+    <>
       <Sidebar />
-      <GridItem span={12}>{children}</GridItem>
-    </Container>
+      <Container>
+        {children}
+      </Container>
+    </>
   );
-};
+}
+
 
 export default AppLayout;
