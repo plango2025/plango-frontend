@@ -1,168 +1,163 @@
-import {
-  Button,
-  ButtonGroup,
-  Stack,
-  Steps,
-  Box,
-  Image,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
+import { Button, Stack, Box, Image, Text, Flex, Steps } from "@chakra-ui/react";
 import styles from "./scheduleSidebar.module.scss";
-import { scheduleSidebarPresenter } from "./scheduleSidebarPresenter"; // StepItem 변환 함수
-import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { ScheduleResponse } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagesModel";
-import { getTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagePresenter";
-
+import { scheduleSidebarModel } from "./scheduleSidebarModel";
+import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useMapContext } from "@/components/common/kakaomap/MapContext";
+import { sendScheduleFeedback } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagePresenter";
+import { useAccessToken } from "@/context/AccessTokenContext";
 // StepItem 인터페이스 정의
 export interface StepItem {
+  id: string; // Step 고유 ID (필요 시 사용)
+  name: string; // Step 이름 (필요 시 사용)
   title: string;
+  dayname: string;
   description: string;
-  imageUrl: string;
   imageAlt: string;
+  imageUrl: string;
+  latitude: number; // 지도 좌표 추가
+  longitude: number;
 }
 
-// 컴포넌트 props에 대한 인터페이스 정의
+// 컴포넌트 props 정의 (필요 시 외부에서도 재사용 가능)
 interface ScheduleSidebarProps {
-  stepsData?: StepItem[]; // StepItem 배열을 받거나 undefined일 수 있음
+  stepsData?: StepItem[];
 }
 
-const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
-  const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<ScheduleResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  useEffect(() => {
-    if (!id) return;
+const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
+  const location = useLocation();
+  const { scheduleResponse } = location.state || {};
+  const { centerMapToLocation, showPlaceOverlay } = useMapContext(); // 지도 중심 이동 함수
+  const [feedback, setFeedback] = useState("");
+  // accessToken은 실제 로그인/인증에서 받아오는 값으로 대체하세요
+  const { accessToken, setAccessToken } = useAccessToken();
 
-    const fetchData = async () => {
-      try {
-        const res = await getTravelPlan(id);
-        setData(res);
-      } catch (err) {
-        setError("일정 데이터를 불러오는 데 실패했습니다.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Step 데이터 준비
+  const stepItems = scheduleSidebarModel(scheduleResponse);
 
-    fetchData();
-  }, [id]);
-  
-  // stepsData가 제공되지 않으면 기본값을 사용
-  const actualSteps = stepsData || (data ? scheduleSidebarPresenter(data.schedule) : steps);
-  const stepItems = data ? scheduleSidebarPresenter(data.schedule) : [];
+  const scheduleId = scheduleResponse.schedule_id; // 스케줄 ID 추출
+
+  const handleSaveClick = async () => {
+    if (!scheduleId) {
+      alert("스케줄 ID가 없습니다.");
+      return;
+    }
+    if (!feedback.trim()) {
+      alert("피드백을 입력해주세요.");
+      return;
+    }
+    try {
+      const result = await sendScheduleFeedback(
+        scheduleId,
+        feedback,
+        accessToken
+      );
+      alert("피드백이 저장되었습니다!");
+      console.log("서버 응답:", result);
+      setFeedback(""); // 성공 시 textarea 비우기
+    } catch (error) {
+      alert("피드백 저장 중 오류가 발생했습니다.");
+      console.error(error);
+    }
+  };
+
   return (
-    <>
-      <div className={styles.layout}>
-        <div className={styles.title}>{actualSteps.map((step) => step.title)}</div>
-        <Flex className={styles.flexContent}>
-          {/* 왼쪽 열: 스텝 목록 */}
-          <Box flex="1">
-            {" "}
-            {/* Flex 비율 조정 */}
-            <Steps.Root
-              orientation="vertical"
-              defaultStep={0}
-              count={actualSteps.length}
-            >
-              <Steps.List gap="3">
-                {actualSteps.map((step, index) => (
-                  <Steps.Item
-                    key={index}
-                    index={index}
-                    title={step.title}
-                    minHeight="150px"
-                  >
-                    <Steps.Indicator />
-                    <Steps.Title>{step.title}</Steps.Title>
-                    <Steps.Separator />
-                  </Steps.Item>
-                ))}
-              </Steps.List>
-            </Steps.Root>
-          </Box>
+    <div className={styles.layout}>
+      {/* 타이틀 */}
+      <div className={styles.title}>
+        <Text fontSize="2xl" fontWeight="bold">
+          {scheduleResponse.schedule.title}
+        </Text>
+      </div>
 
-          {/* 오른쪽 열: 모든 스텝 내용 컨테이너 */}
-          <Box flex="2">
-            {" "}
-            {/* Flex 비율 및 왼쪽 여백 조정 */}
-            <Stack gap="3">
-              {" "}
-              {/* 내용 박스 사이의 간격 추가 */}
-              {actualSteps.map((step, index) => (
-                <Box
-                  minHeight="150px"
+      {/* 메인 콘텐츠 */}
+      <Flex className={styles.flexContent}>
+        {/* 왼쪽: 스텝 리스트 (Steps 인디케이터만) */}
+        <Box flex="1">
+          <Steps.Root
+            orientation="vertical"
+            defaultStep={0}
+            count={stepItems.length}
+          >
+            <Steps.List gap="3">
+              {stepItems.map((_, index) => (
+                <Steps.Item
                   key={index}
-                  p="4"
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  shadow="md"
+                  index={index}
+                  minHeight="150px"
+                  maxHeight="150px"
                 >
-                  <Flex align="center">
-                    <Image
-                      src={step.imageUrl} // StepItem에서 imageUrl 사용
-                      alt={step.imageAlt} // StepItem에서 imageAlt 사용
-                      boxSize="100px" // 필요에 따라 크기 조정
-                      objectFit="cover"
-                      mr="4" // 간격을 위한 오른쪽 여백
-                    />
-                    <Box>
-                      <Text fontWeight="bold" fontSize="lg">
-                        {step.title}
-                      </Text>
-                       <Text>{step.description}</Text>
-                    </Box>
-                  </Flex>
-                </Box>
+                  <Steps.Indicator />
+                  <Steps.Separator />
+                </Steps.Item>
               ))}
-            </Stack>
-          </Box>
-        </Flex>
-        <div className={styles.textBoxLayout}>
-          <div className={styles.textBox}>
-            <Button className={styles.clickButton}>마음속에 저장!</Button>
-          </div>
+            </Steps.List>
+          </Steps.Root>
+        </Box>
+
+        {/* 오른쪽: Step 내용 박스 */}
+        <Box flex="2">
+          <Stack gap="3">
+            {stepItems.map((step, index) => (
+              <Box
+                key={index}
+                minHeight="150px"
+                maxHeight="150px"
+                p="4"
+                borderWidth="1px"
+                borderRadius="lg"
+                shadow="md"
+                cursor="pointer"
+                onClick={() => {
+                  centerMapToLocation(step.latitude, step.longitude);
+                  showPlaceOverlay(step); // 🔥 클릭 시 오버레이 표시
+                }}
+              >
+                <Flex>
+                  <Box
+                    width="100px"
+                    height="120px"
+                    overflow="hidden"
+                    borderRadius="8px"
+                  >
+                    <Image
+                      src={step.imageUrl}
+                      alt={step.imageAlt}
+                      width="100%"
+                      height="100%"
+                      objectFit="cover"
+                    />
+                  </Box>
+                  <Box className={styles.discriptionBoxLayout}>
+                    <div className={styles.discriptionBox}>
+                      <Text className={styles.stepDayname}>{step.dayname}</Text>
+                      <Text maxHeight="90px" overflow="hidden" overflowY="auto">
+                        {step.description}
+                      </Text>
+                    </div>
+                  </Box>
+                </Flex>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
+      </Flex>
+
+      {/* 하단 버튼 */}
+      <div className={styles.textBoxLayout}>
+        <div className={styles.textBox}>
+          <textarea
+            className={styles.textarea}
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+          />
+          <Button className={styles.clickButton} onClick={handleSaveClick}>
+            마음속에 저장!
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-// 기본 단계 데이터 (StepItem 타입으로 명시)
-const steps: StepItem[] = [
-  {
-    title: "초기 설정",
-    description: "여정에 오신 것을 환영합니다! 첫 번째 구성을 시작해 봅시다.",
-    imageUrl: "https://via.placeholder.com/100/FF5733/FFFFFF?text=Step1",
-    imageAlt: "설정 일러스트",
-  },
-  {
-    title: "데이터 입력",
-    description: "이제 프로젝트에 필요한 정보를 제공해 주세요.",
-    imageUrl: "https://via.placeholder.com/100/33FF57/FFFFFF?text=Step2",
-    imageAlt: "데이터 입력 일러스트",
-  },
-  {
-    title: "검토 및 확인",
-    description: "최종 확정 전에 모든 세부 사항을 검토해 보세요.",
-    imageUrl: "https://via.placeholder.com/100/3357FF/FFFFFF?text=Step3",
-    imageAlt: "검토 일러스트",
-  },
-  {
-    title: "완료",
-    description: "축하합니다! 모든 단계가 완료되었으며, 프로세스가 끝났습니다.",
-    imageUrl: "https://via.placeholder.com/100/FFFF33/000000?text=Step4",
-    imageAlt: "완료 일러스트",
-  },
-  {
-    title: "완료",
-    description: "축하합니다! 모든 단계가 완료되었으며, 프로세스가 끝났습니다.",
-    imageUrl: "https://via.placeholder.com/100/FFFF33/000000?text=Step4",
-    imageAlt: "완료 일러스트",
-  },
-];
-
-export default scheduleSidebar;
+export default ScheduleSidebar;

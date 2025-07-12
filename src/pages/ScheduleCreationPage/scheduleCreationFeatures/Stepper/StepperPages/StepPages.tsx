@@ -1,4 +1,4 @@
-import SearchBarPresenter from "@/components/common/searchbar/CommonSearchbar";
+import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar";
 import styles from "./StepPages.module.scss";
 import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CardView from "../../components/card/CardView";
@@ -7,30 +7,45 @@ import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
 import ParentComponent from "@/components/common/slider/CommonSlider.presenter";
 import React, { useState } from "react";
 
-
-
-
 const step1CommonCheckboxLabels1 = [
-  "남이섬", "쁘띠프랑스", "가평역", "춘천역",
-  "강원도청", "김유정역", "제이드가든", "아침고요수목원",
-  "강촌레일파크", "엘리시안 강촌", "대명 비발디파크", "국립춘천숲체원"
+  "남이섬",
+  "쁘띠프랑스",
+  "가평역",
+  "춘천역",
+  "강원도청",
+  "김유정역",
+  "제이드가든",
+  "아침고요수목원",
+  "강촌레일파크",
+  "엘리시안 강촌",
+  "대명 비발디파크",
+  "국립춘천숲체원",
 ];
 
 // StepPage1 컴포넌트 선언
 const StepPage1 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
 
+  // SearchBarPresenter에서 호출할 함수
+  const handleSearch = (text: string) => {
+    setTravelPlan((prev) => ({
+      ...prev,
+      destination: text, // 원하는 키로 저장
+    }));
+    console.log("StepPage1 검색어 저장:", text);
+  };
+
   const handleCheckboxClick = (label: string, checked: boolean) => {
     setTravelPlan((prev) => {
-      if (prev.required_place?.[0]?.name === label) {
+      if (prev.destination === label) {
         return {
           ...prev,
-          required_place: [], // 선택 해제
+          destination: null, // 선택 해제
         };
       } else {
         return {
           ...prev,
-          required_place: [{ name: label, address: "강원도" }], // 단일 항목 선택
+          destination: label,
         };
       }
     });
@@ -46,7 +61,7 @@ const StepPage1 = () => {
         const index = rowIndex * cols + colIndex;
         const label = step1CommonCheckboxLabels1[index]; // 단일 선택된 항목과 비교
 
-        const isChecked = travelPlan.required_place?.[0]?.name === label;
+        const isChecked = travelPlan.destination === label;
 
         return (
           <CommonCheckbox
@@ -66,7 +81,7 @@ const StepPage1 = () => {
     <div className={styles.containerSp1}>
       {" "}
       <div className={styles.searchBarContainerSp1}>
-        <SearchBarPresenter />{" "}
+        <SearchBarPresenter mode="button" onSearch={handleSearch} />{" "}
       </div>{" "}
       <div className={styles.checkboxesContainerSp1}>
         <div className={styles.gridSp3}>{checkboxes}</div>{" "}
@@ -75,19 +90,22 @@ const StepPage1 = () => {
   );
 };
 
-// StepPage2 컴포넌트 선언
 const StepPage2 = () => {
+  const [selectedPlace, setSelectedPlace] = useState<string>("");
+
   return (
     <div className={styles.containerSp2}>
-      <div className={styles.searchBarContainerSp2}>
-        <SearchBarPresenter />
-      </div>
-
       <div className={styles.cardViewContainerSp2}>
-        <CardView />
-        <CardView />
-        <CardView />
-        <CardView />
+        <SearchBarPresenter mode="autocomplete" />
+        {selectedPlace ? (
+          <ul>
+            <li>{selectedPlace}</li>
+          </ul>
+        ) : (
+          <ul>
+            <li>선택된 장소가 없습니다.</li>
+          </ul>
+        )}
       </div>
     </div>
   );
@@ -102,6 +120,17 @@ const step3CommonCheckboxLabels = [
   "5박 6일",
 ];
 
+const parseDurationLabelToDays = (label: string): number | null => {
+  if (label === "당일치기") return 1;
+
+  const match = label.match(/(\d+)박\s*(\d+)일/);
+  if (match) {
+    return parseInt(match[2], 10); // "3일"에서 3만 추출
+  }
+
+  return null;
+};
+
 const StepPage3 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
@@ -110,10 +139,11 @@ const StepPage3 = () => {
     // 'checked' 값은 CommonCheckbox 내부에서 이미 토글된 상태를 반영할 것이므로,
     // 여기서는 단순히 'label' 값을 'duration'에 할당합니다.
     // 만약 체크 해제를 허용한다면 'checked'가 false일 때 null을 할당할 수 있습니다.
+    const parsedDuration = parseDurationLabelToDays(label);
 
     setTravelPlan((prev) => {
       // 이미 선택된 항목을 다시 클릭하여 '해제'하는 경우
-      if (prev.duration === label) {
+      if (prev.duration === parsedDuration) {
         // 이미 선택된 항목을 다시 클릭하면 선택 해제 (null 할당)
         return {
           ...prev,
@@ -123,7 +153,7 @@ const StepPage3 = () => {
         // 새로운 항목을 선택하는 경우 (단일 선택)
         return {
           ...prev,
-          duration: label,
+          duration: parsedDuration,
         };
       }
     });
@@ -141,7 +171,8 @@ const StepPage3 = () => {
 
         // 현재 체크박스가 travelPlan.duration에 저장된 값과 일치하는지 확인하여
         // CommonCheckbox 컴포넌트의 'checked' 상태를 제어합니다.
-        const isChecked = travelPlan.duration === label;
+        const isChecked =
+          travelPlan.duration === parseDurationLabelToDays(label);
 
         return (
           <CommonCheckbox
@@ -229,7 +260,7 @@ const StepPage4 = () => {
       </div>
 
       <div className={styles.searchBarContainerSp4}>
-        <SearchBarPresenter />
+        <SearchBarPresenter mode="button" />
       </div>
     </div>
   );
@@ -302,7 +333,7 @@ const StepPage5 = () => {
       </div>
 
       <div className={styles.searchBarContainerSp5}>
-        <SearchBarPresenter />
+        <SearchBarPresenter mode="button" />
       </div>
     </div>
   );
@@ -314,21 +345,38 @@ const step6CommonCheckboxLabels = [
   "느긋한 일정 (하루 1-2곳)",
 ];
 
+// 문자열에서 하루 방문 예상 장소 수를 숫자 형태로 파싱하는 함수
+const parseScheduleLabelToCount = (label: string): number | null => {
+  // "강행군 (하루 5곳 이상)" → 5
+  if (label.includes("5곳 이상")) return 5;
+
+  // "적당한 일정 (하루 2-3곳)" → 3 (최대 방문 수)
+  let match = label.match(/하루 (\d+)-(\d+)곳/);
+  if (match) {
+    return parseInt(match[2], 10); // 2-3 중 3 반환
+  }
+
+  // "느긋한 일정 (하루 1-2곳)" 같은 경우도 위에서 처리됨
+  return null;
+};
+
 const StepPage6 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
-  // 단일 선택 로직
   const handleCheckboxClick = (label: string, checked: boolean) => {
+    const parsedCount = parseScheduleLabelToCount(label);
+
     setTravelPlan((prev) => {
-      if (prev.schedule_count === label) {
+      // 같은 숫자가 이미 선택된 상태면 해제
+      if (prev.schedule_count === parsedCount) {
         return {
           ...prev,
-          schedule_count: null, // 선택 해제
+          schedule_count: null,
         };
       } else {
         return {
           ...prev,
-          schedule_count: label, // 새로 선택
+          schedule_count: parsedCount,
         };
       }
     });
@@ -342,7 +390,8 @@ const StepPage6 = () => {
       {Array.from({ length: cols }, (_, colIndex) => {
         const index = rowIndex * cols + colIndex;
         const label = step6CommonCheckboxLabels[index];
-        const isChecked = travelPlan.schedule_count === label;
+        const isChecked =
+          travelPlan.schedule_count === parseScheduleLabelToCount(label);
 
         return (
           <CommonCheckbox
@@ -366,7 +415,7 @@ const StepPage6 = () => {
       </div>
 
       <div className={styles.searchBarContainerSp4}>
-        <SearchBarPresenter />
+        <SearchBarPresenter mode="button" />
       </div>
     </div>
   );
@@ -376,7 +425,9 @@ const StepPage6 = () => {
 
 const StepPage7 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const [sliderValue, setSliderValue] = useState<number>(travelPlan?.budget ?? 50);
+  const [sliderValue, setSliderValue] = useState<number>(
+    travelPlan?.budget ?? 50
+  );
 
   const handleSliderValueChange = (value: number) => {
     setSliderValue(value);

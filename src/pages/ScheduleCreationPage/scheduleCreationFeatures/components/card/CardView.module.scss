@@ -1,39 +1,88 @@
-.imageLayout {
-    width: 200px;
-    height: 150px;
-    align-items: center;
-    justify-content: center;
-}
-  
-  .boxStyle {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.card {
+  font-family: "Inter", sans-serif;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin: 20px;
+  max-width: 700px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+  position: relative;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   }
-  
-  .buttonLayout {
-    display: flex;
-    align-items: center;
-  
-    height: 100%;
-  }
-  
-  .buttonStyle {
-    width: 70px;
-    height: 50%;
-    border-radius: 50px;
-    background-color: teal;
-  }
-  
-.titleStyle {
-    margin-top: 1rem;
-    margin-left: 1rem;
 }
 
-.descriptionStyle {
-    margin-left: 1rem;
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-right: 60px;
 }
 
-.badgeStyle{
-    margin-left: 1rem;
+.cardContent {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  padding-right: 60px;
+}
+
+.dataItem {
+  margin-bottom: 8px;
+}
+
+.dataLabel {
+  font-weight: 500;
+  color: #444;
+}
+
+.circleButton {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #007bff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.cardFooter {
+  font-size: 0.875rem;
+  color: #777;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  margin-top: auto;
+  text-align: right;
+
+  .dataItem {
+    /* 푸터 내 데이터 항목의 하단 마진 제거 */
+    margin-bottom: 0;
+  }
 }

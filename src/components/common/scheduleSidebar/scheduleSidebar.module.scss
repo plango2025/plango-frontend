@@ -1,9 +1,8 @@
 /* scheduleSidebar.module.scss */
 
 .layout {
-  width: 360px;
+  width: 480px;
   height: 100vh; /* 뷰포트 높이를 차지하도록 유지 */
-  background-color: red; /* 테스트를 위해 추가한 배경색은 유지 */
   display: flex; /* <-- 이 줄을 추가하여 flex 컨테이너로 만듭니다. */
   flex-direction: column; /* <-- 이 줄을 추가하여 자식 요소를 세로로 정렬합니다. */
 }
@@ -22,7 +21,6 @@
   /* flex-grow: 1; 이 줄은 필요 없거나, 다른 방식으로 조절해야 합니다.
      flexContent는 flex-grow를 가지지 않고 내용만큼만 차지하는 것이 일반적입니다.
      만약 flexContent가 남은 공간을 차지해야 한다면, 그에 맞는 flex 속성을 추가해야 합니다. */
-  border: 2px solid grey;
   /* border-radius: lg;  <-- 이 줄은 SCSS에서 Chakra UI 토큰을 직접 사용하므로 문제가 될 수 있습니다.
                          아래 JSX 수정 사항을 참조하거나, '8px' 등으로 직접 픽셀 값을 지정하세요. */
 }
@@ -31,7 +29,7 @@
   width: 100%;
   /* height: 0; <-- 이 값은 제거하거나 auto로 설정해야 합니다. flex-grow가 작동하려면 기본 크기가 없거나 작아야 합니다. */
   flex-grow: 1; /* <-- 이 줄은 유효하지만, 부모가 flex-direction: column이어야 합니다. */
-  background-color: grey;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +42,7 @@
   align-items: center;
   width: 90%;
   height: 80%;
-  background-color: burlywood;
+  background-color: grey;
 }
 
 .clickButton {
@@ -67,4 +65,44 @@
   &:active {
     transform: scale(0.95);
   }
+}
+
+.imageContainer {
+  width: 150px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+}
+
+.locationImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 컨테이너에 맞게 잘리도록 설정 */
+  border-radius: 8px; /* 이미지 모서리를 둥글게 처리 */
+}
+
+.discriptionBoxLayout {
+  width: 260px;
+}
+
+.stepDayname {
+  font-weight: bold;
+  font-size: 1.125rem; // lg (18px 정도)
+  margin-bottom: 2px;
+
+  white-space: nowrap; // 한 줄만 표시
+  overflow: hidden; // 넘치는 텍스트 숨김
+  text-overflow: ellipsis; // 말줄임표 표시
+}
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc; /* 기본 테두리 스타일 */
+  resize: none; /* 사용자가 크기를 조절하지 못하도록 설정 */
+  font-size: 1rem; /* 기본 폰트 크기 */
 }
