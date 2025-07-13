@@ -1,9 +1,42 @@
 // ReviewForm.style.ts
 import styled from "styled-components";
-
+export const ChooseSchedule = styled.p`
+  font-size: 24px;
+`;
+export const SelectScheduleWrapper = styled.div`
+  background-color: #ffffffff;
+  padding: 2rem;
+`;
+export const SelectedScheduleTitle = styled.p`
+  display: flex;
+ 
+  font-size: 24px;
+  color: #15bdb1;
+  height: 100px;
+  line-height: 100px;
+  align-items: center;
+  text-align: center;
+`;
+export const Button = styled.button`
+display: flex;
+align-items: center;
+  width: 100px;
+  height: 4rem;
+  background-color: white;
+  color: #15bdb1;
+  font-size: 30px;
+`;
+export const ScheduleList = styled.div`
+  width: 100%;
+  overflow: scroll auto;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  padding: 1rem;
+`;
 export const BackGround = styled.div`
   position: relative;
-box-sizing: border-box;
+  box-sizing: border-box;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -18,7 +51,7 @@ export const FormContainer = styled.div`
   max-width: 1000px;
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 7rem 2rem;
+
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   margin: 4rem auto;
 
@@ -77,12 +110,15 @@ export const Bottom = styled.div`
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: center;
   z-index: 1000; /* 필요 시 위로 띄움 */
 `;
-
+export const SidePadding = styled.div`
+  padding: 7rem 2rem;
+  width: 100%;
+`;
 export const SubmitBtn = styled.button`
   width: 100%;
   max-width: 300px;
