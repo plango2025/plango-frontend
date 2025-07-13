@@ -79,7 +79,7 @@ export interface PlaceRepeatInfo {
   serialnum: string;
 }
 export interface LLMResult {
-  type: "llm_result";
+  type: "llm_input";
   data: {
     one_line_summary: string;
     summary: string;

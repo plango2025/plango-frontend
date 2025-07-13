@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 export const Wrapper = styled.div`
-
-`; 
-export const Section = styled("section")`
+   display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height:auto; 
+  `
+export const Section = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
   margin: auto;
   align-items: center;
   justify-content: space-around;
@@ -13,7 +16,7 @@ export const Section = styled("section")`
 `;
 export const Image=styled.img`
 width: 510px;
-height: 510px
+height: 510px;
 
 `
 export const TextContainer= styled.div`
@@ -25,7 +28,8 @@ flex-direction: column;
 export const Text= styled.p`
 font-size: 20px;
 `
-export const LoginBtn = styled.button`
+
+export const StartBtn = styled.button`
   width: 18.75rem;
   height: 5rem;
   background-color: black;

@@ -1,33 +1,46 @@
-import styles from "./LoginPage.module.scss";
 import SideBar from "@/components/common/sidebar/CommonSidebar";
-
-import { useLoginPresenter } from "./LoginPresenter";
+import { useLoginPresenter } from "../presenter/LoginPresenter";
+import {
+  Container,
+  TitleWrapper,
+  TitleDesc,
+  TitleLogo,
+  CenterWrapper,
+  CenterImage,
+  KakaoLoginButton,
+  KakaoIcon,
+} from "./Login.styles";
+import { GridItem } from "@chakra-ui/react";
+import AppLayout from "@/layout/AppLayout";
 
 const LoginPageView: React.FC = () => {
   const { handleLogin, error } = useLoginPresenter();
 
   return (
-    <div >
-      <SideBar />
-      <div className={styles.container__title}>
-        <span className={styles.container__title__desc}>
-          여행 계획? 이젠 클릭 한 번으로 끝!
-        </span>
-        <div className={styles.container__title__logo}>
+   
+      <AppLayout>
+        <GridItem colSpan={12}>
+
+    <Container>
+      
+
+      <TitleWrapper>
+        <TitleDesc>여행 계획? 이젠 클릭 한 번으로 끝!</TitleDesc>
+        <TitleLogo>
           <img src="/src/assets/images/icons/plane.png" alt="Plango Logo" />
           <h1>Plango</h1>
-        </div>
-      </div>
-      <div className={styles.container__center}>
-        <img
-          className={styles.container__center__img}
+        </TitleLogo>
+      </TitleWrapper>
+
+      <CenterWrapper>
+        <CenterImage
           src="/src/assets/images/login/background.png"
           alt="Background Image"
         />
-      </div>
-
-      <button onClick={handleLogin} className={styles.container__kakao_login}>
-        <div className={styles.kakaoIcon}>
+      </CenterWrapper>
+<CenterWrapper>
+      <KakaoLoginButton onClick={handleLogin}>
+        <KakaoIcon>
           <svg
             width="36"
             height="34"
@@ -41,12 +54,16 @@ const LoginPageView: React.FC = () => {
               fill="black"
             />
           </svg>
-        </div>
+        </KakaoIcon>
         카카오 로그인
-      </button>
-
+      </KakaoLoginButton>
+</CenterWrapper>
       {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    </Container>
+          </GridItem>
+      </AppLayout>
+
+
   );
 };
 

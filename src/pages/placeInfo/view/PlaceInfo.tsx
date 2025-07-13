@@ -8,12 +8,12 @@ import LLMInfo from "../components/llmInfo/LLMInfo";
 import SideNav from "../components/sidenav/SideNav";
 import { BackGround, Wrapper } from './PlaceInfo.style';
 import { usePlaceSearch } from './../presenter/PlaceInfoPresenter';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 // import CommentSection from '@/components/commentSection/CommentSection';
 const PlaceInfo = () => {
-  const [params] = useSearchParams();
-  const keyword = params.get("keyword");//url에서 장소키워드 가지고옴
+  // const [params] = useSearchParams();
+  const {keyword} = useParams();
     const { preview, detail, llmResult, loading, searchPlace }= usePlaceSearch();
     useEffect(() => {
       if (keyword) searchPlace(keyword); //키워드 중심으로 장소 찾기
@@ -22,9 +22,10 @@ const PlaceInfo = () => {
     if (loading || !preview || !detail || !llmResult) {
       return <div>로딩 중입니다...</div>;
     }
-  
     
-  return (
+      console.log(detail.common_info.homepage);
+    
+    return (
     <BackGround>
       <AppLayout>
         <GridItem colSpan={12}>
@@ -45,7 +46,7 @@ const PlaceInfo = () => {
             <Header
               name={preview.keyword_search_info.title}
               subtitle={llmResult.style}
-              taglist={llmResult.keywords}
+              // taglist={llmResult.keywords}
               rating={3}
             />
             <Gallery images={detail.images} />

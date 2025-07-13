@@ -9,6 +9,6 @@ export const requestKakaoLoginUrl = async (): Promise<string> => {
   const res = await api.get("/oauth/kakao/login", {
     requiresAuth: false, 
   } as CustomAxiosRequestConfig);
-
-  return res.data;
+ 
+  return res.data.redirect_uri;
 };
