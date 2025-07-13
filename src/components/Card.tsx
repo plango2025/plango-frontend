@@ -99,7 +99,7 @@ const Card = ({ review }: { review: Review }) => {
           )}
         </Profile>
 
-        {images.length > 0 && <Image src={images[0]} alt={title} />}
+        {/* {images.length > 0 && <Image src={images[0]} alt={title} />} */}
         <Name>{title}</Name>
       </div>
 

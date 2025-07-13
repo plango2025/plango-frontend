@@ -1,23 +1,23 @@
 import { Wrapper, Title, Stars, Ratingnum } from "./Header.styles";
 import { getStarsIcons } from "@/components/Card";
 import { Rating } from "@/components/Card.style";
-import { HStack, Tag } from "@chakra-ui/react";
+// import { HStack, Tag } from "@chakra-ui/react";
 
 interface Props {
   name: string;
   rating: number;
   subtitle: string;
-  taglist: string[];
+  // taglist: string[];
 }
 
-const Header = ({ name, rating, subtitle, taglist }: Props) => {
+const Header = ({ name, rating, subtitle}: Props) => {
   return (
     <Wrapper>
       <Title>
         {name}
         <span>{subtitle}</span>
       </Title>
-      <HStack>
+      {/* <HStack>
         {taglist.map((item) => {
           return (
             <Tag.Root
@@ -32,7 +32,7 @@ const Header = ({ name, rating, subtitle, taglist }: Props) => {
             </Tag.Root>
           );
         })}
-      </HStack>
+      </HStack> */}
       
       <Stars>
         <Rating

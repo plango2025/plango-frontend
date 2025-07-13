@@ -10,7 +10,7 @@ class LoginModel {
     this.rememberId = rememberId;
   }
 
-  async login(): Promise<any> {
+  async login() {
 
     try{
       // 로그인 요청 로직 (로그인 API 호출)

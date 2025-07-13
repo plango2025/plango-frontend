@@ -1,7 +1,7 @@
-import { PlaceSSEEvent } from '../types/type';
+import { PlaceSSEEvent } from "../types/type";
 
 export type PlaceSSEData = {
-  type: "preview" | "detail" | "llm_result";
+  type: "preview" | "detail" | "llm_input";
   data: PlaceSSEEvent;
 };
 
@@ -12,20 +12,21 @@ export const fetchPlaceByKeyword = (
   onError: (err: Event) => void
 ) => {
   const source = new EventSource(
-    `/api/place?keyword=${encodeURIComponent(keyword)}`
+    `http://localhost:8080/api/place?keyword=${encodeURIComponent(keyword)}`
   );
-
   source.onmessage = (event) => {
     try {
       const parsed: PlaceSSEData = JSON.parse(event.data);
       onMessage(parsed);
-      if (parsed.type === "llm_result") source.close();
+      if (parsed.type === "llm_input") source.close();
+      onDone()
     } catch (e) {
       console.error("파싱 오류", e);
     }
   };
 
   source.onerror = (err) => {
+    console.error("SSE 연결 오류:", err);
     onError(err);
     source.close();
   };

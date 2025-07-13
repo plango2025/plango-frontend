@@ -23,10 +23,9 @@ interface LLMResultData {
 interface LLMInfoProps {
   llmresult: LLMResultData;
 }
-const LLMInfo = ({ llmresult }: LLMInfoProps) => {
-  const { one_line_summary, summary, keywords, style, checklist } = llmresult;
-  console.log(one_line_summary, summary, keywords, style, checklist);
-
+const LLMInfo = ({ llmresult }:LLMInfoProps) => {
+  //  const { one_line_summary, summary, keywords, style, checklist } = llmresult;
+  
   return (
     <Box p={"3rem"} bg={"#FFFFFF"} mb={6} borderRadius="md">
       <Text fontSize="1.5rem" fontWeight="bold" mb={3}>

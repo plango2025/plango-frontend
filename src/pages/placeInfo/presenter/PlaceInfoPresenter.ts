@@ -20,7 +20,7 @@ export const usePlaceSearch = () => {
           case "detail":
             setDetail(event.data);
             break;
-          case "llm_result":
+          case "llm_input":
             setLLMResult(event.data);
             setLoading(false);
             break;
