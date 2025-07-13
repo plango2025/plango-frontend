@@ -4,22 +4,21 @@ import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CardView from "../../components/card/CardView";
 import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
-import ParentComponent from "@/components/common/slider/CommonSlider.presenter";
 import React, { useState } from "react";
 
 const step1CommonCheckboxLabels1 = [
-  "남이섬",
-  "쁘띠프랑스",
-  "가평역",
-  "춘천역",
-  "강원도청",
-  "김유정역",
-  "제이드가든",
-  "아침고요수목원",
-  "강촌레일파크",
-  "엘리시안 강촌",
-  "대명 비발디파크",
-  "국립춘천숲체원",
+  "경기도",
+  "강원도",
+  "충청북도",
+  "충청남도",
+  "전라북도",
+  "전라남도",
+  "경상북도",
+  "경상남도",
+  "제주특별자치도",
+  "서울특별시",
+  "인천광역시",
+  "대전광역시",
 ];
 
 // StepPage1 컴포넌트 선언
@@ -95,7 +94,6 @@ const StepPage2 = () => {
 
   return (
     <div className={styles.containerSp2}>
-      <div className={styles.cardViewContainerSp2}>
         <SearchBarPresenter mode="autocomplete" />
         {selectedPlace ? (
           <ul>
@@ -107,7 +105,7 @@ const StepPage2 = () => {
           </ul>
         )}
       </div>
-    </div>
+
   );
 };
 
@@ -340,8 +338,8 @@ const StepPage5 = () => {
 };
 const step6CommonCheckboxLabels = [
   "강행군 (하루 5곳 이상)",
-  "적당한 일정 (하루 2-3곳)",
   "빽빽한 일정 (하루 3-4곳)",
+  "적당한 일정 (하루 2-3곳)",
   "느긋한 일정 (하루 1-2곳)",
 ];
 
@@ -414,9 +412,7 @@ const StepPage6 = () => {
         <div className={styles.gridSp3}>{checkboxes}</div>
       </div>
 
-      <div className={styles.searchBarContainerSp4}>
-        <SearchBarPresenter mode="button" />
-      </div>
+ 
     </div>
   );
 };
@@ -426,7 +422,7 @@ const StepPage6 = () => {
 const StepPage7 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
   const [sliderValue, setSliderValue] = useState<number>(
-    travelPlan?.budget ?? 50
+    travelPlan?.budget ?? 100
   );
 
   const handleSliderValueChange = (value: number) => {
@@ -442,13 +438,18 @@ const StepPage7 = () => {
   };
 
   return (
-    <div className={styles.containerSp1}>
-      <div className={styles.CommonSliderContainerSp7}>
-        <CommonSlider onValueChange={handleSliderValueChange} />
-        <button onClick={handleSave}>예산 저장</button>
+  <div className={styles.containerSp1}>
+    <div className={styles.CommonSliderContainerSp7}>
+      <CommonSlider onValueChange={handleSliderValueChange} />
+      <div className={styles.budgetInfo}>
+        <span>현재 예산: <strong>{sliderValue} 만원</strong></span>
       </div>
+      <button className={styles.saveButton} onClick={handleSave}>
+        예산 저장
+      </button>
     </div>
-  );
+  </div>
+);
 };
 
 export default StepPage7;

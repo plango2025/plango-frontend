@@ -60,7 +60,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
     setInputText(placeName);
     setTravelPlan((prev) => ({
       ...prev,
-      destination: placeName,
+      required_places: placeName,
     }));
     if (onSearch) onSearch(placeName);
   };
@@ -78,41 +78,42 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
     setSuggestions([]);
   };
   return (
-    <div className={styles.searchBar}>
-      <input
-        type="text"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        onKeyDown={handleKeyDown}
-        className={styles.input}
-        placeholder="검색어를 입력하세요"
-      />
+    <div className={styles.bodylayout}>
+  <div className={styles.searchBar}>
+    <input
+      type="text"
+      value={inputText}
+      onChange={(e) => setInputText(e.target.value)}
+      onKeyDown={handleKeyDown}
+      className={styles.input}
+      placeholder="검색어를 입력하세요"
+    />
+    {mode === "button" && (
+      <button
+        onClick={() => triggerSearch(inputText)}
+        className={styles.button}
+      >
+        장소추가
+      </button>
+    )}
+  </div>
 
-      {mode === "button" && (
-        <button
-          onClick={() => triggerSearch(inputText)}
-          className={styles.button}
-        >
-          검색
-        </button>
-      )}
-
-      {mode === "autocomplete" &&
-        Array.isArray(suggestions) &&
-        suggestions.length > 0 && (
-          <ul className={styles.suggestionList}>
-            {suggestions.map((s) => (
-              <li
-                key={s.id}
-                onClick={() => handleSuggestionClick(s)}
-                className={styles.suggestionItem}
-              >
-                {s.placeName}
-              </li>
-            ))}
-          </ul>
-        )}
-    </div>
+  {mode === "autocomplete" &&
+    Array.isArray(suggestions) &&
+    suggestions.length > 0 && (
+      <ul className={styles.suggestionList}>
+        {suggestions.map((s) => (
+          <li
+            key={s.id}
+            onClick={() => handleSuggestionClick(s)}
+            className={styles.suggestionItem}
+          >
+            {s.placeName}
+          </li>
+        ))}
+      </ul>
+    )}
+</div>
   );
 };
 

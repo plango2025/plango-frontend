@@ -6,7 +6,7 @@ import ScheduleCreationView from "@/pages/ScheduleCreationPage/ScheduleCreationV
 
 import { AccessTokenProvider } from "./context/AccessTokenContext";
 import ScheduleLists from "./pages/ScheduleReview/lists/ScheduleLists";
-import ReviewForm from "./pages/ScheduleReview/form/ReviewForm";
+
 import PlaceInfo from "./pages/placeInfo/view/PlaceInfo";
 import ReviewDetailPage from "./pages/ScheduleReview/details/view/ReviewDetailPage";
 import ScheduleResultPageView from "./pages/ScheduleResultPage/ScheduleResultPageView";
@@ -25,8 +25,9 @@ function App() {
             path="/scheduleResult"
             element={<ScheduleResultPageView />}
           ></Route>
+        
           <Route path="/schdReviews" element={<ScheduleLists />}></Route>
-          <Route path="/schdReview/new/:schedule_id" element={<ReviewForm />} />
+      
           <Route path="/schdReviews/:id" element={<ReviewDetailPage />} />
         </Routes>
       </BrowserRouter>

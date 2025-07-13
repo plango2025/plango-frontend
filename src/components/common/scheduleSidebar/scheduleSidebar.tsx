@@ -4,8 +4,8 @@ import { scheduleSidebarModel } from "./scheduleSidebarModel";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { useMapContext } from "@/components/common/kakaomap/MapContext";
-import { sendScheduleFeedback } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagePresenter";
 import { useAccessToken } from "@/context/AccessTokenContext";
+import  { sendScheduleFeedback } from "./scheduleSiderbarPresenter";
 // StepItem 인터페이스 정의
 export interface StepItem {
   id: string; // Step 고유 ID (필요 시 사용)
@@ -37,30 +37,22 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
 
   const scheduleId = scheduleResponse.schedule_id; // 스케줄 ID 추출
 
-  const handleSaveClick = async () => {
-    if (!scheduleId) {
-      alert("스케줄 ID가 없습니다.");
-      return;
-    }
-    if (!feedback.trim()) {
-      alert("피드백을 입력해주세요.");
-      return;
-    }
-    try {
-      const result = await sendScheduleFeedback(
-        scheduleId,
-        feedback,
-        accessToken
-      );
-      alert("피드백이 저장되었습니다!");
-      console.log("서버 응답:", result);
-      setFeedback(""); // 성공 시 textarea 비우기
-    } catch (error) {
-      alert("피드백 저장 중 오류가 발생했습니다.");
-      console.error(error);
-    }
-  };
+const handleFeedbackClick = async () => {
+  if (!scheduleId) return alert("스케줄 ID가 없습니다.");
+  if (!feedback.trim()) return alert("피드백을 입력해주세요.");
 
+  try {
+    console.log("scheduleId:", scheduleId);
+    console.log("피드백:", feedback);
+    const result = await sendScheduleFeedback(scheduleId, feedback, accessToken);
+    alert("피드백이 저장되었습니다!");
+    setFeedback("");
+    console.log("서버 응답:", result);
+  } catch (error) {
+    alert("피드백 저장 중 오류가 발생했습니다.");
+    console.error(error);
+  }
+};
   return (
     <div className={styles.layout}>
       {/* 타이틀 */}
@@ -151,7 +143,7 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
           />
-          <Button className={styles.clickButton} onClick={handleSaveClick}>
+          <Button className={styles.clickButton} onClick={handleFeedbackClick}>
             마음속에 저장!
           </Button>
         </div>

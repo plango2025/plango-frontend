@@ -4,7 +4,7 @@ export interface Place {
 }
 
 export interface TravelPlan {
-  required_place: Place[];
+  required_places: Place[];
   destination: string;
   duration: number | null;
   companion: string;
