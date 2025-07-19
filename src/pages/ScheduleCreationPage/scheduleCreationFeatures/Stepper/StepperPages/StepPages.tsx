@@ -5,25 +5,35 @@ import CardView from "../../components/card/CardView";
 import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
 import React, { useState } from "react";
+import { useEffect } from "react";
 
 const step1CommonCheckboxLabels1 = [
-  "경기도",
-  "강원도",
-  "충청북도",
-  "충청남도",
-  "전라북도",
-  "전라남도",
-  "경상북도",
-  "경상남도",
-  "제주특별자치도",
-  "서울특별시",
-  "인천광역시",
-  "대전광역시",
+  "가평",
+  "강릉",
+  "속초",
+  "부산",
+  "여수",
+  "인천",
+  "전주",
+  "제주",
+  "춘천",
+  "태안",
+  "거제",
+  "포항",
 ];
 
 // StepPage1 컴포넌트 선언
 const StepPage1 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
+
+   useEffect(() => {
+    // extra가 없을 때만 초기값 설정
+    if (!travelPlan.extra) {
+      setTravelPlan((prev) => ({
+        ...prev,
+      }));
+    }
+  }, []);
 
   // SearchBarPresenter에서 호출할 함수
   const handleSearch = (text: string) => {
@@ -94,17 +104,20 @@ const StepPage2 = () => {
 
   return (
     <div className={styles.containerSp2}>
-        <SearchBarPresenter mode="autocomplete" />
+        <div className={styles.containerSp2_85}>
+          <SearchBarPresenter mode="autocomplete" />
         {selectedPlace ? (
           <ul>
             <li>{selectedPlace}</li>
           </ul>
         ) : (
           <ul>
-            <li>선택된 장소가 없습니다.</li>
+            
           </ul>
         )}
       </div>
+        </div>
+        
 
   );
 };
@@ -337,10 +350,11 @@ const StepPage5 = () => {
   );
 };
 const step6CommonCheckboxLabels = [
-  "강행군 (하루 5곳 이상)",
-  "빽빽한 일정 (하루 3-4곳)",
-  "적당한 일정 (하루 2-3곳)",
   "느긋한 일정 (하루 1-2곳)",
+  "적당한 일정 (하루 2-3곳)",
+  "빽빽한 일정 (하루 3-4곳)",
+  "강행군 (하루 5곳 이상)",
+
 ];
 
 // 문자열에서 하루 방문 예상 장소 수를 숫자 형태로 파싱하는 함수
@@ -456,25 +470,13 @@ export default StepPage7;
 
 const StepPage8 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
-  const handleCheckboxClick = (label: string, checked: boolean) => {
-    // 이미 있는지 확인
-    const alreadyExists = travelPlan.required_place?.some(
-      (place) => place.name === label
-    );
 
-    if (alreadyExists) {
-      // 선택 해제 (제거)
-      setTravelPlan((prev) => ({
-        ...prev,
-        extra: null,
-      }));
-    } else {
-      // 선택 추가
-      setTravelPlan((prev) => ({
-        ...prev,
-        extra: label,
-      }));
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setTravelPlan((prev) => ({
+      ...prev,
+      extra: value,
+    }));
   };
 
   return (
@@ -482,10 +484,13 @@ const StepPage8 = () => {
       <textarea
         className={styles.textareaSp8}
         placeholder="여기에 글을 입력하세요."
+        value={travelPlan.extra || ""}
+        onChange={handleChange}
       />
     </div>
   );
 };
+
 
 export const StepPages = {
   StepPage1,

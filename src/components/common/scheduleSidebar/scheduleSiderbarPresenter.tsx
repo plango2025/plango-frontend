@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8000"; // ✅ 서버 주소 명시
+
 export const sendScheduleFeedback = async (
   scheduleId: string,
   feedback: string,
@@ -7,7 +9,7 @@ export const sendScheduleFeedback = async (
 ) => {
   try {
     const response = await axios.post(
-      `/api/schedules/${scheduleId}/feedback`,
+      `${BASE_URL}/api/schedules/${scheduleId}/feedback`, // ✅ 절대 경로로 수정
       { feedback },
       {
         headers: {
@@ -17,9 +19,31 @@ export const sendScheduleFeedback = async (
       }
     );
 
-    return response.data; // 서버 응답 데이터 반환
+    return response.data;
   } catch (error) {
     console.error("피드백 전송 실패:", error);
-    throw error; // 호출한 곳에서 예외 처리하도록 throw
+    throw error;
+  }
+};
+
+export const pinPlaces = async (
+  scheduleId: string,
+  places: string[],
+  accessToken: string
+) => {
+  const url = `/api/schedules/${scheduleId}/places/pin`;
+  const body = { places };
+
+  try {
+    const response = await axios.patch(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("핀 저장 오류", error);
+    throw error;
   }
 };

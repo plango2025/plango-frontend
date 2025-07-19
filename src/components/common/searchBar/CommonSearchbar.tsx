@@ -11,7 +11,7 @@ type SearchBarPresenterProps = {
   onSearch?: (text: string) => void;
 };
 
-const BASE_URL = "http://localhost:8080"; // 여기에 서버 주소
+const BASE_URL = "http://localhost:8000"; // 여기에 서버 주소
 
 const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   mode,
@@ -25,7 +25,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   // 자동완성용 API 호출
   useEffect(() => {
     if (mode !== "autocomplete") return;
-    if (inputText.trim().length < 2) {
+    if ((inputText ?? "").trim().length < 2) {
       setSuggestions([]);
       return;
     }
@@ -55,14 +55,14 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   }, [inputText, mode]);
 
   // 검색 실행 (공통)
-  const triggerSearch = (placeName: string) => {
-    console.log("triggerSearch 호출, placeName:", placeName); // 로그 추가
-    setInputText(placeName);
+  const triggerSearch = (place_name: string) => {
+    console.log("triggerSearch 호출, place_name:", place_name); // 로그 추가
+    setInputText(place_name);
     setTravelPlan((prev) => ({
       ...prev,
-      required_places: placeName,
+      required_places: [{ name: place_name , address: "" }],
     }));
-    if (onSearch) onSearch(placeName);
+    if (onSearch) onSearch(place_name);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,9 +72,9 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   };
 
   const handleSuggestionClick = (s: LocationSuggestion) => {
-    console.log("handleSuggestionClick 호출:", s.placeName);
-    setInputText(s.placeName);
-    triggerSearch(s.placeName);
+    console.log("handleSuggestionClick 호출:", s.place_name);
+    setInputText(s.place_name);
+    triggerSearch(s.place_name);
     setSuggestions([]);
   };
   return (
@@ -82,7 +82,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   <div className={styles.searchBar}>
     <input
       type="text"
-      value={inputText}
+      value={inputText ?? ""}
       onChange={(e) => setInputText(e.target.value)}
       onKeyDown={handleKeyDown}
       className={styles.input}
@@ -108,7 +108,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
             onClick={() => handleSuggestionClick(s)}
             className={styles.suggestionItem}
           >
-            {s.placeName}
+            {s.place_name}
           </li>
         ))}
       </ul>

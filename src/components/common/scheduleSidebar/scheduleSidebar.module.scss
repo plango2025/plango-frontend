@@ -15,6 +15,15 @@
   margin-left: 1rem;
 }
 
+.indicatorTitleLine {
+  margin-top: -15px;
+  margin-bottom: 15px;
+  width: 100%;
+  height: 1px;
+  background-color: grey; // 원하는 색상으로 변경 가능
+  border-radius: 2px;
+}
+
 .flexContent {
   height: 70%;
   overflow: auto;
@@ -24,6 +33,16 @@
   /* border-radius: lg;  <-- 이 줄은 SCSS에서 Chakra UI 토큰을 직접 사용하므로 문제가 될 수 있습니다.
                          아래 JSX 수정 사항을 참조하거나, '8px' 등으로 직접 픽셀 값을 지정하세요. */
 }
+
+
+.indicator {
+  margin-right: 0 !important;
+}
+
+
+
+
+
 
 .textBoxLayout {
   width: 100%;
@@ -84,8 +103,13 @@
 }
 
 .discriptionBoxLayout {
+  margin-left: 10px;
   width: 260px;
 }
+
+
+
+
 
 .stepDayname {
   font-weight: bold;

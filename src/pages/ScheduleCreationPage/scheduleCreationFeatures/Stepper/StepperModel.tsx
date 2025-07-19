@@ -2,6 +2,7 @@ import { Content } from "node_modules/@chakra-ui/react/dist/types/components/act
 
 export const steps = [
   {
+    emoji: "✨",
     progressTitle: "STEP 1 여행지 ",
     progressSubTitle: "destination",
     title: "어디로 떠나고 싶으세요?",
@@ -9,6 +10,7 @@ export const steps = [
     content: "stepPage1",
   },
   {
+    emoji: "🗺️",
     progressTitle: "STEP 2 필수 코스",
     progressSubTitle: "required_places",
     title: "꼭 가야 하는 장소가 있나요?",
@@ -16,6 +18,7 @@ export const steps = [
     content: "stepPage2",
   },
   {
+    emoji: "📅",
     progressTitle: "STEP 3 여행기간 ",
     progressSubTitle: "duration",
     title: "여행 기간을 선택하세요.",
@@ -23,6 +26,7 @@ export const steps = [
     content: "stepPage3",
   },
   {
+    emoji: "👥",
     progressTitle: "STEP 4 동행자",
     progressSubTitle: "companion",
     title: "누구와 함께 가시나요?",
@@ -30,6 +34,7 @@ export const steps = [
     content: "stepPage4",
   },
   {
+    emoji: "🤩",
     progressTitle: "STEP 5 여행스타일",
     progressSubTitle: "style",
     title: "어떤 스타일의 여행을 원하시나요?",
@@ -37,6 +42,7 @@ export const steps = [
     content: "stepPage5",
   },
   {
+    emoji: "🕒",
     progressTitle: "STEP 6 일정 개수",
     progressSubTitle: "schedule_count",
     title: "일정을 어떻게 만들어드릴까요?",
@@ -44,6 +50,7 @@ export const steps = [
     content: "stepPage6",
   },
   {
+    emoji: "💰",
     progressTitle: "STEP 7 예산",
     progressSubTitle: "budget",
     title: "예산을 정해주세요. ",
@@ -51,6 +58,7 @@ export const steps = [
     content: "stepPage7",
   },
   {
+    emoji: "➕",
     progressTitle: "STEP 8 추가사항",
     title: "추가로 원하는 사항이 있나요?",
     subTitle: "특별히 고려해야 할 점이 있다면 입력해주세요.",

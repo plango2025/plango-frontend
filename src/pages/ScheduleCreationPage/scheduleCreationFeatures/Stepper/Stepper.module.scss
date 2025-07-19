@@ -10,7 +10,7 @@
 //stepper 회색쪽 layout
 .layout1 {
   display: flex;
-  width: 450px;
+  width: 430px;
   min-height: 100vh;
   padding: 100px 0 100px 0;
   background-color: whitesmoke;
@@ -103,6 +103,10 @@
   background-color: white;
 }
 
+.stepemoji{
+  font-size: 24px;
+}
+
 .stepTitle {
   font-size: 48px;
   font-weight: bold;
@@ -120,12 +124,21 @@
   background-color: white;
 }
 
-.buttonLayout{
-  border-top: 1px solid #eee; // 구분선 (선택)
-  display: flex;
-  height: 7rem;
-  justify-content: center;
-  align-items: center;
 
+
+.buttonLayout {
+  display: flex;
+    justify-content: center; /* 위쪽에 정렬 */
+  text-align: center;
+  width: 60%;
+  margin-bottom: 50px;
 }
 
+.preButton {
+  width: 48px;
+  border: solid 1px grey;
+  border-radius: 8px;
+  margin: 0 5px 0 5px;
+  background-color: white;
+  color: black;
+}
