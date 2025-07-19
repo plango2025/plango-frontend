@@ -17,7 +17,7 @@ const handleLogin = async () => {
     window.location.href = redirectUrl; //카카오 로그인 페이지로 이동
   } catch (err: unknown) {
     setError("로그인 URL 요청 실패: " + err);
-    console.log(error)
+    console.error(error)
   }
 };
   return (

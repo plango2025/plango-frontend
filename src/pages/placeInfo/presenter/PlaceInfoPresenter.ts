@@ -1,44 +1,27 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { fetchPlaceByKeyword } from "../model/placeInfoModel";
+import { createApiWithToken } from '@/api/axiosInstance';
+import { useAccessToken } from '@/context/AccessTokenContext';
+import { PlaceIntro } from '@/types/place';
+
+
 
 export const usePlaceSearch = () => {
-  const [preview, setPreview] = useState(null);
-  const [detail, setDetail] = useState(null);
-  const [llmResult, setLLMResult] = useState(null);
+  const [placeIntro, setPlaceIntro] = useState<PlaceIntro | null>(null);
   const [loading, setLoading] = useState(false);
-//키워드로 장소를 받아오는 함수
-  const searchPlace = (keyword: string) => {
-    setLoading(true);
+  const { accessToken, setAccessToken } = useAccessToken();
 
-    fetchPlaceByKeyword(
-      keyword,
-      (event) => {
-        switch (event.type) {
-          case "preview":
-            setPreview(event.data);
-            break;
-          case "detail":
-            setDetail(event.data);
-            break;
-          case "llm_input":
-            setLLMResult(event.data);
-            setLoading(false);
-            break;
-        }
-      },
-      () => setLoading(false),
-      (err) => {
-        console.error("SSE 오류", err);
-        setLoading(false);
-      }
-    );
-  };
+  const api = createApiWithToken(() => accessToken, setAccessToken);
 
-  return {
-    preview,
-    detail,
-    llmResult,
-    loading,
-    searchPlace,
-  };
+  const searchPlace = useCallback(
+    async (keyword: string) => {
+      setLoading(true);
+      const data = await fetchPlaceByKeyword(api, keyword);
+      setPlaceIntro(data);
+      setLoading(false);
+    },
+    [accessToken]
+  ); // 혹은 []로 비워도 되고, 필요시 token만
+
+  return { placeIntro, loading, searchPlace };
 };

@@ -2,26 +2,26 @@ import { styled } from 'styled-components';
 export const Wrapper = styled.div`
   width: 100%;
   font-weight: 700;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 2px 5px 5px 3px rgb(199, 199, 199);
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     transition: transform 0.2s ease;
   }
 `;
 export const Profile = styled.div`
 padding-top: 1rem;
-padding-left: 0.5rem;
+padding-left: 1rem;
 margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  gap:11px;
   width: 100%;  
   height: 3rem;
   border-radius: 40px 40px 0  0;
   span{
     font-size: 1rem;
     color: #333;
-    padding-left: 0.5rem;
   }
   `;
 export const Image = styled.img`
@@ -37,22 +37,13 @@ export const Image = styled.img`
 export const Name = styled.h2`
 padding-left: 0.5rem;
   font-size: 1.2rem;      
-    font-weight: 700;
     margin-top: 0.5rem;
     color: #333;
 
 `;
 export const Rating = styled.div`
-  padding-left: 0.5rem;
-  z-index: 1;
-
-  display: flex;
-  font-size: 1rem;
-  color: rgb(255, 217, 0);
-  span {
-    color: #333333;
-    padding-left: 1rem;
-  }
+  padding-top: 0.3rem;
+  padding-left: 0.6rem;
 `;
 export const ButtonBox=styled.div`
 display: flex;
@@ -66,7 +57,7 @@ display: flex;
   cursor: pointer;
   font-size: 1rem;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.4rem;
 
   span{
     margin-left: 0.5rem;

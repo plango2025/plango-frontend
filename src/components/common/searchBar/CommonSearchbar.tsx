@@ -11,7 +11,6 @@ const SearchBarPresenter: React.FC = () => {
       ...prevState,
       destination: inputText, // 버튼 클릭 시 입력된 텍스트를 searchText로 업데이트
     }));
-    console.log("Searching for:", inputText); // 콘솔에 입력된 텍스트 출력
   };
 
   return (

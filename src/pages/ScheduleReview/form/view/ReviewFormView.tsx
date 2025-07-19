@@ -1,9 +1,11 @@
 // ReviewFormView.tsx
 import { FaExchangeAlt } from "react-icons/fa";
-import { GridItem, Textarea, RatingGroup } from "@chakra-ui/react";
+import { GridItem, RatingGroup } from "@chakra-ui/react";
 import AppLayout from "@/layout/AppLayout";
 
 import {
+  Rating,
+  // TextBox,
   SidePadding,
   BackGround,
   Bottom,
@@ -11,10 +13,13 @@ import {
   SubmitBtn,
   Button,
   SelectedScheduleTitle,
+  TextBox,
 } from "./ReviewForm.style";
 import ScheduleSelector from "../components/ScheduleSelector";
 import ImageUploader from "../components/ImageUploader";
 import { AutoCenter } from "./../../../../components/common/align/AutoCenter";
+import { PaddingMd } from "./../../../../components/common/padding/padding";
+import { useEffect, useRef } from "react";
 
 const ReviewFormView = ({
   showModal,
@@ -28,7 +33,19 @@ const ReviewFormView = ({
   handleSelectSchedule,
   handleSubmit,
 }) => {
-    console.dir(reviewData)
+  const textareaRef = useRef(null);
+
+  const handleResizeHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    handleResizeHeight();
+  }, []);
   return (
     <BackGround>
       <AppLayout>
@@ -40,9 +57,7 @@ const ReviewFormView = ({
           <FormContainer>
             {showModal && (
               <ScheduleSelector
-                setShowModal={setShowModal}
-                selected={selectedSchedule}
-                schedules={savedSchedules}
+                savedSchedules={savedSchedules}
                 handleSelectSchedule={handleSelectSchedule}
               />
             )}
@@ -50,13 +65,12 @@ const ReviewFormView = ({
             <SidePadding>
               {!showModal && (
                 <SelectedScheduleTitle>
-                  <Button onClick={()=>setShowModal(true)}>
+                  <Button onClick={() => setShowModal(true)}>
                     <FaExchangeAlt />
                   </Button>
                   {selectedSchedule.reviewtitle}
                 </SelectedScheduleTitle>
               )}
-
               <input
                 type="text"
                 value={reviewData.title}
@@ -68,21 +82,29 @@ const ReviewFormView = ({
               <AutoCenter>
                 <ImageUploader files={imageFiles} onChange={setImageFiles} />
               </AutoCenter>
-              <RatingGroup.Root
-                value={reviewData.rating}
-                onValueChange={(e) =>
-                  setReviewData({ ...reviewData, rating: e.value ?? 0 })
-                }
-                count={5}
-              >
-                <RatingGroup.HiddenInput />
-                <RatingGroup.Control />
-              </RatingGroup.Root>
-              <Textarea
+              <Rating>
+                <RatingGroup.Root 
+                  value={reviewData.rating}
+                  onValueChange={(e) =>
+                    setReviewData({ ...reviewData, rating: e.value ?? 0 })
+                  }
+                  count={5}
+                >
+                  <RatingGroup.HiddenInput />
+                  <RatingGroup.Control
+                  
+                  />
+                </RatingGroup.Root>
+              </Rating>
+              <PaddingMd />
+              <TextBox
+                ref={textareaRef}
+                rows={1}
                 value={reviewData.content}
-                onChange={(e) =>
-                  setReviewData({ ...reviewData, content: e.target.value })
-                }
+                onChange={(e) => {
+                  setReviewData({ ...reviewData, content: e.target.value });
+                  handleResizeHeight();
+                }}
                 placeholder="리뷰를 작성해주세요."
               />
             </SidePadding>

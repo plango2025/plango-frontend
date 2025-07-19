@@ -3,14 +3,14 @@ import { ExternalLink } from './BasicInfo.styles';
 import { Greyspan } from '../detailedInfo/DetailedInfo.styles';
 import { InfoItem, InfoList } from '../infolist/Infolist';
 
-// interface  BasicInfoProps  {
-//     address: string;
-//     tel: string;
-//     homepage:string;
+interface  BasicInfoProps  {
+    address: string;
+    tel: string;
+    homepage:string;
 
 
-// }
-const BasicInfo = ({ address, tel, homepage }) => {
+}
+const BasicInfo = ({ address }) => {
   const url = homepage?.match(/href="(.*?)"/)?.[1] || "";
 
   return (

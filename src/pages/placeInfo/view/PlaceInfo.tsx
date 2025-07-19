@@ -1,78 +1,69 @@
 import AppLayout from "@/layout/AppLayout";
-import { Breadcrumb, GridItem } from "@chakra-ui/react";
+import { GridItem, Separator } from "@chakra-ui/react";
 import Header from "../components/header/Header";
-import BasicInfo from "../components/basicInfo/BasicInfo";
 import Gallery from "../components/gallary/Gallery";
-import DetailedInfo from "../components/detailedInfo/DetailedInfo";
-import LLMInfo from "../components/llmInfo/LLMInfo";
-import SideNav from "../components/sidenav/SideNav";
-import { BackGround, Wrapper } from './PlaceInfo.style';
-import { usePlaceSearch } from './../presenter/PlaceInfoPresenter';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-// import CommentSection from '@/components/commentSection/CommentSection';
-const PlaceInfo = () => {
-  // const [params] = useSearchParams();
-  const {keyword} = useParams();
-    const { preview, detail, llmResult, loading, searchPlace }= usePlaceSearch();
-    useEffect(() => {
-      if (keyword) searchPlace(keyword); //키워드 중심으로 장소 찾기
-    }, [keyword, searchPlace]);
+import { IoIosArrowBack } from "react-icons/io";
+import {
+  BackGround,
+  PlaceInfoWrapper,
+  SubTitle,
+  Content,
+  BackIcon,
+} from "./PlaceInfo.style";
+import {
+  Padding1,
+  PaddingMd,
+  PlaceIntroPadding,
+} from "@/components/common/padding/padding";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
 
-    if (loading || !preview || !detail || !llmResult) {
-      return <div>로딩 중입니다...</div>;
+const PlaceInfo = () => {
+  const { keyword } = useParams();
+  const navigate = useNavigate();
+
+  const { placeIntro, loading, searchPlace } = usePlaceSearch();
+
+  useEffect(() => {
+    if (keyword && keyword.trim()) {
+      searchPlace(keyword);
     }
-    
-      console.log(detail.common_info.homepage);
-    
-    return (
+  }, [keyword]);
+
+  const handleBack = () => {
+    const isExternal =
+      document.referrer === "" ||
+      !document.referrer.startsWith(window.location.origin);
+    if (isExternal) navigate("/schedule/create");
+    else navigate(-1);
+  };
+
+  if (loading || !placeIntro) {
+    return <div>로딩 중입니다...</div>;
+  }
+
+  const { title, sub_title, content, address, images } = placeIntro;
+
+  return (
     <BackGround>
       <AppLayout>
         <GridItem colSpan={12}>
-          <SideNav></SideNav>
+          <PlaceInfoWrapper>
+            <PlaceIntroPadding>
+              <PaddingMd />
+              <BackIcon onClick={handleBack}>
+                <IoIosArrowBack />
+              </BackIcon>
 
-          <Breadcrumb.Root key={"md"} size={"lg"} marginTop={"1rem"}>
-            <Breadcrumb.List>
-              <Breadcrumb.Item>
-                <Breadcrumb.Link href="#">일정생성</Breadcrumb.Link>
-              </Breadcrumb.Item>
-              <Breadcrumb.Separator />
-              <Breadcrumb.Item>
-                <Breadcrumb.CurrentLink>장소소개</Breadcrumb.CurrentLink>
-              </Breadcrumb.Item>
-            </Breadcrumb.List>
-          </Breadcrumb.Root>
-          <Wrapper>
-            <Header
-              name={preview.keyword_search_info.title}
-              subtitle={llmResult.style}
-              // taglist={llmResult.keywords}
-              rating={3}
-            />
-            <Gallery images={detail.images} />
-            <div id="llm">
-              {llmResult && <LLMInfo llmresult={llmResult} />}{" "}
-            </div>
-            <div id="basic">
-              <BasicInfo
-                address={preview.keyword_search_info.addr1}
-                tel={preview.keyword_search_info.tel}
-                homepage={detail.common_info.homepage}
-              />
-            </div>
-            <div id="detail">
-              <DetailedInfo
-                contentTypeId={preview.contenttypeid}
-                introData={detail.intro_info}
-              />
-            </div>
-            {/* <CommentSection
-              targetId={review.review_id} //장소이름으로 
-              targetType="PLACE_REVIEW"
-              initialComments={comments}
-              currentUser={user}
-            /> */}
-          </Wrapper>
+              <Gallery images={images} />
+              <Header name={title} subtitle={sub_title} address={address} />
+              <Separator mt="2rem" mb="2rem" />
+              <SubTitle>{sub_title}</SubTitle>
+              <Padding1 />
+              <Content>{content}</Content>
+            </PlaceIntroPadding>
+          </PlaceInfoWrapper>
         </GridItem>
       </AppLayout>
     </BackGround>

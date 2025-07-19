@@ -1,22 +1,25 @@
-import { Wrapper, Title, Stars, Ratingnum } from "./Header.styles";
-import { getStarsIcons } from "@/components/Card";
+import { getStarsIcons } from '@/components/common/Rating/Rating';
+import { Wrapper, Title, Stars, Ratingnum , Adress} from "./Header.styles";
 import { Rating } from "@/components/Card.style";
 // import { HStack, Tag } from "@chakra-ui/react";
+import { IoLocationOutline } from "react-icons/io5";
 
 interface Props {
   name: string;
-  rating: number;
+  address:string;
   subtitle: string;
   // taglist: string[];
 }
 
-const Header = ({ name, rating, subtitle}: Props) => {
+const Header = ({ name, address, subtitle}: Props) => {
   return (
     <Wrapper>
-      <Title>
-        {name}
-        <span>{subtitle}</span>
-      </Title>
+      <Title>{name}</Title>
+      <Adress>
+        {" "}
+        <IoLocationOutline />
+        {address}
+      </Adress>
       {/* <HStack>
         {taglist.map((item) => {
           return (
@@ -33,8 +36,8 @@ const Header = ({ name, rating, subtitle}: Props) => {
           );
         })}
       </HStack> */}
-      
-      <Stars>
+
+      {/* <Stars>
         <Rating
           style={{
             fontSize: "1.4rem",
@@ -46,7 +49,7 @@ const Header = ({ name, rating, subtitle}: Props) => {
           {getStarsIcons(rating)}
         </Rating>
         <Ratingnum>{rating}</Ratingnum>
-      </Stars>
+      </Stars> */}
     </Wrapper>
   );
 };

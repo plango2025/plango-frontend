@@ -1,0 +1,40 @@
+ import { useNavigate } from "react-router-dom";
+import { KakaoBtn, KakaoLoginBtnWrapper, LoginBtn, LoginBtnWrapper } from './Buttons.styles';
+
+export const LoginButton = () => {
+    const navigate = useNavigate();
+    const handleLoginClick = () => {
+    navigate("/login");
+  };
+  return (
+    <LoginBtnWrapper>
+      <LoginBtn onClick={handleLoginClick} >
+        로그인
+      </LoginBtn>
+    </LoginBtnWrapper>
+  );
+}
+
+export const KakaoLoginBtn = ({ onClick }) => {
+  return (
+    <KakaoLoginBtnWrapper>
+      <KakaoBtn onClick={onClick}>
+        <svg
+          width="36"
+          height="34"
+          viewBox="0 0 36 34"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M18 0.199951C8.05835 0.199951 0 6.42587 0 14.1045C0 18.88 3.11681 23.0899 7.86305 25.5939L5.86606 32.8889C5.68962 33.5335 6.42683 34.0473 6.99293 33.6738L15.7467 27.8964C16.4854 27.9676 17.2362 28.0093 18 28.0093C27.9409 28.0093 35.9999 21.7836 35.9999 14.1045C35.9999 6.42587 27.9409 0.199951 18 0.199951"
+            fill="black"
+          />
+        </svg>
+       카카오 로그인
+      </KakaoBtn>
+    </KakaoLoginBtnWrapper>
+  );
+};
+

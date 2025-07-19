@@ -1,6 +1,6 @@
 // view/ScheduleListView.tsx
 import { GridItem } from "@chakra-ui/react";
-import { ButtonContainer, Wrapper } from "./ScheduleList.style";
+import { ButtonContainer, Wrapper, CardWrapper , GoFormBtn, LoginBtn} from "./ScheduleList.style";
 import AppLayout from "@/layout/AppLayout";
 import Card from "@/components/Card";
 import Header from "../components/Header";
@@ -19,13 +19,13 @@ const ScheduleListView = ({
       <AppLayout>
         <GridItem colSpan={12}>
           <ButtonContainer>
-            <button onClick={navigateToNewReview} className="add-button">
+            <GoFormBtn onClick={navigateToNewReview} className="add-button">
               리뷰 작성하기
-            </button>
-            <button onClick={handleCreateDummy}>임시 리뷰들들</button>
-            <button onClick={navigateToLogin} className="login-button">
+            </GoFormBtn>
+          
+            <LoginBtn onClick={navigateToLogin} className="login-button">
               로그인
-            </button>
+            </LoginBtn>
           </ButtonContainer>
         </GridItem>
 
@@ -35,13 +35,12 @@ const ScheduleListView = ({
             keyword={keyword}
             setKeyword={setKeyword}
           />
+          
+        <CardWrapper>{schdReviews.map((review) => (
+            <Card key={review.id} review={review} />
+        ))}</CardWrapper>
         </GridItem>
 
-        {schdReviews.map((review) => (
-          <GridItem  colSpan={3}>
-            <Card key={review.review_id} review={review} />
-          </GridItem>
-        ))}
       </AppLayout>
     </Wrapper>
   );

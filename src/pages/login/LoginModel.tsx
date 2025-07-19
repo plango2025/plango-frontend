@@ -32,7 +32,7 @@ class LoginModel {
     return {token}; //예시로 토큰만 반환
     
     }catch(err){
-      console.log(err)
+      console.error(err)
       throw err;
 
     }

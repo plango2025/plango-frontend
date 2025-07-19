@@ -20,7 +20,7 @@ export const Container = ({ children }: GridLayoutProps) => {
       gap="30px"
       width="74.625rem" // 1194px
       margin="0 auto"
-     minHeight="100vh"   
+     height="auto"   
    justifyItems="stretch"
       position="relative"
     >

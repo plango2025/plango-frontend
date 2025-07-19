@@ -14,8 +14,6 @@ export const List = styled.ul`
 
 export const Item = styled.li`
   list-style: none;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
 `;
 
@@ -33,7 +31,8 @@ export const Avatar = styled.img`
   object-fit: cover;
 `;
 
-export const UserInfo = styled.div``;
+export const UserInfo = styled.div`
+margin-left:1rem;`;
 
 export const UserName = styled.div`
   font-weight: bold;

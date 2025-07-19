@@ -9,7 +9,6 @@ import ScheduleListView from ".././view/ScheduleListView";
 const ScheduleListPresenter = () => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
-console.log(api)
   const [keyword, setKeyword] = useState("");
   const [schdReviews, setScheduleReviews] = useState([]);
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ console.log(api)
       keyword={keyword}
       setKeyword={setKeyword}
       handleSearch={() => loadReviews(keyword)}
-      navigateToNewReview={() => navigate("/schdReview/new")}
+      navigateToNewReview={() => navigate("/schdReviews/new")}
       handleCreateDummy={async () => {
         try {
           await createDummySchedule(api);

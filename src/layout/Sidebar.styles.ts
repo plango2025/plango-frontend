@@ -6,7 +6,7 @@ import { CONTAINER_WIDTH } from "./GridLayout";
 const LOGO_WIDTH = 4.5; // rem
 const LOGO_TOP_MARGIN = 2.938; // rem
 const ICON_WIDTH = 2.5; // rem
-const SIDEBAR_WIDTH = 8.25; // rem
+const SIDEBAR_WIDTH = 7; // rem
 const BREAKPOINT = CONTAINER_WIDTH + SIDEBAR_WIDTH; // rem
 
 export const SidebarContainer = styled.div`

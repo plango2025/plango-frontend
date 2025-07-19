@@ -1,19 +1,26 @@
-import { scheduleCardMocks } from "@/mocks/reviews";
 import ScheduleCard from "./ScheduleCard";
+import { FaCalendarCheck } from "react-icons/fa";
+
 import {
   ChooseSchedule,
   ScheduleList,
   SelectScheduleWrapper,
 } from "../view/ReviewForm.style";
 
-const ScheduleSelector = ({ setShowModal, selected, handleSelectSchedule }) => {
+const ScheduleSelector = ({
+  savedSchedules,
+  handleSelectSchedule,
+}) => {        
+  console.dir(savedSchedules)
+
   return (
     <SelectScheduleWrapper>
-      <ChooseSchedule>리뷰를 작성할 일정을 골라주세요</ChooseSchedule>
+      <ChooseSchedule><FaCalendarCheck />리뷰를 작성할 일정을 골라주세요</ChooseSchedule>
       <ScheduleList>
-        {scheduleCardMocks.map((schedule) => (
+        {savedSchedules.map((schedule) => (
+          
           <ScheduleCard
-            key={schedule.id}
+            key={schedule.schedule_id}
             {...schedule}
             onhandleSelect={() => handleSelectSchedule(schedule)}
           />

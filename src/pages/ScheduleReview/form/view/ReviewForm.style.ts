@@ -1,39 +1,90 @@
 // ReviewForm.style.ts
-import styled from "styled-components";
-export const ChooseSchedule = styled.p`
-  font-size: 24px;
+import styled, { keyframes } from "styled-components";
+
+export const TextBox = styled.textarea`
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 12px;
+  resize: none;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
 `;
+
+// 애니메이션 정의
+const slideDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 export const SelectScheduleWrapper = styled.div`
-  background-color: #ffffffff;
-  padding: 2rem;
+  animation: ${slideDown} 0.3s ease-out;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  z-index: 100;
+  border-bottom: 1px solid #ededed;
+`;
+
+export const ChooseSchedule = styled.h3`
+display:flex;
+gap: 0.5rem;
+align-item:center;
+text-align:center;
+line-height:1;
+  font-size: 20px;
+  margin-bottom: 12px;
+  padding-left:3rem;
+  padding-top:1rem;
+`;
+
+export const ScheduleList = styled.div`
+  display: flex;
+  padding: 0 2.3rem;
+  gap: 12px;
+  overflow-y: scroll;
+  margin-bottom: 1rem;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const SelectedScheduleTitle = styled.p`
   display: flex;
- 
+
   font-size: 24px;
+  font-weight:bold;
+
+
   color: #15bdb1;
   height: 100px;
   line-height: 100px;
   align-items: center;
   text-align: center;
+ 
+`;
+export const Rating = styled.div`
+  padding-top: 0.3rem;
+  padding-left: 0.6rem;
+
 `;
 export const Button = styled.button`
-display: flex;
-align-items: center;
-  width: 100px;
+  display: flex;
+  align-items: center;
   height: 4rem;
+  padding-right:1rem;
   background-color: white;
   color: #15bdb1;
   font-size: 30px;
 `;
-export const ScheduleList = styled.div`
-  width: 100%;
-  overflow: scroll auto;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
-  padding: 1rem;
-`;
+
 export const BackGround = styled.div`
   position: relative;
   box-sizing: border-box;
@@ -116,7 +167,7 @@ export const Bottom = styled.div`
   z-index: 1000; /* 필요 시 위로 띄움 */
 `;
 export const SidePadding = styled.div`
-  padding: 7rem 2rem;
+  padding: 2rem  2rem 7rem 2rem; 
   width: 100%;
 `;
 export const SubmitBtn = styled.button`

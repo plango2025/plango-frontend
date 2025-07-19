@@ -1,19 +1,22 @@
 import styled from "styled-components";
+export const Adress = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`;
 export const Wrapper = styled.header`
-  margin-top: 3rem;
-  margin-bottom: 2rem;
   font-weight: 700;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
 `;
 
 export const Title = styled.h1`
-  font-size: 3.2rem;
+  font-size: 30px;
   margin-bottom: 1rem;
   font-weight: 700;
-  display: flex;
-  flex-direction: column;
+  margin-top:2rem;
+
   span {
     padding-left: 2rem;
     color: #919294;

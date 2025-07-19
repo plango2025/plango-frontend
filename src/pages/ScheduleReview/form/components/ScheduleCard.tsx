@@ -1,36 +1,57 @@
 import styled from "styled-components";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoPerson } from "react-icons/io5";
+import { IoMdTime } from "react-icons/io";
+
 const CardWrapper = styled.div`
-min-width:400px;
+  margin: 1rem 0;
+  min-width: 200px;
   cursor: pointer;
   background-color: #ffffff;
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  min-height: 300px;
-  box-shadow: 3px 3px 3px 3px #969696;
+  border-radius: 7px;
+  min-height: 230px;
+  box-shadow: 2px 5px 5px 3px rgb(199, 199, 199);
 `;
 const Image = styled.img`
   width: 100%;
   max-height: 200px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius:7px 7px 0 0;
 `;
 const InfoWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  padding-left:1rem;
 `;
 const Title = styled.p`
   font-weight: 700;
-  font-size: 20px;
+  font-size: 14px;
   padding-top: 10px;
+  padding-bottom:0.4rem;
 `;
-const Info = styled.div``;
-const P = styled.p``;
+const Info = styled.div`
+  color: #919294;
+  display:flex;
+  flex-direction:column;
+  gap:0.2rem;
+`;
+const P = styled.p`
+font-size:12px;
+display:flex;
+justify-content:start;
+align-items: center;
+gap:0.2rem;
+
+`;
+const Bold = styled.span`
+padding-left:0.2rem;
+font-weight:bold;
+`
 export interface ScheduleCardProps {
   id: number;
-  imgUrl: string;
+  thumbnail_url: string;
   title: string;
   destination: string;
   duration: string;
@@ -39,7 +60,7 @@ export interface ScheduleCardProps {
 }
 const ScheduleCard = ({
   id,
-  imgUrl,
+  thumbnail_url,
   title,
   destination,
   duration,
@@ -48,13 +69,26 @@ const ScheduleCard = ({
 }: ScheduleCardProps) => {
   return (
     <CardWrapper onClick={() => onhandleSelect(title)}>
-      <Image src={imgUrl}></Image>
+      <Image src={thumbnail_url}></Image>
       <InfoWrapper>
         <Title>{title}</Title>
         <Info>
-          <P>{destination}</P>
-          <P>{duration}</P>
-          <P>{companion}</P>
+          <P>
+            <FaLocationDot />
+            <span>여행지</span>
+            <Bold>{destination}</Bold>
+          </P>
+          <P>
+            <IoMdTime />
+            <span>여행 기간</span>
+            <Bold> {duration} </Bold>
+          </P>
+          <P>
+            <IoPerson />
+            <span>동행자 </span>
+            <Bold>{companion}</Bold>
+
+          </P>
         </Info>
       </InfoWrapper>
     </CardWrapper>

@@ -20,14 +20,10 @@ const handleComplete = async () => {
       
     }
 
-    console.log("전송 전 travelPlan 확인:", travelPlan);
     const result = await sendTravelPlan(travelPlan); // ← 여기서 예외 가능성
-    console.log("여행 계획 전송 완료:", result);
 
     navigate('/scheduleResult', { state: { travelPlan } });
-    console.log("페이지 이동 시도");
   } catch (error) {
-    console.error("여행 계획 전송 실패:", error);
   }
 };
 
