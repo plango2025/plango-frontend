@@ -5,8 +5,9 @@ import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import { useMapContext } from "@/components/common/kakaomap/MapContext";
 import { useAccessToken } from "@/context/AccessTokenContext";
-import  { sendScheduleFeedback, pinPlaces} from "./scheduleSiderbarPresenter";
+//import  { sendScheduleFeedback, pinPlaces} from "./scheduleSiderbarPresenter";
 import { FaThumbtack } from "react-icons/fa";
+import { createApiWithToken, CustomAxiosRequestConfig } from '@/api/axiosInstance';
 
 
 
@@ -35,7 +36,8 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
   const [feedback, setFeedback] = useState("");
   // accessToken은 실제 로그인/인증에서 받아오는 값으로 대체하세요
   const { accessToken, setAccessToken } = useAccessToken();
-
+  const api = createApiWithToken(() => localStorage.getItem('accessToken'), () => {});
+  
   // Step 데이터 준비
   const stepItems = scheduleSidebarModel(scheduleResponse);
 
@@ -48,12 +50,28 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
     return;
   }
 
+  const pinPlaces = async (scheduleId: string, places: string[]) => {
+  const url = `/api/schedules/${scheduleId}/places/pin`;
+  const body = { places };
+
   try {
+    const response = await api.patch(url, body);
+    return response.data;
+  } catch (error) {
+    console.error("핀 저장 오류", error);
+    throw error;
+  }
+};
+
+
+
+  try {
+    
     // API 호출
     console.log("scheduleId" + scheduleId)
     console.log("accessToken:", accessToken);
     const updatedPlaces = [...pinnedPlaces, placeName];
-    await pinPlaces(scheduleId, updatedPlaces, accessToken);
+    await pinPlaces(scheduleId, updatedPlaces);
 
       // 상태 업데이트
       setPinnedPlaces(updatedPlaces);
@@ -66,11 +84,19 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
 const handleFeedbackClick = async () => {
   if (!scheduleId) return alert("스케줄 ID가 없습니다.");
   if (!feedback.trim()) return alert("피드백을 입력해주세요.");
-
+ const sendScheduleFeedback = async (scheduleId: string, feedback: string) => {
+  try {
+    const response = await api.post(`/api/schedules/${scheduleId}/feedback`, { feedback });
+    return response.data;
+  } catch (error) {
+    console.error("피드백 전송 실패:", error);
+    throw error;
+  }
+};
   try {
     console.log("scheduleId:", scheduleId);
     console.log("피드백:", feedback);
-    const result = await sendScheduleFeedback(scheduleId, feedback, accessToken);
+    const result = await sendScheduleFeedback(scheduleId, feedback);
     alert("피드백이 저장되었습니다!");
     setFeedback("");
     console.log("서버 응답:", result);

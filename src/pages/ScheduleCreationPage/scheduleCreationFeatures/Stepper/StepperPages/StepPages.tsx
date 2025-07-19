@@ -6,6 +6,7 @@ import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useAccessToken } from "@/context/AccessTokenContext"
 
 const step1CommonCheckboxLabels1 = [
   "가평",
@@ -25,11 +26,13 @@ const step1CommonCheckboxLabels1 = [
 // StepPage1 컴포넌트 선언
 const StepPage1 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
-
+  const { accessToken, setAccessToken } = useAccessToken();
+  console.log("accessToken" + accessToken);
    useEffect(() => {
     // extra가 없을 때만 초기값 설정
     if (!travelPlan.extra) {
       setTravelPlan((prev) => ({
+        
         ...prev,
       }));
     }
@@ -38,6 +41,7 @@ const StepPage1 = () => {
   // SearchBarPresenter에서 호출할 함수
   const handleSearch = (text: string) => {
     setTravelPlan((prev) => ({
+      
       ...prev,
       destination: text, // 원하는 키로 저장
     }));
@@ -73,6 +77,7 @@ const StepPage1 = () => {
         const isChecked = travelPlan.destination === label;
 
         return (
+          
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}

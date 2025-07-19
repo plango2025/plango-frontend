@@ -31,7 +31,7 @@ export const pinPlaces = async (
   places: string[],
   accessToken: string
 ) => {
-  const url = `/api/schedules/${scheduleId}/places/pin`;
+  const url = `${BASE_URL}/api/schedules/${scheduleId}/places/pin`;
   const body = { places };
 
   try {
