@@ -1,9 +1,10 @@
 // KakaoMap.tsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./kakaomap.css";
-import { useMapContext } from "./MapContext"; // 추가
+import { useMapContext } from "./MapContext";
+import { scheduleSidebarModel } from "@/components/common/scheduleSidebar/scheduleSidebarModel"; // 경로 맞게 수정 필요
 
 declare global {
   interface Window {
@@ -25,11 +26,15 @@ interface Place {
 const KakaoMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
-  const { setMap } = useMapContext(); // Context 사용
+  const { setMap } = useMapContext();
   const { scheduleResponse } = location.state || {};
-  const days = scheduleResponse?.schedule?.days || [];
 
   useEffect(() => {
+    if (!scheduleResponse) {
+      console.warn("scheduleResponse가 없습니다.");
+      return;
+    }
+
     const loadKakaoMap = () => {
       if (window.kakao && window.kakao.maps) {
         initializeMap();
@@ -50,22 +55,28 @@ const KakaoMap: React.FC = () => {
     const initializeMap = () => {
       if (!mapRef.current) return;
 
-      const allPlaces: Place[] = days.flatMap((day) => day.places) || [];
-      if (allPlaces.length === 0) return;
+      // scheduleSidebarModel 함수로 가공된 장소 리스트 받기
+      const stepItemsWithImages: Place[] =
+        scheduleSidebarModel(scheduleResponse);
 
-      const centerLat = allPlaces[0].latitude;
-      const centerLng = allPlaces[0].longitude;
+      if (!stepItemsWithImages || stepItemsWithImages.length === 0) {
+        console.warn("가공된 장소 목록이 없습니다.");
+        return;
+      }
+
+      const centerLat = stepItemsWithImages[0].latitude;
+      const centerLng = stepItemsWithImages[0].longitude;
 
       const mapInstance = new window.kakao.maps.Map(mapRef.current, {
         center: new window.kakao.maps.LatLng(centerLat, centerLng),
         level: 7,
       });
 
-      setMap(mapInstance); // <-- Context를 통해 전역 등록
+      setMap(mapInstance);
 
       let currentOverlay: any = null;
 
-      allPlaces.forEach((place) => {
+      stepItemsWithImages.forEach((place) => {
         const markerPosition = new window.kakao.maps.LatLng(
           place.latitude,
           place.longitude
@@ -93,13 +104,14 @@ const KakaoMap: React.FC = () => {
               </div>
               ${
                 place.imageUrl
-                  ? `<img src="${place.imageUrl}" alt="${place.name}" />`
-                  : ""
+                  ? `<img src="${place.imageUrl}" alt="${place.name}" onerror="this.style.display='none';" />`
+                  : `<div style="color: #aaa; font-style: italic;">이미지 없음</div>`
               }
               <div class="description">${place.description || "설명 없음"}</div>
               <p class="address">${place.address || ""}</p>
               <p class="phone">${place.phone || ""}</p>
               <div class="actions">
+                <button class="details-btn">상세보기</button>
                 <button onclick="window.open('https://map.kakao.com/link/to/${encodeURIComponent(
                   place.name
                 )},${place.latitude},${place.longitude}')">길찾기</button>
@@ -107,6 +119,12 @@ const KakaoMap: React.FC = () => {
               <div class="arrow"></div>
             </div>
           `;
+
+          content
+            .querySelector(".details-btn")
+            ?.addEventListener("click", () => {
+              window.location.href = `/place/${encodeURIComponent(place.name)}`;
+            });
 
           content.querySelector(".close-btn")?.addEventListener("click", () => {
             if (currentOverlay) currentOverlay.setMap(null);
@@ -126,7 +144,7 @@ const KakaoMap: React.FC = () => {
     };
 
     loadKakaoMap();
-  }, [days]);
+  }, [scheduleResponse, setMap]);
 
   return <div ref={mapRef} style={{ width: "100%", height: "100vh" }} />;
 };

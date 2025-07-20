@@ -11,6 +11,10 @@
     border-color: teal; // 선택된 상태에서 테두리 색상 변경
     background-color: teal;
     color: white;
+
+    .customCheckboxLabel {
+      color: white;
+    }
   }
 
   &:hover {
