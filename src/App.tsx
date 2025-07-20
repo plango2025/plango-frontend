@@ -27,7 +27,7 @@ function App() {
           {/* <Route path="/test" element={<MyEditor />}></Route> */}
           <Route path="/place/:keyword" element={<PlaceInfo />} />
           <Route path="/schdReviews" element={<ScheduleListPresenter />}></Route>
-          <Route path="/schdReview/new" element={<ReviewForm />} />
+          <Route path="/schdReviews/new" element={<ReviewForm />} />
           <Route path="/schdReviews/:id" element={<ReviewDetailPage />} />
           <Route path="/myPageView" element={<MyPageView />} />
           {/* <Route path="/test" element={<ReviewTestPage/>} /> */}

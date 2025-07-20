@@ -17,6 +17,7 @@ import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 // }
 export const fetchSavedSchedules = async (api) => {
   const res = await api.get("/schedules", { requiresAuth: true });
+  console.log("저장된 일정들:", res.data.schedules);
   return res.data.schedules;
 };
 //더미일정만들기

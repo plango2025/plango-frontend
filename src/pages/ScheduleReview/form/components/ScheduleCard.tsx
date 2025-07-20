@@ -5,7 +5,8 @@ import { IoMdTime } from "react-icons/io";
 
 const CardWrapper = styled.div`
   margin: 1rem 0;
-  min-width: 200px;
+  max-width: 240px;
+  max-height: 300px;
   cursor: pointer;
   background-color: #ffffff;
   width: 100%;

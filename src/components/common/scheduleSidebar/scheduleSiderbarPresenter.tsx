@@ -1,3 +1,4 @@
+import { CustomAxiosRequestConfig } from '@/api/axiosInstance';
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8000"; // ✅ 서버 주소 명시
@@ -7,16 +8,12 @@ export const sendScheduleFeedback = async (
   feedback: string,
   accessToken: string
 ) => {
+ 
   try {
-    const response = await axios.post(
+    const response = await axios.patch(
       `${BASE_URL}/api/schedules/${scheduleId}/feedback`, // ✅ 절대 경로로 수정
       { feedback },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
+      { requiresAuth: true } as CustomAxiosRequestConfig
     );
 
     return response.data;

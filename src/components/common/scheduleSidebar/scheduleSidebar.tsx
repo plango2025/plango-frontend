@@ -8,8 +8,8 @@ import { useAccessToken } from "@/context/AccessTokenContext";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa";
 
-import pin from "@assets/images/icons/scheduleCreation/pin.png";
-import emptypin from "@assets/images/icons/scheduleCreation/empty_pin.png";
+import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
+import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
 //import  { sendScheduleFeedback, pinPlaces} from "./scheduleSiderbarPresenter";
 import { FaThumbtack } from "react-icons/fa";
 import { createApiWithToken, CustomAxiosRequestConfig } from '@/api/axiosInstance';
@@ -74,9 +74,13 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
   const pinPlaces = async (scheduleId: string, places: string[]) => {
   const url = `/schedules/${scheduleId}/places/pin`;
   const body = { places };
-
+//  {},
+//         { requiresAuth: true } as CustomAxiosRequestConfig
+//       );
   try {
-    const response = await api.patch(url, body);
+    const response = await api.patch(url, body, {
+      requiresAuth: true
+    } as CustomAxiosRequestConfig);
     return response.data;
   } catch (error) {
     console.error("핀 저장 오류", error);
