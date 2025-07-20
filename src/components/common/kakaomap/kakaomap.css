@@ -1,0 +1,105 @@
+.custom-overlay {
+  position: relative;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 280px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+}
+
+.custom-info-window {
+  padding: 15px 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.custom-info-window .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.custom-info-window h3 {
+  font-size: 18px;
+  color: #d6336c;
+  margin: 0;
+  font-weight: 700;
+  flex-grow: 1;
+}
+
+.custom-info-window .close-btn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #d6336c;
+  transition: color 0.2s ease;
+}
+
+.custom-info-window .close-btn:hover {
+  color: #9a2545;
+}
+
+.custom-info-window img {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(214, 51, 108, 0.25);
+}
+
+.custom-info-window .description {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 80px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.custom-info-window .address,
+.custom-info-window .phone {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.custom-info-window .actions {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.custom-info-window .actions button {
+  background-color: #d6336c;
+  border: none;
+  border-radius: 14px;
+  padding: 8px 14px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.custom-info-window .actions button:hover {
+  background-color: #b22755;
+}
+
+.custom-info-window .arrow {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 14px solid white;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
