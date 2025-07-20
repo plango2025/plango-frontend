@@ -1,6 +1,7 @@
 import { Tabs } from "@chakra-ui/react"
-import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu"
+import { LuFolder,  LuUser } from "react-icons/lu"
 import styles from "./Tap.module.scss"
+import { LuSquareCheck } from "react-icons/lu";
 
 const Tap = ({ page1, page2, page3 }) => {
   return (

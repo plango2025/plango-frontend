@@ -33,6 +33,7 @@
 }
 
 .layout2Division{ 
+  width: 100%;
   min-height: 50rem;
   display: flex;
   flex: 1;
@@ -127,6 +128,7 @@
 
 
 .buttonLayout {
+  
   display: flex;
     justify-content: center; /* 위쪽에 정렬 */
   text-align: center;
