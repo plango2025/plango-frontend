@@ -16,7 +16,7 @@ const CardWrapper = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
-  max-height: 200px;
+  height: 120px;
   object-fit: cover;
   border-radius:7px 7px 0 0;
 `;

@@ -22,15 +22,12 @@ const CommonSlider: React.FC<CommonSliderProps> = ({ onValueChange }) => {
       value={[value]}
       step={10}
       size="lg"
-      colorPalette="teal"
       onValueChange={handleValueChange}
     >
-      <div>
-
-      </div>
+      <div></div>
       <Slider.Control>
         <Slider.Track>
-          <Slider.Range />
+          <Slider.Range style={{ backgroundColor: "#15bdb1" }} />
         </Slider.Track>
         <Slider.Thumbs />
       </Slider.Control>

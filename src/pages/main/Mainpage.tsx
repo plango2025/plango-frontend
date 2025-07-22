@@ -16,11 +16,13 @@ import {
 } from "./Main.style";
 import LoginBtn from "@/components/common/loginBtn/LoginBtn"
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function MainPage() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
 const TOTAL_SECTIONS = 5;
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {

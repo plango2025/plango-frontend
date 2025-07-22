@@ -35,7 +35,7 @@ flex-direction: column;
 `
 
 export const Text= styled.p`
-font-size: 20px;
+font-size: 22px;
 `
 
 export const StartBtn = styled.button`

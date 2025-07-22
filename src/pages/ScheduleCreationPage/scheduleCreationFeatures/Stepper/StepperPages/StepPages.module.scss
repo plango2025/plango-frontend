@@ -11,7 +11,7 @@
 }
 
 .searchBarContainerSp1 {
-  width: 85%;
+  width: 80%;
   margin-top: 50px;
 }
 
@@ -90,6 +90,7 @@
 }
 
 .searchBarContainerSp4 {
+  width: 60%;
   margin-top: 50px;
 }
 
@@ -111,6 +112,7 @@
 }
 
 .searchBarContainerSp5 {
+  width: 60%;
   margin-top: 50px;
 }
 
@@ -166,7 +168,7 @@
 }
 
 .saveButton {
-  background-color: $btn-hover;
+  background-color: #15bdb1;
   color: white;
   border: none;
   border-radius: 25px;
@@ -176,7 +178,7 @@
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: $icons;
+    background-color: #15bdb1;
   }
 }
 

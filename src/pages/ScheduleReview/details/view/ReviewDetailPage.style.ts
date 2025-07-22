@@ -106,30 +106,28 @@ export const CommentSection = styled.div`
   flex-direction: column;
 `;
 export const InputWrap = styled.div`
-
   border-radius: 40px;
   width: 100%;
- 
   display: flex;
-  justify-content:space-between;
-  border:1px solid #C5C5C5;
+  background-color: #edededff;
 
-  
+  justify-content: space-between;
+  /* border:1px solid #d6d6d6ff; */
 `;
 export const CommentInput = styled.input`
   width: 100%;
+  background-color: #edededff;
 
   height: 3rem;
   padding: 2rem;
-  border-radius:40px 0  0  40px;
+  border-radius: 40px 0 0 40px;
   font-size: 18px;
   outline: none;
- 
 `;
 export const CommentSubmitBtn = styled.button`
-width:8rem;
-
-  border-radius: 20px ;
+width:7rem;
+font-size: 18px;
+  border-radius: 40px ;
   background-color:#15BDB1;
   color:white;
   :focus{

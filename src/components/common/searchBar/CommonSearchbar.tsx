@@ -21,7 +21,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   const [inputText, setInputText] = useState("");
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
-
+  const cache = useRef<Record<string, LocationSuggestion[]>>({});
   // 자동완성용 API 호출
   useEffect(() => {
     if (mode !== "autocomplete") return;
@@ -31,37 +31,67 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
     }
 
     const debounceTimeout = setTimeout(() => {
+      const keyword = inputText.trim();
+
+      // 1. 캐시에 값이 있으면 바로 사용하고 return
+      if (cache.current[keyword]) {
+        setSuggestions(cache.current[keyword]);
+        return;
+      }
+
+      // 2. 캐시에 없으면 API 요청
       abortControllerRef.current?.abort();
       const controller = new AbortController();
       abortControllerRef.current = controller;
 
       axios
         .get(`${BASE_URL}/api/locations`, {
-          params: { keyword: inputText },
+          params: { keyword },
           signal: controller.signal,
         })
         .then((res) => {
-          console.log("API 응답 content:", res.data.content);
-          setSuggestions(res.data.content ?? []);
+          const result = res.data.content ?? [];
+          setSuggestions(result);
+
+          // 3. 캐시에 저장
+          cache.current[keyword] = result;
         })
         .catch((err) => {
           if (err.name !== "CanceledError" && err.name !== "AbortError") {
             console.error(err);
           }
         });
-    }, 300);
+    }, 700); // 디바운스 시간도 조금 늘려주면 더 안정적
 
     return () => clearTimeout(debounceTimeout);
   }, [inputText, mode]);
 
   // 검색 실행 (공통)
   const triggerSearch = (place_name: string) => {
-    console.log("triggerSearch 호출, place_name:", place_name); // 로그 추가
+    console.log("triggerSearch 호출, place_name:", place_name);
+
     setInputText(place_name);
-    setTravelPlan((prev) => ({
-      ...prev,
-      required_places: [{ name: place_name , address: "" }],
-    }));
+
+    setTravelPlan((prev) => {
+      if (mode === "button") {
+        return {
+          ...prev,
+          required_places: [{ name: place_name, address: "" }],
+        };
+      } else if (mode === "button4") {
+        return {
+          ...prev,
+          companion: place_name,
+        };
+      } else if (mode === "button5") {
+        return {
+          ...prev,
+          style: place_name,
+        };
+      }
+      return prev;
+    });
+
     if (onSearch) onSearch(place_name);
   };
 
@@ -79,41 +109,57 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   };
   return (
     <div className={styles.bodylayout}>
-  <div className={styles.searchBar}>
-    <input
-      type="text"
-      value={inputText ?? ""}
-      onChange={(e) => setInputText(e.target.value)}
-      onKeyDown={handleKeyDown}
-      className={styles.input}
-      placeholder="검색어를 입력하세요"
-    />
-    {mode === "button" && (
-      <button
-        onClick={() => triggerSearch(inputText)}
-        className={styles.button}
-      >
-        장소추가
-      </button>
-    )}
-  </div>
-
-  {mode === "autocomplete" &&
-    Array.isArray(suggestions) &&
-    suggestions.length > 0 && (
-      <ul className={styles.suggestionList}>
-        {suggestions.map((s) => (
-          <li
-            key={s.id}
-            onClick={() => handleSuggestionClick(s)}
-            className={styles.suggestionItem}
+      <div className={styles.searchBar}>
+        <input
+          type="text"
+          value={inputText ?? ""}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className={styles.input}
+          placeholder="검색어를 입력하세요"
+        />
+        {mode === "button" && (
+          <button
+            onClick={() => triggerSearch(inputText)}
+            className={styles.button}
           >
-            {s.place_name}
-          </li>
-        ))}
-      </ul>
-    )}
-</div>
+            장소추가
+          </button>
+        )}
+        {mode === "button4" && (
+          <button
+            onClick={() => triggerSearch(inputText)}
+            className={styles.button}
+          >
+            장소추가
+          </button>
+        )}
+        {mode === "button5" && (
+          <button
+            onClick={() => triggerSearch(inputText)}
+            className={styles.button}
+          >
+            장소추가
+          </button>
+        )}
+      </div>
+
+      {mode === "autocomplete" &&
+        Array.isArray(suggestions) &&
+        suggestions.length > 0 && (
+          <ul className={styles.suggestionList}>
+            {suggestions.map((s) => (
+              <li
+                key={s.id}
+                onClick={() => handleSuggestionClick(s)}
+                className={styles.suggestionItem}
+              >
+                {s.place_name}
+              </li>
+            ))}
+          </ul>
+        )}
+    </div>
   );
 };
 

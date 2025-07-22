@@ -1,12 +1,11 @@
 import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar";
 import styles from "./StepPages.module.scss";
 import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
-import CardView from "../../components/card/CardView";
 import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useAccessToken } from "@/context/AccessTokenContext"
+import { useAccessToken } from "@/context/AccessTokenContext";
 
 const step1CommonCheckboxLabels1 = [
   "가평",
@@ -28,11 +27,10 @@ const StepPage1 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
   const { accessToken, setAccessToken } = useAccessToken();
   console.log("accessToken" + accessToken);
-   useEffect(() => {
+  useEffect(() => {
     // extra가 없을 때만 초기값 설정
     if (!travelPlan.extra) {
       setTravelPlan((prev) => ({
-        
         ...prev,
       }));
     }
@@ -41,7 +39,6 @@ const StepPage1 = () => {
   // SearchBarPresenter에서 호출할 함수
   const handleSearch = (text: string) => {
     setTravelPlan((prev) => ({
-      
       ...prev,
       destination: text, // 원하는 키로 저장
     }));
@@ -77,7 +74,6 @@ const StepPage1 = () => {
         const isChecked = travelPlan.destination === label;
 
         return (
-          
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
@@ -109,21 +105,17 @@ const StepPage2 = () => {
 
   return (
     <div className={styles.containerSp2}>
-        <div className={styles.containerSp2_85}>
-          <SearchBarPresenter mode="autocomplete" />
+      <div className={styles.containerSp2_85}>
+        <SearchBarPresenter mode="autocomplete" />
         {selectedPlace ? (
           <ul>
             <li>{selectedPlace}</li>
           </ul>
         ) : (
-          <ul>
-            
-          </ul>
+          <ul></ul>
         )}
       </div>
-        </div>
-        
-
+    </div>
   );
 };
 
@@ -221,7 +213,7 @@ const step4CommonCheckboxLabels = [
   "배우자와",
   "MT",
   "회사 워크숍",
-  "기타타",
+  "기타",
 ];
 
 const StepPage4 = () => {
@@ -275,9 +267,11 @@ const StepPage4 = () => {
         <div className={styles.gridSp3}>{checkboxes}</div>
       </div>
 
-      <div className={styles.searchBarContainerSp4}>
-        <SearchBarPresenter mode="button" />
-      </div>
+      {travelPlan.companion === "기타" && (
+        <div className={styles.searchBarContainerSp4}>
+          <SearchBarPresenter mode="button4" />
+        </div>
+      )}
     </div>
   );
 };
@@ -292,8 +286,8 @@ const step5CommonCheckboxLabels = [
   "도시 감성 한가득",
   "쇼핑 플렉스",
   "자연과 함께",
-  "기타",
-  "기타",
+  "문화 체험",
+  "야경 감상",
   "기타",
 ];
 
@@ -348,9 +342,16 @@ const StepPage5 = () => {
         <div className={styles.gridSp3}>{checkboxes}</div>
       </div>
 
-      <div className={styles.searchBarContainerSp5}>
-        <SearchBarPresenter mode="button" />
-      </div>
+      {travelPlan.style === "기타" && (
+        <div className={styles.searchBarContainerSp5}>
+          <SearchBarPresenter
+            mode="button5"
+            onSearch={(text) => {
+              setTravelPlan((prev) => ({ ...prev, style: text }));
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -359,7 +360,6 @@ const step6CommonCheckboxLabels = [
   "적당한 일정 (하루 2-3곳)",
   "빽빽한 일정 (하루 3-4곳)",
   "강행군 (하루 5곳 이상)",
-
 ];
 
 // 문자열에서 하루 방문 예상 장소 수를 숫자 형태로 파싱하는 함수
@@ -430,8 +430,6 @@ const StepPage6 = () => {
       <div className={styles.checkboxesContainerSp6}>
         <div className={styles.gridSp3}>{checkboxes}</div>
       </div>
-
- 
     </div>
   );
 };
@@ -457,18 +455,20 @@ const StepPage7 = () => {
   };
 
   return (
-  <div className={styles.containerSp1}>
-    <div className={styles.CommonSliderContainerSp7}>
-      <CommonSlider onValueChange={handleSliderValueChange} />
-      <div className={styles.budgetInfo}>
-        <span>현재 예산: <strong>{sliderValue} 만원</strong></span>
+    <div className={styles.containerSp1}>
+      <div className={styles.CommonSliderContainerSp7}>
+        <CommonSlider onValueChange={handleSliderValueChange} />
+        <div className={styles.budgetInfo}>
+          <span>
+            현재 예산: <strong>{sliderValue} 만원</strong>
+          </span>
+        </div>
+        <button className={styles.saveButton} onClick={handleSave}>
+          예산 저장
+        </button>
       </div>
-      <button className={styles.saveButton} onClick={handleSave}>
-        예산 저장
-      </button>
     </div>
-  </div>
-);
+  );
 };
 
 export default StepPage7;
@@ -495,7 +495,6 @@ const StepPage8 = () => {
     </div>
   );
 };
-
 
 export const StepPages = {
   StepPage1,
