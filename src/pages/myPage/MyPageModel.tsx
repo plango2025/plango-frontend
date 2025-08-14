@@ -1,23 +1,21 @@
-// components/ProfileModel.ts
-export default class MyPageModel {
-  private imageSrc: string;
+// models/UserModel.ts
+export interface UserProfile {
+  id: string;
+  nickname: string;
+  profile_image: string;
+}
+const BASE_URL = "http://localhost:8000"; // ✅ 서버 주소 명시
 
-  constructor() {
-    this.imageSrc = 'default-profile.png';
-  }
+export async function fetchUserProfile(): Promise<UserProfile> {
+  const token = localStorage.getItem("accessToken");
+  if (!token) throw new Error("토큰이 없습니다.");
 
-  public getImage(): string {
-    return this.imageSrc;
-  }
+  const res = await fetch(`${BASE_URL}/api/users/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  public setImage(file: File, callback: (src: string) => void): void {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        this.imageSrc = e.target.result as string;
-        callback(this.imageSrc);
-      }
-    };
-    reader.readAsDataURL(file);
-  }
+  if (!res.ok) throw new Error("서버 오류");
+  return res.json();
 }

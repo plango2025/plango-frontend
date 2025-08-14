@@ -1,28 +1,18 @@
-// components/ProfilePresenter.ts
+import React, { useEffect, useState } from "react";
+import { fetchUserProfile, UserProfile } from "./MyPageModel";
+import MyPageView from "./MyPageView";
 
-import ProfileModel from './ProfileModel';
+export const UserProfilePresenter: React.FC = () => {
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
-export interface MyPageInterface {
-  updateImage: (src: string) => void;
-  openFileDialog: () => void;
-}
+  useEffect(() => {
+    fetchUserProfile()
+      .then(setUser)
+      .catch(() => setError("사용자 정보를 불러올 수 없습니다."))
+      .finally(() => setLoading(false));
+  }, []);
 
-export default class MyPagePresenter {
-  private view: MyPageInterface;
-  private model: ProfileModel;
-
-  constructor(view: MyPageInterface, model: ProfileModel) {
-    this.view = view;
-    this.model = model;
-  }
-
-  public onImageSelected(file: File): void {
-    this.model.setImage(file, (src) => {
-      this.view.updateImage(src);
-    });
-  }
-
-  public onClickCameraButton(): void {
-    this.view.openFileDialog();
-  }
-}
+  return <MyPageView user={user} loading={loading} error={error} />;
+};
