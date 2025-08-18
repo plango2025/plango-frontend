@@ -14,15 +14,13 @@ export const fetchReviews = async (api, searchKeyword = "") => {
     params,
     requiresAuth: false,
   });
-
+console.log("fetchReviews response:", response.data);
   return response.data;
 };
+
+
 export const createDummySchedule = async (api: any) => {
-  return api.post(
-    "/schedules/dummy-create",
-    {},
-    {
-      requiresAuth: false,
-    } as CustomAxiosRequestConfig
-  );
+  return api.post("/schedules/dummy-create", {}, {
+    requiresAuth: false,
+  } as CustomAxiosRequestConfig);
 };

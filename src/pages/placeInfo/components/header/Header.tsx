@@ -1,17 +1,17 @@
-import { getStarsIcons } from '@/components/common/Rating/Rating';
-import { Wrapper, Title, Stars, Ratingnum , Adress} from "./Header.styles";
-import { Rating } from "@/components/Card.style";
+import { getStarsIcons } from "@/components/common/Rating/Rating";
+import { Wrapper, Title, Stars, Ratingnum, Adress } from "./Header.styles";
+import { Rating } from "@/components/common/card/Card.style";
 // import { HStack, Tag } from "@chakra-ui/react";
 import { IoLocationOutline } from "react-icons/io5";
 
 interface Props {
   name: string;
-  address:string;
+  address: string;
   subtitle: string;
   // taglist: string[];
 }
 
-const Header = ({ name, address, subtitle}: Props) => {
+const Header = ({ name, address, subtitle }: Props) => {
   return (
     <Wrapper>
       <Title>{name}</Title>

@@ -25,6 +25,7 @@ const ReviewDetailPage = () => {
     handleScheduleClick,
   } = useReviewDetailPresenter(id);
 
+  console.dir(review)
   if (!review || !user) return <div>로딩 중...</div>;
 
   return (

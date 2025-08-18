@@ -22,7 +22,6 @@ import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
 const PlaceInfo = () => {
   const { keyword } = useParams();
   const navigate = useNavigate();
-
   const { placeIntro, loading, searchPlace } = usePlaceSearch();
 
   useEffect(() => {
@@ -32,11 +31,7 @@ const PlaceInfo = () => {
   }, [keyword]);
 
   const handleBack = () => {
-    const isExternal =
-      document.referrer === "" ||
-      !document.referrer.startsWith(window.location.origin);
-    if (isExternal) navigate("/schedule/create");
-    else navigate(-1);
+  navigate(-1);
   };
 
   if (loading || !placeIntro) {
@@ -61,7 +56,9 @@ const PlaceInfo = () => {
               <Separator mt="2rem" mb="2rem" />
               <SubTitle>{sub_title}</SubTitle>
               <Padding1 />
-              <Content>{content}</Content>
+              <Content>
+                <div dangerouslySetInnerHTML={{ __html: content }} />
+              </Content>
             </PlaceIntroPadding>
           </PlaceInfoWrapper>
         </GridItem>

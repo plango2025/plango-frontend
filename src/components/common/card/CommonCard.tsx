@@ -1,4 +1,4 @@
-import { Button, Card, Image, Text } from "@chakra-ui/react"
+import {  Card, Image } from "@chakra-ui/react"
 import styles from "./CommonCard.module.scss"
 import { CiBookmark } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa";

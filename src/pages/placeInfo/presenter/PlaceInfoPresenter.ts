@@ -21,7 +21,7 @@ export const usePlaceSearch = () => {
       setLoading(false);
     },
     [accessToken]
-  ); // 혹은 []로 비워도 되고, 필요시 token만
+  ); 
 
   return { placeIntro, loading, searchPlace };
 };

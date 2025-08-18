@@ -16,7 +16,7 @@ import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 //   ]
 // }
 export const fetchSavedSchedules = async (api) => {
-  const res = await api.get("/schedules", { requiresAuth: true });
+  const res = await api.get("/users/schedules", { requiresAuth: true });
   console.log("저장된 일정들:", res.data.schedules);
   return res.data.schedules;
 };
@@ -34,15 +34,13 @@ console.dir(files);
   for (const file of files) {
     const formData = new FormData();
     formData.append("files", file); // 단일 파일
-    console.dir("폼 데이터", formData);
     const res = await api.post("/files", formData, {
       responseType: "text",
       requiresAuth: true,
       withCredentials: true,
     });
-    console.dir(res.data);
     const parsed = JSON.parse(res.data);
-
+    console.dir(parsed);
     urls.push(...parsed.file_urls); // 서버는 단일 URL 반환
   }
 

@@ -1,47 +1,43 @@
 import { GridItem } from "@chakra-ui/react";
 import AppLayout from "@/layout/AppLayout";
+
 import {
   Image,
   StartBtn,
   PlaneIcon,
   Section,
-   LoginBtnWrapper,
+  LoginBtnWrapper,
   Text,
   TextContainer,
   Logo,
   LogoTitle,
   Wrapper,
   Wrap,
-  Bold
+  Bold,
 } from "./Main.style";
-import LoginBtn from "@/components/common/loginBtn/LoginBtn"
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import LoginBtn from "@/components/common/loginBtn/LoginBtn";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAccessToken } from "@/context/AccessTokenContext";
+import { createApiWithToken } from "@/api/axiosInstance";
+import { AuthContext } from "@/context/AuthContext";
+import { PaddingMd } from '@/components/common/padding/padding';
 
 export default function MainPage() {
+  const logInfo = useContext(AuthContext);
+
+  const { accessToken, setAccessToken } = useAccessToken();
+  const api = createApiWithToken(() => accessToken, setAccessToken);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-const TOTAL_SECTIONS = 5;
+  const TOTAL_SECTIONS = 5;
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
+     logInfo?.refreshUser();
 
-      setPage((prev) => {
-        let next = prev;
-        if (e.deltaY > 0) next++;
-        if (e.deltaY < 0) next--;
-        if (next < 0) next = 0;
-        if (next > TOTAL_SECTIONS - 1) next = TOTAL_SECTIONS - 1;
-        return next;
-      });
-    };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
   }, []);
-
   useEffect(() => {
     if (wrapperRef.current) {
       wrapperRef.current.style.top = `${-page * 100}vh`;
@@ -56,14 +52,22 @@ const TOTAL_SECTIONS = 5;
             ref={wrapperRef}
             style={{ height: `${TOTAL_SECTIONS * 100}vh` }}
           >
-            <LoginBtnWrapper><LoginBtn/>
+            <LoginBtnWrapper>
+              {logInfo?.isLoggedIn ? (
+                <>
+                  <button>로그아웃</button>
+                  <br/><p>{logInfo?.user?.nickname}님, 안녕하세요!</p>
+                </>
+              ) : (
+                <LoginBtn />
+              )}
             </LoginBtnWrapper>
-            
+
             <Section>
               <TextContainer>
                 <Text>여행 계획? 이제 클릭 한 번으로 끝!</Text>
                 <Logo>
-                  <LogoTitle>Plango</LogoTitle>
+                  <LogoTitle>Plango </LogoTitle>
                   <PlaneIcon
                     src="src/assets/images/icons/plane.png"
                     alt="plane"

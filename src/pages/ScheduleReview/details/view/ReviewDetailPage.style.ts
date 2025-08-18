@@ -104,9 +104,13 @@ export const CommentSection = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 export const InputWrap = styled.div`
   border-radius: 40px;
+
+  
+  bottom: 0;
   width: 100%;
   display: flex;
   background-color: #edededff;

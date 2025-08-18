@@ -22,7 +22,7 @@ api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
 
   if (needsAuth && config.headers) {
     let token = getAccessToken();
-
+console.log(token)
     if (!token) {
       // 이미 리프레시 중이면 해당 promise를 기다림
       if (!refreshingPromise) {
@@ -38,6 +38,7 @@ api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
             }
           )
           .then((res) => {
+            console.log(res)
             const newToken = res.headers["authorization"]?.replace(
               "Bearer ",
               ""
