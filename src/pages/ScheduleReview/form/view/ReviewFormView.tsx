@@ -33,8 +33,8 @@ const ReviewFormView = ({
   handleSelectSchedule,
   handleSubmit,
 }) => {
+ 
   const textareaRef = useRef(null);
-
   const handleResizeHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -63,7 +63,7 @@ const ReviewFormView = ({
             )}
 
             <SidePadding>
-              {!showModal && (
+              {!showModal && savedSchedules && (
                 <SelectedScheduleTitle>
                   <Button onClick={() => setShowModal(true)}>
                     <FaExchangeAlt />
@@ -83,7 +83,7 @@ const ReviewFormView = ({
                 <ImageUploader files={imageFiles} onChange={setImageFiles} />
               </AutoCenter>
               <Rating>
-                <RatingGroup.Root 
+                <RatingGroup.Root
                   value={reviewData.rating}
                   onValueChange={(e) =>
                     setReviewData({ ...reviewData, rating: e.value ?? 0 })
@@ -91,9 +91,7 @@ const ReviewFormView = ({
                   count={5}
                 >
                   <RatingGroup.HiddenInput />
-                  <RatingGroup.Control
-                  
-                  />
+                  <RatingGroup.Control />
                 </RatingGroup.Root>
               </Rating>
               <PaddingMd />

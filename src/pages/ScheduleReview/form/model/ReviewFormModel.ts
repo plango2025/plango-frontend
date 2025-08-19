@@ -2,23 +2,13 @@
 
 import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 
-// {
-//   "schedules": [
-//     {
-//       "schedule_id": "abc123",
-//       "title": "부산 여행",
-//       "destination": "부산",
-//       "duration": "2일",
-//       "created_at": "2025-07-13",
-//       "thumbnail_url": "https://some-image-url.jpg"
-//     },
-//     ...
-//   ]
-// }
-export const fetchSavedSchedules = async (api) => {
-  const res = await api.get("/users/schedules", { requiresAuth: true });
-  console.log("저장된 일정들:", res.data.schedules);
-  return res.data.schedules;
+
+export const fetchSchedules = async ({pageParam=null},  api) => {
+  const res = await api.get("/users/schedules", {
+    params: { cursor: pageParam },
+    requiresAuth: true,
+  });
+  return res.data; // { items, next_cursor, has_more }
 };
 //더미일정만들기
 export const createDummySchedule = async (api) => {

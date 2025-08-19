@@ -11,7 +11,7 @@ const ScheduleSelector = ({
   savedSchedules,
   handleSelectSchedule,
 }) => {        
-  console.dir(savedSchedules)
+  console.dir("하이~~", savedSchedules)
 
   return (
     <SelectScheduleWrapper>
