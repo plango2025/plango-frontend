@@ -1,10 +1,12 @@
 // mypageview.tsx
-import React from "react";
+import React, { useState } from "react";
 import CommonSidebar from "@/components/common/sidebar/CommonSidebar";
 import styles from "./myPage.module.scss";
 import Tap from "./tap/Tap";
 import { Page1, Page2, Page3 } from "./tapPages/TapPagesView";
 import { UserProfile } from "./MyPageModel";
+import { LuPencil } from "react-icons/lu"; // Import the pen icon
+import MyPageEditModal from "./MyPageEditModal"; // Import the new modal component
 
 interface Props {
   user: UserProfile | null;
@@ -13,6 +15,19 @@ interface Props {
 }
 
 const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
+  // State to manage the visibility of the pop-up
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Function to open the pop-up
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the pop-up
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   // ✅ 렌더링 순서를 변경하여 error를 먼저 처리
   if (loading) {
     return <div>로딩중...</div>;
@@ -41,7 +56,16 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
-                />
+                ></div>
+                {/* Pen icon for editing */}
+                <button
+              
+                  onClick={handleEditClick}
+                  className={styles.editButton}
+                  aria-label="Edit Profile"
+                >
+                  <LuPencil />
+                </button>
                 <div className={styles.myLayout__textarea1}>
                   <div className={styles.myLayout__textarea1__name}>
                     {user.nickname}
@@ -58,15 +82,29 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
                 </div>
               </div>
               <div className={styles.myLayout__myLayout2}>
-                <div className={styles.myLayout__textarea2}>{user.about}</div>
+                <div className={styles.myLayout__textarea2}>
+                  <div>
+                    <text className={styles.about}>About me</text>
+                    <div>
+                      {user.about}
+                    </div>
+                  </div>
+                  </div>
               </div>
             </div>
           </div>
           <div className={styles.tapLayout}>
-            <Tap page1={<Page1 />} page2={<Page2 />} page3={<Page3 />} />
+            <Tap section1={<Page1 />} section2={<Page2 />} section3={<Page3 />} section4={<Page1 />} section5={<Page2 />} section6={<Page3 />} />
           </div>
         </div>
       </main>
+
+      {/* Pop-up Modal Component */}
+      <MyPageEditModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        user={user}
+      />
     </div>
   );
 };

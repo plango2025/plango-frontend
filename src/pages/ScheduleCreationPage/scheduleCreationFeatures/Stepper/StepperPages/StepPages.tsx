@@ -212,6 +212,7 @@ const StepPage4 = () => {
 
   // 단일 선택만 가능하도록 수정
   const handleCheckboxClick = (label: string, checked: boolean) => {
+
     setTravelPlan((prev) => {
       if (prev.companion === label) {
         return {

@@ -1,5 +1,7 @@
-
 .pageContainer {
-    display: flex;
-    
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 300px; // 화면 안 뜨는 경우 높이 확보
 }
