@@ -36,15 +36,6 @@ const StepPage1 = () => {
     }
   }, []);
 
-  // SearchBarPresenter에서 호출할 함수
-  const handleSearch = (text: string) => {
-    setTravelPlan((prev) => ({
-      ...prev,
-      destination: text, // 원하는 키로 저장
-    }));
-    console.log("StepPage1 검색어 저장:", text);
-  };
-
   const handleCheckboxClick = (label: string, checked: boolean) => {
     setTravelPlan((prev) => {
       if (prev.destination === label) {
@@ -91,7 +82,7 @@ const StepPage1 = () => {
     <div className={styles.containerSp1}>
       {" "}
       <div className={styles.searchBarContainerSp1}>
-        <SearchBarPresenter mode="button" onSearch={handleSearch} />{" "}
+        <SearchBarPresenter mode="button" />{" "}
       </div>{" "}
       <div className={styles.checkboxesContainerSp1}>
         <div className={styles.gridSp3}>{checkboxes}</div>{" "}
@@ -221,6 +212,7 @@ const StepPage4 = () => {
 
   // 단일 선택만 가능하도록 수정
   const handleCheckboxClick = (label: string, checked: boolean) => {
+
     setTravelPlan((prev) => {
       if (prev.companion === label) {
         return {
@@ -439,7 +431,7 @@ const StepPage6 = () => {
 const StepPage7 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
   const [sliderValue, setSliderValue] = useState<number>(
-    travelPlan?.budget ?? 100
+    travelPlan?.budget ?? 60
   );
 
   const handleSliderValueChange = (value: number) => {

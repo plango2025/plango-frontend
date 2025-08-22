@@ -12,7 +12,7 @@ import ReviewDetailPage from "./pages/ScheduleReview/details/ReviewDetailPage";
 import ScheduleListPresenter from "./pages/ScheduleReview/lists/presenter/ScheduleListPresenter";
 
 import ScheduleResultPageView from "./pages/ScheduleResultPage/ScheduleResultPageView";
-import MyPageView from "./pages/myPage/MyPageView";
+import MyPagePresenter from "./pages/myPage/MyPagePresenter";
 import {
   QueryClient,
   QueryClientProvider,
@@ -45,7 +45,7 @@ function App() {
               ></Route>
               <Route path="/schdReviews/new" element={<ReviewForm />} />
               <Route path="/schdReviews/:id" element={<ReviewDetailPage />} />
-              <Route path="/myPageView" element={<MyPageView />} />
+              <Route path="/myPageView" element={<MyPagePresenter />} />
               {/* <Route path="/test" element={<ReviewTestPage/>} /> */}
             </Routes>
           </BrowserRouter>

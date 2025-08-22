@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar"; // 분리된 SearchBarPresenter 임포트
 import cardStyles from "./CardView.module.scss"; // Card 전용 SCSS 모듈 임포트 (이제 CardView 내부에서 사용)
 
+import {
+  useTravelPlan,
+  TravelPlanProvider,
+} from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPageContext"; // Context에서 travelPlan을 가져옴
+
 // 카드 데이터의 타입을 정의하는 인터페이스
 interface CardData {
   placeName: string;
@@ -13,10 +18,12 @@ interface CardProps {
   placeName: string;
   addressName: string;
   categoryName: string;
+  onCardClick?: (placeName: string) => void;
 }
 
 interface CardViewProps {
   cards: CardData[]; // 외부에서 받을 카드 데이터 배열
+  onCardClick?: (placeName: string) => void; // 선택 핸들러
 }
 
 // CardView 컴포넌트 내부에 Card 컴포넌트 정의
@@ -24,7 +31,9 @@ const Card: React.FC<CardProps> = ({
   placeName,
   addressName,
   categoryName,
+  onCardClick,
 }) => {
+  const { setTravelPlan } = useTravelPlan(); // Context에서 settravelPlan을 가져옴
   return (
     <div className={cardStyles.card}>
       <h2 className={cardStyles.cardTitle}>{placeName}</h2>
@@ -35,7 +44,14 @@ const Card: React.FC<CardProps> = ({
       </div>
       <button
         className={cardStyles.circleButton}
-        onClick={() => console.log(`버튼 클릭: ${categoryName}`)}
+        onClick={() => {
+          console.log(`버튼 클릭: ${placeName}`);
+          setTravelPlan((prev) => ({
+            ...prev,
+            required_places: [{ name: placeName, address: addressName }],
+          }));
+          onCardClick?.(placeName); // 부모에게 전달
+        }}
       >
         ...
       </button>
@@ -122,15 +138,6 @@ const CardView: React.FC<CardViewProps> = ({ cards }) => {
         `}
       </style>
 
-      {/* 검색 바 컴포넌트 통합 */}
-      <SearchBarPresenter
-        mode="autocomplete" // 또는 "button"
-        onSearch={(placeName) => {
-          console.log("CardView에서 받은 검색어:", placeName);
-          setActualSelectedPlaceName(placeName); // 검색 결과로 상태 업데이트
-        }}
-      />
-
       {/* 현재 검색 상태 표시 (선택 사항) */}
       <div
         style={{
@@ -139,17 +146,7 @@ const CardView: React.FC<CardViewProps> = ({ cards }) => {
           maxWidth: "700px",
           textAlign: "center",
         }}
-      >
-        {actualSelectedPlaceName ? (
-          <p style={{ marginTop: "10px", color: "#555" }}>
-            선택된 장소: <strong>{actualSelectedPlaceName}</strong>
-          </p>
-        ) : (
-          <p style={{ marginTop: "10px", color: "#777" }}>
-            검색을 하지 않았습니다.
-          </p>
-        )}
-      </div>
+      ></div>
 
       {/* 필터링된 카드들을 렌더링 */}
       <div
