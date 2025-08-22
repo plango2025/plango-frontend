@@ -24,7 +24,7 @@ const ScheduleListPresenter = () => {
 
   // 평탄화된 리뷰 리스트
   const schdReviews = data?.pages.flatMap((page) => page.items) || [];
-
+console.dir(schdReviews)
   // 마지막 카드가 화면에 보이면 다음 페이지 불러오기
   const observerRef = useRef<HTMLDivElement | null>(null);
   const handleObserver = useCallback(
@@ -45,7 +45,7 @@ const ScheduleListPresenter = () => {
       observerRef={observerRef}
       handleObserver={handleObserver}
       isFetchingNextPage={isFetchingNextPage}
-      navigateToNewReview={() => navigate("/schdReviews/new")}
+      navigateToNewReview={() => navigate("/schdReviews/new/SCHEDULE")}
       handleCreateDummy={async () => {
         try {
           await createDummySchedule(api);

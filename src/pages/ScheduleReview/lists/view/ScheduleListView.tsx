@@ -25,7 +25,7 @@ const ScheduleListView = ({
   onSearch,
 }: any) => {
   const { accessToken, setAccessToken } = useAccessToken();
-
+  console.dir(schdReviews)
   useEffect(() => {
     if (!observerRef.current) return;
     const observer = new IntersectionObserver(handleObserver, {

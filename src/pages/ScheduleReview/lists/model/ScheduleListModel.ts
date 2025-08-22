@@ -12,11 +12,12 @@ export const fetchReviews = async (api, searchKeyword = "") => {
 
   const response = await api.get("/reviews", {
     params,
-    requiresAuth: false,
+    requiresAuth: true,
   });
 console.log("fetchReviews response:", response.data);
   return response.data;
 };
+
 
 
 export const createDummySchedule = async (api: any) => {

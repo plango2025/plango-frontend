@@ -64,8 +64,6 @@ export const SelectedScheduleTitle = styled.p`
 
 
   color: #15bdb1;
-  height: 100px;
-  line-height: 100px;
   align-items: center;
   text-align: center;
  
@@ -167,7 +165,7 @@ export const Bottom = styled.div`
   z-index: 1000; /* 필요 시 위로 띄움 */
 `;
 export const SidePadding = styled.div`
-  padding: 2rem  2rem 7rem 2rem; 
+  padding: 2rem  2rem 0rem 2rem; 
   width: 100%;
 `;
 export const SubmitBtn = styled.button`
@@ -180,7 +178,6 @@ export const SubmitBtn = styled.button`
   border: none;
   border-radius: 8px;
   font-size: 1.4rem;
-  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {

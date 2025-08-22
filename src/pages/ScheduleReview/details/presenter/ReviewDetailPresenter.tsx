@@ -8,6 +8,7 @@ import {
   CommentPage,
   toggleLike,
   toggleScrap,
+  deleteReview,
 } from "../model/ReviewDetailModel";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
@@ -35,6 +36,7 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isFetchingNext, setIsFetchingNext] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // 합쳐진 댓글 리스트 (항상 전체 노출: 버튼 없음)
   const comments: Comment[] = useMemo(
@@ -47,26 +49,22 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     if (!review) return;
     navigate(`/schedule/${review.reference.schedule_id}`);
   };
-
-  /** 좋아요 (낙관적 토글) */
-  const handleLikeClick = async () => {
-    
+  const handleLikeClick = async (type: "REVIEW" | "PLACE", id: string) => {
     setLiked((prev) => {
-      const next = !prev; // ✅ 다음 값 확정
-      void toggleLike(api, review.id, next); // ✅ next를 그대로 전달
-      return next; // ✅ 상태 반영
-    });
-    setLikeCount((c) => (liked ? c - 1 : c + 1)); // ✅ 현재 liked 상태에 따라 카운트 조정
-  };
-
-  /** 북마크 (낙관적 토글) */
-  const handleBookmarkClick = () => {
-    setBookmarked((prev) => {
       const next = !prev;
-      void toggleScrap(api, review.id, next);
+      void toggleLike(api, type, id, next); // type과 id를 그대로 전달
       return next;
     });
-    setBookmarkCount((c) => (bookmarked ? c -1 : c + 1));
+    setLikeCount((c) => (liked ? c - 1 : c + 1));
+  };
+
+  const handleBookmarkClick = (type: "REVIEW" | "PLACE", id: string) => {
+    setBookmarked((prev) => {
+      const next = !prev;
+      void toggleScrap(api, type, id, next);
+      return next;
+    });
+    setBookmarkCount((c) => (bookmarked ? c - 1 : c + 1));
   };
 
   /** 댓글 등록 → 첫 페이지 새로고침 */
@@ -164,6 +162,20 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sentinelRef.current]);
 
+  const handleMenuClick = (action: "edit" | "delete") => {
+    console.log("여기를 아예 들어오지르 않네");
+    switch (action) {
+      case "edit":
+        setIsEditModalOpen(true);
+        break;
+      case "delete":
+        console.log("삭제");
+        deleteReview(api, id);
+        navigate("/reviews")
+        break;
+    }
+  };
+
   return {
     // 데이터
     review,
@@ -180,9 +192,11 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     handleLikeClick,
     handleBookmarkClick,
     handleCommentSubmit,
+    handleMenuClick,
     comment: commentInput,
     setComment: setCommentInput,
-
+    isEditModalOpen,
+    setIsEditModalOpen,
     liked,
     likeCount,
     bookmarked,

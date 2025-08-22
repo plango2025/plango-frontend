@@ -1,6 +1,7 @@
 // model/ReviewDetailModel.ts
 import { Comment } from "@/types/comment/comment";
 import { Review, UserProfile } from "@/types/review/review";
+export type ScrapResponse = { scrapped: boolean; scrap_count: number };
 
 /** 리뷰 상세 */
 export const fetchReview = async (api: any, id: string): Promise<Review> => {
@@ -78,50 +79,50 @@ export const fetchUsersByIds = async (
 /** 좋아요  */
 // types
 type LikeResponse = { liked: boolean; like_count: number };
-
-// 서버: POST /likes, DELETE /likes  (쿼리: type, ref_id)
 export async function toggleLike(
   api: any,
-  reviewId: string,
+  type: "REVIEW" | "PLACE",
+  idOrKeyword: string,
   willLike: boolean
 ): Promise<LikeResponse> {
-  const config = {
-    params: { type: "REVIEW", ref_id: reviewId },
-    requiresAuth: true,
-  };
+  const params: Record<string, string> =
+    type === "REVIEW"
+      ? { type, ref_id: idOrKeyword }
+      : { type, keyword: idOrKeyword };
+
+  const config = { params, requiresAuth: true };
 
   if (willLike) {
-    console.log("좋아요 요청:", config);
     const res = await api.post("/like", null, config);
     return res.data as LikeResponse;
   } else {
-    console.log("좋아요 취소 요청:", config);
     const res = await api.delete("/like", config);
     return res.data as LikeResponse;
   }
 }
-export type ScrapResponse = { scrapped: boolean; scrap_count: number };
 
-export const toggleScrap = async(
+// toggleScrap 범용화: REVIEW 또는 PLACE
+export const toggleScrap = async (
   api: any,
-  reviewId: string,
-  willScrap: boolean,
-  opts?: { keyword?: string } // 필요 시
+  type: "REVIEW" | "PLACE",
+  idOrKeyword: string,
+  willScrap: boolean
 ): Promise<ScrapResponse> => {
-  const config = {
-    params: {
-      type: "REVIEW",
-      ref_id: reviewId,
-      ...(opts?.keyword ? { keyword: opts.keyword } : {}),
-    },
-    requiresAuth: true,
-  };
+  const params: Record<string, string> =
+    type === "REVIEW"
+      ? { type, ref_id: idOrKeyword }
+      : { type, keyword: idOrKeyword };
+
+  const config = { params, requiresAuth: true };
 
   if (willScrap) {
-    const res = await api.post("/scrap", null, config); // POST /scrap
+    const res = await api.post("/scrap", null, config);
     return res.data as ScrapResponse;
   } else {
-    const res = await api.delete("/scrap", config); // DELETE /scrap
+    const res = await api.delete("/scrap", config);
     return res.data as ScrapResponse;
   }
-}
+};
+export const deleteReview = async (api: any, id: string): Promise<void> => {
+  await api.delete(`/reviews/${id}`, { requiresAuth: true });
+};

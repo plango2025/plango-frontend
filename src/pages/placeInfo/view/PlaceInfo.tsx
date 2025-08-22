@@ -16,30 +16,32 @@ import {
   PlaceIntroPadding,
 } from "@/components/common/padding/padding";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import PlaceReviews from "@/pages/test/placeReivews";
 import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
 
 const PlaceInfo = () => {
   const { keyword } = useParams();
   const navigate = useNavigate();
-  const { placeIntro, loading, searchPlace } = usePlaceSearch();
 
-  useEffect(() => {
-    if (keyword && keyword.trim()) {
-      searchPlace(keyword);
-    }
-  }, [keyword]);
+  const {
+    liked,
+    bookmarked,
+    placeIntro,
+    loading,
+    reviewItems,
+    hasMore,
+    loadFirstReviews,
+    loadMoreReviews,
+    handleLikeClick,
+    handleBookmarkClick,
+  } = usePlaceSearch(keyword);
 
-  const handleBack = () => {
-  navigate(-1);
-  };
+  const handleBack = () => navigate(-1);
 
-  if (loading || !placeIntro) {
-    return <div>로딩 중입니다...</div>;
-  }
+  if (loading || !placeIntro) return <div>로딩 중입니다...</div>;
 
-  const { title, sub_title, content, address, images } = placeIntro;
-
+  const { title, sub_title, content, address, images , rating, like_count} = placeIntro;
+console.log(placeIntro);
   return (
     <BackGround>
       <AppLayout>
@@ -52,13 +54,35 @@ const PlaceInfo = () => {
               </BackIcon>
 
               <Gallery images={images} />
-              <Header name={title} subtitle={sub_title} address={address} />
+
+              {/* Header에 상태와 클릭 핸들러 전달 */}
+              <Header
+                name={title}
+                subtitle={sub_title}
+                address={address}
+                bookmarked={bookmarked}
+                liked={liked}
+                onLikeClick={handleLikeClick}
+                onBookmarkClick={handleBookmarkClick}
+                rating={Math.floor(rating)}
+                like_count={like_count}
+              />
+
               <Separator mt="2rem" mb="2rem" />
               <SubTitle>{sub_title}</SubTitle>
               <Padding1 />
               <Content>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
               </Content>
+
+              <PaddingMd />
+              <PlaceReviews
+                keyword={keyword}
+                reviewItems={reviewItems}
+                hasMore={hasMore}
+                loadFirstReviews={loadFirstReviews}
+                loadMoreReviews={loadMoreReviews}
+              />
             </PlaceIntroPadding>
           </PlaceInfoWrapper>
         </GridItem>

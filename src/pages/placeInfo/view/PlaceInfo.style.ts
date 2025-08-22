@@ -28,7 +28,7 @@ width:100%;
   font-size: 30px; // 아이콘 크기 (원하는 크기로 조절, 예: 32px, 40px 등)
 
 `;
-export const Content = styled.p`
+export const Content = styled.div`
   font-size: 20px;
  
   line-height: 2rem;

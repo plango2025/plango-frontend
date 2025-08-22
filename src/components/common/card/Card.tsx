@@ -6,6 +6,7 @@ import {
   FaRegHeart,
   FaRegBookmark,
   FaRegCommentDots,
+  FaBookmark,
 } from "react-icons/fa";
 import { Avatar, RatingGroup, Separator } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -126,7 +127,7 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
     };
 
     return (
-      <Wrapper ref={ref} onClick={() => navigate(`/schdReviews/${id}`)}>
+      <Wrapper ref={ref} onClick={() => navigate(`/reviews/${id}`)}>
         <div style={{ cursor: "pointer" }}>
           <Profile>
             <Avatar.Root size="sm">
@@ -156,7 +157,11 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
           </Button>
 
           <Button onClick={handleBookmarkClick}>
-            <FaRegBookmark color={bookmarked ? "blue" : "black"} />
+            {bookmarked ? (
+              <FaBookmark size={20} color="#F9DE51" />
+            ) : (
+              <FaRegBookmark size={20} color="gray" />
+            )}{" "}
             <span>{bookmarkCount}</span>
           </Button>
 

@@ -31,7 +31,7 @@ function Sidebar() {
           <BsStars />
         </IconItem>
 
-        <IconItem onClick={() => navigate("/schdReviews")}>
+        <IconItem onClick={() => navigate("/reviews")}>
           <IoShareSocialSharp />
         </IconItem>
 

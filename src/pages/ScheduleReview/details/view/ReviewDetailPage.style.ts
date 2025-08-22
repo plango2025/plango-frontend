@@ -5,21 +5,20 @@ interface HeaderProps {
 export const ReviewLink= styled.p`
 color:red
 `
-export const Header = styled.div<HeaderProps>`
+export const Header = styled.div<{ bgUrl?: string }>`
   max-width: 100%;
   position: relative;
   padding: 15rem 3rem 5rem 3rem;
-  padding-top: 15rem;
-max-height: 30rem;
+  max-height: 30rem;
   color: white;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
-  ${({ backgroundUrl }) =>
-    backgroundUrl
+  ${({ bgUrl }) =>
+    bgUrl
       ? `
-        background-image: url(${encodeURI(backgroundUrl)});
+        background-image: url(${encodeURI(bgUrl)});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -27,6 +26,7 @@ max-height: 30rem;
       : `
         background-color: white;
       `}
+
   &::before {
     content: "";
     position: absolute;
@@ -35,11 +35,14 @@ max-height: 30rem;
     z-index: 0;
   }
 `;
-export const Title = styled.p`
+export const Title = styled.div`
   width: 100%;
   font-size: 3rem;
   line-height: 3.5rem;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 export const Wrapper = styled.div`
   padding-bottom: 3rem;
@@ -137,5 +140,18 @@ font-size: 18px;
   :focus{
       background-color:#109A90
 
+  }
+`;
+
+export const MenuIcon = styled.div`
+  position: absolute;
+  font-size: 2rem;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  cursor: pointer;
+  color: white;
+  &:hover {
+    opacity: 0.8;
   }
 `;

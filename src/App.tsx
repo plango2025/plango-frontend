@@ -13,10 +13,7 @@ import ScheduleListPresenter from "./pages/ScheduleReview/lists/presenter/Schedu
 
 import ScheduleResultPageView from "./pages/ScheduleResultPage/ScheduleResultPageView";
 import MyPageView from "./pages/myPage/MyPageView";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
@@ -40,13 +37,15 @@ function App() {
               {/* <Route path="/test" element={<MyEditor />}></Route> */}
               <Route path="/place/:keyword" element={<PlaceInfo />} />
               <Route
-                path="/schdReviews"
+                path="/reviews"
                 element={<ScheduleListPresenter />}
               ></Route>
-              <Route path="/schdReviews/new" element={<ReviewForm />} />
-              <Route path="/schdReviews/:id" element={<ReviewDetailPage />} />
+              <Route
+                path="/reviews/new/:type/:keyword?"
+                element={<ReviewForm />}
+              />
+              <Route path="/reviews/:id" element={<ReviewDetailPage />} />
               <Route path="/myPageView" element={<MyPageView />} />
-              {/* <Route path="/test" element={<ReviewTestPage/>} /> */}
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

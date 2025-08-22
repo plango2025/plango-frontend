@@ -21,11 +21,9 @@ import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
 import { AuthContext } from "@/context/AuthContext";
-import { PaddingMd } from '@/components/common/padding/padding';
+import PlaceReviewTest from "../test/placeReivews";
 
 export default function MainPage() {
-  const logInfo = useContext(AuthContext);
-
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -33,11 +31,7 @@ export default function MainPage() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const TOTAL_SECTIONS = 5;
-  useEffect(() => {
-     logInfo?.refreshUser();
 
-
-  }, []);
   useEffect(() => {
     if (wrapperRef.current) {
       wrapperRef.current.style.top = `${-page * 100}vh`;
@@ -53,16 +47,14 @@ export default function MainPage() {
             style={{ height: `${TOTAL_SECTIONS * 100}vh` }}
           >
             <LoginBtnWrapper>
-              {logInfo?.isLoggedIn ? (
+              {accessToken ? (
                 <>
                   <button>로그아웃</button>
-                  <br/><p>{logInfo?.user?.nickname}님, 안녕하세요!</p>
                 </>
               ) : (
                 <LoginBtn />
               )}
             </LoginBtnWrapper>
-
             <Section>
               <TextContainer>
                 <Text>여행 계획? 이제 클릭 한 번으로 끝!</Text>
@@ -79,28 +71,24 @@ export default function MainPage() {
               </TextContainer>
               <Image src="src/assets/images/main/main1.png" />
             </Section>
-
             <Section>
               <Image src="src/assets/images/main/main2.png" />
               <TextContainer>
                 <Text>맛집 투어를 좋아하는 유리씨도</Text>
               </TextContainer>
             </Section>
-
             <Section>
               <TextContainer>
                 <Text>혼자 있는 시간이 중요한 소희씨도</Text>
               </TextContainer>
               <Image src="src/assets/images/main/main3.png" />
             </Section>
-
             <Section>
               <Image src="src/assets/images/main/main4.png" />
               <TextContainer>
                 <Text>다양한 걸 보고 싶은 도윤씨도</Text>
               </TextContainer>
             </Section>
-
             <Section>
               <TextContainer>
                 <Text>

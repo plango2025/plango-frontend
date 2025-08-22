@@ -1,6 +1,5 @@
 import styled from "styled-components";
 export const Wrapper = styled.div`
-  background-color: #fcfcfc;
 `;
 export const CardWrapper=styled.div`
 display: grid;

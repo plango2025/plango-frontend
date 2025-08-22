@@ -37,7 +37,29 @@ console.dir(files);
   return urls;
 };
 
-export const postReview = async (api, body) => {
-  console.dir(body)
+interface PostReviewBody {
+  type: "PLACE" | "SCHEDULE";
+  title?: string;
+  content: string;
+  rating: number;
+  file_urls?: string[];
+  reference_id?: string; // 일정 리뷰일 경우 필수
+  keyword?: string; // 장소 리뷰일 경우 필수
+}
+
+export const postReview = async (api, body: PostReviewBody) => {
+  // body 검증 (선택적, 디버깅용)
+  console.log("모야 왜 안옴!!!!!")
+  console.log("POST /reviews body:", body);
+  console.dir(api);
+  // 타입별 필수 필드 체크
+  if (body.type === "SCHEDULE" && !body.reference_id) {
+    throw new Error("SCHEDULE 리뷰에는 reference_id가 필요합니다.");
+  }
+
+  if (body.type === "PLACE" && !body.keyword) {
+    throw new Error("PLACE 리뷰에는 keyword(장소이름)가 필요합니다.");
+  }
+
   return api.post("/reviews", body, { requiresAuth: true });
 };

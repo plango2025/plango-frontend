@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useReviewDetailPresenter } from './presenter/ReviewDetailPresenter';
-import ReviewDetailView from './view/ReviewDetailView';
-import AppLayout from '@/layout/AppLayout';
-import { SidePadding } from '@/components/common/padding/padding';
+import { useReviewDetailPresenter } from "./presenter/ReviewDetailPresenter";
+import ReviewDetailView from "./view/ReviewDetailView";
+import AppLayout from "@/layout/AppLayout";
 
 const ReviewDetailPage = () => {
   const { id } = useParams();
@@ -11,7 +10,6 @@ const ReviewDetailPage = () => {
     review,
     user,
     comments,
-    setComments,
     loading,
     liked,
     likeCount,
@@ -23,9 +21,12 @@ const ReviewDetailPage = () => {
     handleBookmarkClick,
     handleCommentSubmit,
     handleScheduleClick,
+    handleMenuClick,
+    hasMore,
+    isFetchingNext,
+    setSentinelEl,
   } = useReviewDetailPresenter(id);
 
-  console.dir(review)
   if (!review || !user) return <div>로딩 중...</div>;
 
   return (
@@ -34,7 +35,10 @@ const ReviewDetailPage = () => {
         review={review}
         user={user}
         comments={comments}
-        setComments={setComments}
+        allCount={comments.length}
+        hasMore={hasMore}
+        isFetchingNext={isFetchingNext}
+        setSentinelEl={setSentinelEl}
         loading={loading}
         liked={liked}
         likeCount={likeCount}
@@ -46,6 +50,7 @@ const ReviewDetailPage = () => {
         handleLikeClick={handleLikeClick}
         handleBookmarkClick={handleBookmarkClick}
         handleCommentSubmit={handleCommentSubmit}
+        handleMenuClick={handleMenuClick}
       />
     </AppLayout>
   );

@@ -1,6 +1,6 @@
 // ReviewFormPresenter.tsx
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
 import {
@@ -11,10 +11,12 @@ import {
 } from "../model/ReviewFormModel";
 import ReviewFormView from "../view/ReviewFormView";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
 interface Schedule {
   id: number;
   reviewtitle: string;
 }
+
 const ReviewFormPresenter = () => {
   const [reviewData, setReviewData] = useState({
     title: "",
@@ -25,11 +27,16 @@ const ReviewFormPresenter = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
-  // const [savedSchedules, setSavedSchedules] = useState([]);
   const [showModal, setShowModal] = useState(true);
+
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
+  
+  // URL 파라미터에서 type, keyword 가져오기
+  const { type, keyword } = useParams<{ type: string; keyword?: string }>();
+
+  // 일정 더미 생성
   const handleCreateDummy = async () => {
     try {
       const dummy = await createDummySchedule(api);
@@ -39,15 +46,13 @@ const ReviewFormPresenter = () => {
         reviewtitle: `일정 임시 제목(id 동일) ${dummyScheduleId}`,
       });
       setShowModal(false);
-      // 다시 불러와서 셀렉터에 반영되게
-    } catch (e) {
+    } catch (e: any) {
       console.error(e.response?.data);
       alert("더미 일정 생성 실패");
     }
   };
 
-  //보관함에 있는 일정 가져오는 함수
-  // useInfiniteQuery v5 객체 형태 적용
+  // 보관함 일정 불러오기
   const {
     data,
     fetchNextPage,
@@ -62,10 +67,9 @@ const ReviewFormPresenter = () => {
   });
 
   const savedSchedules = data?.pages.flatMap((page) => page.items) ?? [];
-console.log("저장된 일정들:", savedSchedules);
+  console.log("저장된 일정들:", savedSchedules);
 
   const handleSelectSchedule = (schedule) => {
-    
     setSelectedSchedule({
       id: schedule.schedule_id,
       reviewtitle: schedule.title,
@@ -76,37 +80,57 @@ console.log("저장된 일정들:", savedSchedules);
   const renameFile = (file: File): File => {
     const ext = file.name.substring(file.name.lastIndexOf("."));
     const baseName = file.name.substring(0, file.name.lastIndexOf("."));
-
     const safeName = baseName
-      .replace(/\s+/g, "_") // 공백 → 언더스코어
-      .replace(/[^\w\-]/g, "") // 특수문자, 한글 제거
+      .replace(/\s+/g, "_")
+      .replace(/[^\w\-]/g, "")
       .toLowerCase();
-
     const newFileName = `${safeName}${ext}`;
     return new File([file], newFileName, { type: file.type });
   };
-  //폼 제출
+
+  // 리뷰 제출
   const handleSubmit = async () => {
-    const { title, content, rating } = reviewData;
-    if (!title || !content || rating === 0 || !selectedSchedule) {
-      alert("모든 항목을 입력해주세요.");
-      return;
-    }
     try {
+      // 필수 항목 체크
+      if (type === "SCHEDULE" && (!selectedSchedule || !reviewData.content || !reviewData.title || reviewData.rating === 0)) {
+        alert("모든 항목을 입력해주세요.");
+        return;
+      }
+
+      if (type === "PLACE" && (!keyword || !reviewData.content || reviewData.rating === 0)) {
+        alert("모든 항목을 입력해주세요.");
+        return;
+      }
+
+      // 이미지 업로드
       const file_urls = await uploadImages(api, imageFiles, renameFile);
-      console.log(selectedSchedule.id);
-      await postReview(api, {
-        title: reviewData.title,
-        rating: Number(reviewData.rating),
-        content: reviewData.content,
-        file_urls: file_urls,
-        type: "SCHEDULE",
-        reference_id: String(selectedSchedule.id),
-      });
+
+      // 타입별 리뷰 등록
+      if (type === "SCHEDULE") {
+        await postReview(api, {
+          type: "SCHEDULE",
+          title: reviewData.title,
+          rating: Number(reviewData.rating),
+          content: reviewData.content,
+          file_urls: file_urls,
+          reference_id: String(selectedSchedule?.id),
+        });
+      } else if (type === "PLACE") {
+        console.log(reviewData.title);
+        await postReview(api, {
+          title: reviewData.title,
+          type: "PLACE",
+          keyword: keyword,
+          rating: Number(reviewData.rating),
+          content: reviewData.content,
+          file_urls: file_urls,
+        });
+      }
+
       alert("리뷰가 등록되었습니다.");
-      navigate("/schdReviews");
-    } catch (e) {
-      console.error(e.response?.data);
+      navigate(-1);
+    } catch (e: any) {
+      console.error(e.response?.data || e);
       alert("리뷰 등록 실패");
     }
   };
@@ -124,6 +148,8 @@ console.log("저장된 일정들:", savedSchedules);
       handleSelectSchedule={handleSelectSchedule}
       handleSubmit={handleSubmit}
       selectedSchedule={selectedSchedule}
+      type={type}
+      keyword={keyword}
     />
   );
 };
