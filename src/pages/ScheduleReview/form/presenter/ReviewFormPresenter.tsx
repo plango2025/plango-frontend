@@ -5,11 +5,12 @@ import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
 import {
   createDummySchedule,
-  fetchSavedSchedules,
+  fetchSchedules,
   postReview,
   uploadImages,
 } from "../model/ReviewFormModel";
 import ReviewFormView from "../view/ReviewFormView";
+import { useInfiniteQuery } from "@tanstack/react-query";
 interface Schedule {
   id: number;
   reviewtitle: string;
@@ -24,7 +25,7 @@ const ReviewFormPresenter = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
-  const [savedSchedules, setSavedSchedules] = useState([]);
+  // const [savedSchedules, setSavedSchedules] = useState([]);
   const [showModal, setShowModal] = useState(true);
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
@@ -46,28 +47,31 @@ const ReviewFormPresenter = () => {
   };
 
   //보관함에 있는 일정 가져오는 함수
-  const loadSchedules = async () => {
-    try {
-      const data = await fetchSavedSchedules(api);
-      setSavedSchedules(data);
-      console.dir(data)
-    } catch (e) {
-      console.error(e?.response?.data);
-      alert("일정 등록 실패");
-    }
-  };
-  useEffect(() => {
-    loadSchedules();
-  }, []);
+  // useInfiniteQuery v5 객체 형태 적용
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ["savedSchedules"],
+    queryFn: ({ pageParam = null }) => fetchSchedules({ pageParam }, api),
+    getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
+  });
+
+  const savedSchedules = data?.pages.flatMap((page) => page.items) ?? [];
+console.log("저장된 일정들:", savedSchedules);
 
   const handleSelectSchedule = (schedule) => {
+    
     setSelectedSchedule({
       id: schedule.schedule_id,
       reviewtitle: schedule.title,
     });
     setShowModal(false);
   };
-
 
   const renameFile = (file: File): File => {
     const ext = file.name.substring(file.name.lastIndexOf("."));
@@ -90,7 +94,7 @@ const ReviewFormPresenter = () => {
     }
     try {
       const file_urls = await uploadImages(api, imageFiles, renameFile);
-      console.log(selectedSchedule.id)
+      console.log(selectedSchedule.id);
       await postReview(api, {
         title: reviewData.title,
         rating: Number(reviewData.rating),
@@ -116,10 +120,10 @@ const ReviewFormPresenter = () => {
       setReviewData={setReviewData}
       imageFiles={imageFiles}
       setImageFiles={setImageFiles}
-      selectedSchedule={selectedSchedule}
       savedSchedules={savedSchedules}
       handleSelectSchedule={handleSelectSchedule}
       handleSubmit={handleSubmit}
+      selectedSchedule={selectedSchedule}
     />
   );
 };
