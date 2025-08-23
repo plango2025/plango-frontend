@@ -49,23 +49,23 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     if (!review) return;
     navigate(`/schedule/${review.reference.schedule_id}`);
   };
-  const handleLikeClick = async (type: "REVIEW" | "PLACE", id: string) => {
-    setLiked((prev) => {
-      const next = !prev;
-      void toggleLike(api, type, id, next); // type과 id를 그대로 전달
-      return next;
-    });
-    setLikeCount((c) => (liked ? c - 1 : c + 1));
-  };
+  // const handleLikeClick = async (type: "REVIEW" | "PLACE", id: string) => {
+  //   setLiked((prev) => {
+  //     const next = !prev;
+  //     void toggleLike(api, type, id, next); // type과 id를 그대로 전달
+  //     return next;
+  //   });
+  //   setLikeCount((c) => (liked ? c - 1 : c + 1));
+  // };
 
-  const handleBookmarkClick = (type: "REVIEW" | "PLACE", id: string) => {
-    setBookmarked((prev) => {
-      const next = !prev;
-      void toggleScrap(api, type, id, next);
-      return next;
-    });
-    setBookmarkCount((c) => (bookmarked ? c - 1 : c + 1));
-  };
+  // const handleBookmarkClick = (type: "REVIEW" | "PLACE", id: string) => {
+  //   setBookmarked((prev) => {
+  //     const next = !prev;
+  //     void toggleScrap(api, type, id, next);
+  //     return next;
+  //   });
+  //   setBookmarkCount((c) => (bookmarked ? c - 1 : c + 1));
+  // };
 
   /** 댓글 등록 → 첫 페이지 새로고침 */
   const [commentInput, setCommentInput] = useState("");
@@ -189,8 +189,7 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
 
     // 액션/UX
     handleScheduleClick,
-    handleLikeClick,
-    handleBookmarkClick,
+   
     handleCommentSubmit,
     handleMenuClick,
     comment: commentInput,

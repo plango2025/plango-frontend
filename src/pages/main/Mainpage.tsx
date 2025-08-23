@@ -24,8 +24,7 @@ import { AuthContext } from "@/context/AuthContext";
 import PlaceReviewTest from "../test/placeReivews";
 
 export default function MainPage() {
-  const { accessToken, setAccessToken } = useAccessToken();
-  const api = createApiWithToken(() => accessToken, setAccessToken);
+  const { isLoggedIn, logout} = useAccessToken();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,9 +46,9 @@ export default function MainPage() {
             style={{ height: `${TOTAL_SECTIONS * 100}vh` }}
           >
             <LoginBtnWrapper>
-              {accessToken ? (
+              {isLoggedIn ? (
                 <>
-                  <button>로그아웃</button>
+                  <button onClick={logout}>로그아웃</button>
                 </>
               ) : (
                 <LoginBtn />

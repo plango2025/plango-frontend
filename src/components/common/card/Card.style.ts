@@ -1,6 +1,8 @@
 import { styled } from 'styled-components';
+import { cachedDataVersionTag } from 'v8';
 export const Wrapper = styled.div`
   width: 100%;
+  height: 370px;
   font-weight: 700;
   border-radius: 20px;
   box-shadow: 2px 5px 5px 3px rgb(199, 199, 199);
@@ -35,12 +37,18 @@ export const Image = styled.img`
 `;
 
 export const Name = styled.h2`
-padding-left: 0.5rem;
-  font-size: 1.2rem;      
-    margin-top: 0.5rem;
-    color: #333;
+  padding-left: 0.5rem;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  color: #333;
+  height: 30px;
 
+  /* 한 줄에서 말줄임 */
+  white-space: nowrap; /* 한 줄로 강제 */
+  overflow: hidden; /* 넘치는 부분 숨김 */
+  text-overflow: ellipsis; /* … 표시 */
 `;
+
 export const Rating = styled.div`
   padding-top: 0.3rem;
   padding-left: 0.6rem;

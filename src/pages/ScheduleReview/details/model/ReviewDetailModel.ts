@@ -1,6 +1,7 @@
 // model/ReviewDetailModel.ts
 import { Comment } from "@/types/comment/comment";
 import { Review, UserProfile } from "@/types/review/review";
+import { toast } from 'react-toastify';
 export type ScrapResponse = { scrapped: boolean; scrap_count: number };
 
 /** 리뷰 상세 */
@@ -124,5 +125,11 @@ export const toggleScrap = async (
   }
 };
 export const deleteReview = async (api: any, id: string): Promise<void> => {
-  await api.delete(`/reviews/${id}`, { requiresAuth: true });
+  try {
+    await api.delete(`/reviews/${id}`, { requiresAuth: true });
+  } catch (error) {
+    if(error.status===403){
+      toast.error("본인이 작성한 글만 삭제할 수 있습니다.");
+    }
+  }
 };
