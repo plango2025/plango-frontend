@@ -15,7 +15,7 @@ import ScheduleResultPageView from "./pages/ScheduleResultPage/ScheduleResultPag
 import MyPageView from "./pages/myPage/MyPagePresenter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
-
+import SavedSchedulePageView from "./pages/SavedSchedulePage/SavedSchedulePageView";
 const queryClient = new QueryClient();
 
 function App() {
@@ -41,6 +41,10 @@ function App() {
             />
             <Route path="/reviews/:id" element={<ReviewDetailPage />} />
             <Route path="/myPageView" element={<MyPageView />} />
+            <Route
+              path="/schedules/:schedule_id"
+              element={<SavedSchedulePageView />}
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
