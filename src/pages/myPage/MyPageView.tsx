@@ -1,64 +1,112 @@
-import React from 'react'
-import CommonCard from "@/components/common/card/CommonCard"
+// mypageview.tsx
+import React, { useState } from "react";
 import CommonSidebar from "@/components/common/sidebar/CommonSidebar";
-import styles from "./myPage.module.scss"
-import Tap from "./tap/Tap"
-import { Page1, Page2, Page3 } from "./tapPages/TapPagesView";
+import styles from "./myPage.module.scss";
+import Tap from "./tap/Tap";
+import { Page1, Page2, Page3, Page4, Page5, Page6 } from "./tapPages/TapPagesView";
+import { UserProfile } from "./MyPageModel";
+import { LuPencil } from "react-icons/lu"; // Import the pen icon
+import MyPageEditModal from "./MyPageEditModal"; // Import the new modal component
 
-function MyPageView() {
+interface Props {
+  user: UserProfile | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
+  // State to manage the visibility of the pop-up
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Function to open the pop-up
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the pop-up
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // ✅ 렌더링 순서를 변경하여 error를 먼저 처리
+  if (loading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>; // 에러 메시지를 표시
+  }
+
+  if (!user) {
+    return <div>유저 정보를 불러올 수 없습니다.</div>; // 에러가 아닌데 user 정보가 없을 경우
+  }
+
   return (
     <div className={styles.CommunityViewLayout}>
-      <CommonSidebar/>
-
+      <CommonSidebar />
       <main className={styles.container}>
         <div className={styles.mainContainerLayout}>
-          
-            <div className={styles.topLayout}>
+          <div className={styles.topLayout}>
+            <div className={styles.myLayout}>
+              <div className={styles.myLayout__myLayout1}>
+                <div
+                  className={styles.myLayout__faceLayout}
+                  style={{
+                    backgroundImage: `url(${user.profile_image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                ></div>
+                {/* Pen icon for editing */}
+                <button
               
-              
-              <div className={styles.myLayout}>
-                <div className={styles.myLayout__myLayout1}>
-                  <div className={styles.myLayout__faceLayout}/>
-                  <div className={styles.myLayout__textarea1}>
-                  <div className={styles.myLayout__textarea1__name}>홍길동</div>
-                  <div className={styles.myLayout__textarea1__address}>강원도 춘천시 효자동</div>
-                  <div className={styles.myLayout__textarea1__birth}>2002년 10월 10일</div>
-                  <div className={styles.myLayout__textarea1__tag}>여행 5회차</div>
-                </div>
-              </div>
-
-                <div className={styles.myLayout__myLayout2}>
-                  <div className={styles.myLayout__textarea2}>
-                    안녕하세요! 전 바다로 놀러가는 것을 좋아합니다:D 
-                    여행 가서는 맛집 위주로 찾아다녀요~!
+                  onClick={handleEditClick}
+                  className={styles.editButton}
+                  aria-label="Edit Profile"
+                >
+                  <LuPencil />
+                </button>
+                <div className={styles.myLayout__textarea1}>
+                  <div className={styles.myLayout__textarea1__name}>
+                    {user.nickname}
                   </div>
-                  
+                  <div className={styles.myLayout__textarea1__address}>
+                    {user.address}
+                  </div>
+                  <div className={styles.myLayout__textarea1__birth}>
+                    {user.birth}
+                  </div>
+                  <div className={styles.myLayout__textarea1__tag}>
+                    여행 {user.id}회차
+                  </div>
                 </div>
-    
-
-             
-                
-                
               </div>
-        
-              
+              <div className={styles.myLayout__myLayout2}>
+                <div className={styles.myLayout__textarea2}>
+                  <div>
+                    <text className={styles.about}>About me</text>
+                    <div>
+                      {user.about}
+                    </div>
+                  </div>
+                  </div>
+              </div>
             </div>
-
-            <div className={styles.tapLayout}>
-              <Tap
-                page1={<Page1 />}
-                page2={<Page2 />}
-                page3={<Page3 />}
-                />
-            </div>
-       
+          </div>
+          <div className={styles.tapLayout}>
+            <Tap section1={<Page1 />}  section2={<Page2 />} section3={<Page3 />} section4={<Page4 />} section5={<Page5 />} section6={<Page6 />} />
+          </div>
         </div>
- 
-          
-        
       </main>
+
+      {/* Pop-up Modal Component */}
+      <MyPageEditModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        user={user}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default MyPageView;

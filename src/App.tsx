@@ -12,7 +12,7 @@ import ReviewDetailPage from "./pages/ScheduleReview/details/ReviewDetailPage";
 import ScheduleListPresenter from "./pages/ScheduleReview/lists/presenter/ScheduleListPresenter";
 
 import ScheduleResultPageView from "./pages/ScheduleResultPage/ScheduleResultPageView";
-import MyPageView from "./pages/myPage/MyPageView";
+import MyPageView from "./pages/myPage/MyPagePresenter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();

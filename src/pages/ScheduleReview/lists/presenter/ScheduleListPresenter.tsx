@@ -14,7 +14,7 @@ const ScheduleListPresenter = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: ["schdReviews", keyword],
+      queryKey: ["Reviews", keyword],
       queryFn: ({ pageParam = 0 }) => fetchReviews(api, keyword, pageParam),
       getNextPageParam: (lastPage) => {
         return lastPage.hasNext ? lastPage.page + 1 : undefined;
@@ -45,7 +45,7 @@ console.dir(schdReviews)
       observerRef={observerRef}
       handleObserver={handleObserver}
       isFetchingNextPage={isFetchingNextPage}
-      navigateToNewReview={() => navigate("/schdReviews/new/SCHEDULE")}
+      navigateToNewReview={() => navigate("/reviews/new/SCHEDULE")}
       handleCreateDummy={async () => {
         try {
           await createDummySchedule(api);
