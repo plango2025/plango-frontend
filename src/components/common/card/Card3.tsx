@@ -26,16 +26,14 @@ const CardComponent3: React.FC<Props> = ({ card }) => {
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-
   const {
     schedule_id,
     title,
     destination,
     duration,
     created_at,
-    thumbnail_url
+    thumbnail_url,
   } = card;
-
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 
@@ -70,9 +68,14 @@ const CardComponent3: React.FC<Props> = ({ card }) => {
     };
   }, [api, thumbnail_url]);
 
-
   return (
-    <Wrapper onClick={() => navigate(`/reviews/${schedule_id}`)}>
+    <Wrapper
+      onClick={() =>
+        navigate(`/schedules/${schedule_id}`, {
+          state: { scheduleResponse: { schedule_id } },
+        })
+      }
+    >
       <div style={{ cursor: "pointer" }}>
         <Profile>
           <Avatar.Root size="sm">
@@ -86,9 +89,7 @@ const CardComponent3: React.FC<Props> = ({ card }) => {
         <Name>{title}</Name>
       </div>
 
-    
       <Separator mt="0.2rem" mb="0.2rem" size="sm" mr="0.7rem" ml="0.7rem" />
-
     </Wrapper>
   );
 };

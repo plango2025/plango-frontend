@@ -14,11 +14,11 @@ import {
   createApiWithToken,
   CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
-import { ScheduleItem } from "@/pages/myPage/tapPages/TapPagesmodel";
+import { ScrapPlaceItem } from "@/pages/myPage/tapPages/TapPagesmodel";
 import { Rating } from "@/components/common/card/Card.style";
 
 interface Props {
-  card: ScheduleItem; // ✅ props 이름을 card로 명확히
+  card: ScrapPlaceItem; // ✅ props 이름을 card로 명확히
 }
 
 const CardComponent7: React.FC<Props> = ({ card }) => {
@@ -26,16 +26,7 @@ const CardComponent7: React.FC<Props> = ({ card }) => {
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-
-  const {
-    schedule_id,
-    title,
-    destination,
-    duration,
-    created_at,
-    thumbnail_url
-  } = card;
-
+  const { id, name, address, thumbnail_url, rating, review_count } = card;
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 
@@ -70,25 +61,29 @@ const CardComponent7: React.FC<Props> = ({ card }) => {
     };
   }, [api, thumbnail_url]);
 
-
   return (
-    <Wrapper onClick={() => navigate(`/reviews/${schedule_id}`)}>
+    <Wrapper onClick={() => navigate(`/reviews/${id}`)}>
       <div style={{ cursor: "pointer" }}>
         <Profile>
           <Avatar.Root size="sm">
-            <Avatar.Fallback name={title} />
+            <Avatar.Fallback name={name} />
             <Avatar.Image src={thumbnail_url} />
           </Avatar.Root>
-          <span>{title}</span>
+          <span>{name}</span>
         </Profile>
 
-        {localImg && <Image src={localImg} alt={title} />}
-        <Name>{title}</Name>
+        {localImg && <Image src={localImg} alt={address} />}
+        <Name>{address}</Name>
       </div>
 
-    
-      <Separator mt="0.2rem" mb="0.2rem" size="sm" mr="0.7rem" ml="0.7rem" />
+      <Rating>
+        <RatingGroup.Root value={rating} count={5} readOnly>
+          <RatingGroup.HiddenInput />
+          <RatingGroup.Control />
+        </RatingGroup.Root>
+      </Rating>
 
+      <Separator mt="0.2rem" mb="0.2rem" size="sm" mr="0.7rem" ml="0.7rem" />
     </Wrapper>
   );
 };
