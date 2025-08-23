@@ -45,6 +45,7 @@ import {
 import { AutoCenter } from "@/components/common/align/AutoCenter";
 import type { Review, UserProfile } from "@/types/review/review";
 import type { Comment } from "@/types/comment/comment";
+import { useToggleLikeScrap } from '@/hooks/useToggleLikeScrap';
 
 type ReviewDetailViewProps = {
   review: Review;
@@ -64,35 +65,40 @@ type ReviewDetailViewProps = {
   bookmarked: boolean;
   bookmarkCount: number;
   handleScheduleClick: () => void;
-  handleLikeClick: () => void;
-  handleBookmarkClick: () => void;
+  // handleLikeClick: () => void;
+  // handleBookmarkClick: () => void;
   handleCommentSubmit: () => void;
   comment: string;
   setComment: (value: string) => void;
 };
 
+
 const ReviewDetailView = ({
+  review,
+  comments,
   comment,
   setComment,
-  liked,
-  likeCount,
-  bookmarked,
-  bookmarkCount,
-  handleLikeClick,
-  handleBookmarkClick,
   handleCommentSubmit,
   handleScheduleClick,
   handleMenuClick,
-  review,
-  comments,
-  isEditModalOpen,
-  setIsEditModalOpen,
-  allCount,
-  hasMore,
   isFetchingNext,
+  hasMore,
   setSentinelEl,
 }: ReviewDetailViewProps) => {
-  console.dir(review);
+  // 여기서 훅 사용!
+  const {
+    liked,
+    likeCount,
+    bookmarked,
+    bookmarkCount,
+    toggleLike,
+    toggleBookmark,
+  } = useToggleLikeScrap("REVIEW", review.id, {
+    initialLiked: review.is_liked,
+    initialBookmarked: review.is_scrapped,
+    initialLikeCount: review.like_count,
+    initialBookmarkCount: review.scrap_count,
+  });
 
   // 숫자 포맷(천단위)
   const fmt = (n: number) => new Intl.NumberFormat().format(n);
@@ -109,7 +115,12 @@ const ReviewDetailView = ({
             </Menu.Trigger>
             <Portal>
               <Menu.Positioner>
-                <Menu.Content pl={"0.6rem"} pr={"0.6rem"} pt={"0.3rem"} pb={"0.3rem"}>
+                <Menu.Content
+                  pl={"0.6rem"}
+                  pr={"0.6rem"}
+                  pt={"0.3rem"}
+                  pb={"0.3rem"}
+                >
                   {/* TODO: 수정은 나중에 */}
                   {/* <Menu.Item
                     onClick={() => handleMenuClick("edit")}
@@ -225,11 +236,10 @@ const ReviewDetailView = ({
           </Text>
 
           <Separator mt="3rem" mb="3rem" size="lg" />
-
           <IconBox>
             {/* 리뷰 좋아요/스크랩 */}
             <Icon
-              onClick={() => handleLikeClick("REVIEW", review.id)}
+              onClick={toggleLike} // 훅에서 받아온 toggle 함수 바로 연결
               style={{ cursor: "pointer" }}
               role="button"
               aria-pressed={liked}
@@ -241,7 +251,7 @@ const ReviewDetailView = ({
             </Icon>
 
             <Icon
-              onClick={() => handleBookmarkClick("REVIEW", review.id)}
+              onClick={toggleBookmark} // 훅에서 받아온 toggle 함수 바로 연결
               style={{ cursor: "pointer" }}
               role="button"
               aria-pressed={bookmarked}
@@ -251,10 +261,7 @@ const ReviewDetailView = ({
               {bookmarked ? <FaBookmark color="gold" /> : <FaRegBookmark />}
               <span>{fmt(bookmarkCount)}</span>
             </Icon>
-
-            {/* 장소 좋아요/스크랩 예시 */}
           </IconBox>
-
           {/* 댓글 */}
           <CommentSection>
             <PaddingMd />

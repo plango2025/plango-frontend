@@ -39,3 +39,9 @@ font-weight:700 ;
 
 
 `
+export const MapContainer = styled.div`
+  width: 100%;
+  height: 400px;
+  margin-top: 2rem;
+  background-color: #eee;
+`;

@@ -17,8 +17,8 @@ const ReviewDetailPage = () => {
     bookmarkCount,
     comment,
     setComment,
-    handleLikeClick,
-    handleBookmarkClick,
+    // handleLikeClick,
+    // handleBookmarkClick,
     handleCommentSubmit,
     handleScheduleClick,
     handleMenuClick,
@@ -47,8 +47,8 @@ const ReviewDetailPage = () => {
         comment={comment}
         setComment={setComment}
         handleScheduleClick={handleScheduleClick}
-        handleLikeClick={handleLikeClick}
-        handleBookmarkClick={handleBookmarkClick}
+        // handleLikeClick={handleLikeClick}
+        // handleBookmarkClick={handleBookmarkClick}
         handleCommentSubmit={handleCommentSubmit}
         handleMenuClick={handleMenuClick}
       />

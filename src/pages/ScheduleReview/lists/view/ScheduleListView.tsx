@@ -14,6 +14,9 @@ import { useAccessToken } from "@/context/AccessTokenContext";
 
 const ScheduleListView = ({
   keyword,
+  user,
+  logout,
+  isLoggedIn,
   setKeyword,
   schdReviews,
   observerRef,
@@ -25,7 +28,9 @@ const ScheduleListView = ({
   onSearch,
 }: any) => {
   const { accessToken, setAccessToken } = useAccessToken();
-  console.dir(schdReviews)
+
+ 
+
   useEffect(() => {
     if (!observerRef.current) return;
     const observer = new IntersectionObserver(handleObserver, {
@@ -48,8 +53,8 @@ const ScheduleListView = ({
             <GoFormBtn onClick={navigateToNewReview} className="add-button">
               리뷰 작성하기
             </GoFormBtn>
-            {accessToken ? (
-              <button>로그아웃</button>
+            {isLoggedIn ? (
+              <button onClick={logout}>로그아웃</button>
             ) : (
               <LoginBtn onClick={navigateToLogin} className="login-button">
                 로그인

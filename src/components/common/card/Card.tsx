@@ -17,6 +17,7 @@ import {
 } from "@/api/axiosInstance";
 import { Review } from "@/types/review/review";
 import { Rating } from "@/components/common/card/Card.style";
+import { useToggleLikeScrap } from '@/hooks/useToggleLikeScrap';
 
 const Card = forwardRef<HTMLDivElement, { review: Review }>(
   ({ review }, ref) => {
@@ -30,26 +31,18 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
       rating,
       author,
       thumbnail_url,
-      like_count,
       comment_count,
-      scrap_count,
     } = review;
 
-    const [liked, setLiked] = useState<boolean>(false);
-    const [bookmarked, setBookmarked] = useState<boolean>(false);
-    const [likeCount, setLikeCount] = useState<number>(like_count ?? 0);
-    const [bookmarkCount, setBookmarkCount] = useState<number>(
-      scrap_count ?? 0
-    );
+ 
     const [localImg, setLocalImg] = useState<string | null>(null);
-
-    useEffect(() => {
-      setLiked(Boolean(review.is_liked));
-      setBookmarked(Boolean(review.is_scrapped));
-      setLikeCount(review.like_count ?? 0);
-      setBookmarkCount(review.scrap_count ?? 0);
-    }, [review]);
-
+const { liked, likeCount, bookmarked, bookmarkCount, toggleLike, toggleBookmark } = useToggleLikeScrap("REVIEW", id, {
+  initialLiked: review.is_liked,
+  initialBookmarked: review.is_scrapped,
+  initialLikeCount: review.like_count,
+  initialBookmarkCount: review.scrap_count,
+});
+   
     // 썸네일 처리
     useEffect(() => {
       if (!thumbnail_url) return;
@@ -81,51 +74,7 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
       };
     }, [api, thumbnail_url]);
 
-    // 좋아요
-    const handleLikeClick = async (e: React.MouseEvent) => {
-      e.stopPropagation();
-      try {
-        const res = liked
-          ? await api.delete("/like", {
-              params: { type: "REVIEW", ref_id: id },
-              requiresAuth: true,
-            })
-          : await api.post("/like", null, {
-              params: { type: "REVIEW", ref_id: id },
-              requiresAuth: true,
-            });
-        const newLiked = res.data.liked as boolean;
-        setLiked(newLiked);
-        setLikeCount((prev) => (newLiked ? prev + 1 : Math.max(prev - 1, 0)));
-      } catch (err) {
-        console.error("좋아요 처리 실패", err);
-      }
-    };
-
-    // 북마크
-    const handleBookmarkClick = async (e: React.MouseEvent) => {
-      e.stopPropagation();
-      try {
-        const res = bookmarked
-          ? await api.delete("/scrap", {
-              params: { type: "REVIEW", ref_id: id },
-              requiresAuth: true,
-            })
-          : await api.post("/scrap", null, {
-              params: { type: "REVIEW", ref_id: id },
-              requiresAuth: true,
-            });
-        const newBookmarked = (res.data.scrapped ??
-          res.data.bookmarked) as boolean;
-        setBookmarked(newBookmarked);
-        setBookmarkCount((prev) =>
-          newBookmarked ? prev + 1 : Math.max(prev - 1, 0)
-        );
-      } catch (err) {
-        console.error("북마크 처리 실패", err);
-      }
-    };
-
+  
     return (
       <Wrapper ref={ref} onClick={() => navigate(`/reviews/${id}`)}>
         <div style={{ cursor: "pointer" }}>
@@ -151,22 +100,26 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
         <Separator mt="0.2rem" mb="0.2rem" size="sm" mr="0.7rem" ml="0.7rem" />
 
         <ButtonBox>
-          <Button onClick={handleLikeClick}>
-            {liked ? <FaHeart color="red" /> : <FaRegHeart />}
+          <Button onClick={toggleLike}>
+            {liked ? (
+              <FaHeart color="red" size={20} />
+            ) : (
+              <FaRegHeart size={20} />
+            )}
             <span>{likeCount}</span>
           </Button>
 
-          <Button onClick={handleBookmarkClick}>
+          <Button onClick={toggleBookmark}>
             {bookmarked ? (
               <FaBookmark size={20} color="#F9DE51" />
             ) : (
-              <FaRegBookmark size={20} color="gray" />
+              <FaRegBookmark size={20} />
             )}{" "}
             <span>{bookmarkCount}</span>
           </Button>
 
           <Button>
-            <FaRegCommentDots />
+            <FaRegCommentDots size={20} />
             <span>{comment_count}</span>
           </Button>
         </ButtonBox>

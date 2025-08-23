@@ -17,67 +17,84 @@ export const createApiWithToken = (
   // ✅ 요청 인터셉터
   let refreshingPromise: Promise<string | null> | null = null;
 
-api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
-  const needsAuth = config.requiresAuth === true;
+  api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
+    const needsAuth = config.requiresAuth === true;
+    console.log(
+      "📝 [Request Interceptor] URL:",
+      config.url,
+      "requiresAuth:",
+      needsAuth
+    );
 
-  if (needsAuth && config.headers) {
-    let token = getAccessToken();
-console.log(token)
-    if (!token) {
-      // 이미 리프레시 중이면 해당 promise를 기다림
-      if (!refreshingPromise) {
-        refreshingPromise = axios
-          .post(
-            "http://localhost:8000/api/auth/refresh",
-            {},
-            {
-              withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res)
-            const newToken = res.headers["authorization"]?.replace(
-              "Bearer ",
-              ""
-            );
-            if (newToken) {
-              setAccessToken(newToken);
-              return newToken;
-            } else {
-              throw new Error("❌ refresh 후에도 accessToken 없음");
-            }
-          })
-          .catch((e) => {
-            console.error("🚫 refresh 실패 (request):", e);
-            alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "/login";
-            return null;
-          })
-          .finally(() => {
-            refreshingPromise = null;
-          });
-      }
-
-      token = await refreshingPromise;
+    if (needsAuth && config.headers) {
+      let token = getAccessToken();
+      console.log("🔑 현재 accessToken:", token);
 
       if (!token) {
-        return Promise.reject(new Error("❌ accessToken 갱신 실패"));
+        console.log("⏳ accessToken 없음 → refresh 시도");
+        if (!refreshingPromise) {
+          refreshingPromise = axios
+            .post(
+              "http://localhost:8000/api/auth/refresh",
+              {},
+              {
+                withCredentials: true,
+                headers: { "Content-Type": "application/json" },
+              }
+            )
+            .then((res) => {
+              console.log("🔄 refresh 응답:", res);
+              const newToken = res.headers["authorization"]?.replace(
+                "Bearer ",
+                ""
+              );
+              console.log("🎟️ 새 accessToken (request interceptor):", newToken);
+
+              if (newToken) {
+                setAccessToken(newToken);
+                return newToken;
+              } else {
+                throw new Error("❌ refresh 후에도 accessToken 없음");
+              }
+            })
+            .catch((e) => {
+              console.error("🚫 refresh 실패 (request interceptor):", e);
+              alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+              window.location.href = "/login";
+              return null;
+            })
+            .finally(() => {
+              refreshingPromise = null;
+            });
+        }
+
+        token = await refreshingPromise;
+
+        if (!token) {
+          console.error("❌ accessToken 갱신 실패");
+          return Promise.reject(new Error("❌ accessToken 갱신 실패"));
+        }
       }
+
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log(
+        "🛠️ 요청에 accessToken 설정 완료:",
+        config.headers.Authorization
+      );
     }
 
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+    return config;
+  });
 
   // ✅ 응답 인터셉터
   api.interceptors.response.use(
     (response) => {
-      console.log("📥 [Response] 응답 성공:", response.config.url);
+      console.log(
+        "📥 [Response Success] URL:",
+        response.config.url,
+        "Status:",
+        response.status
+      );
       return response;
     },
     async (error: AxiosError) => {
@@ -89,6 +106,7 @@ console.log(token)
         originalRequest.url
       );
 
+      // 401 → 토큰 만료 처리
       if (
         error.response?.status === 401 &&
         !originalRequest._retry &&
@@ -104,15 +122,16 @@ console.log(token)
             {},
             {
               withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: { "Content-Type": "application/json" },
             }
           );
           console.log("✅ refresh 성공");
 
           const newToken = res.headers["authorization"]?.replace("Bearer ", "");
-          console.log("🎟️ 새로운 accessToken:", newToken);
+          console.log(
+            "🎟️ 새로운 accessToken (response interceptor):",
+            newToken
+          );
 
           if (!newToken)
             throw new Error("❌ access token 없음 (응답 인터셉터)");

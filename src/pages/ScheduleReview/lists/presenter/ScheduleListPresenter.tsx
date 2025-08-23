@@ -7,10 +7,11 @@ import ScheduleListView from "../view/ScheduleListView";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const ScheduleListPresenter = () => {
-  const { accessToken, setAccessToken } = useAccessToken();
+  const { accessToken, setAccessToken, user, logout, isLoggedIn } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
+
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
@@ -19,6 +20,7 @@ const ScheduleListPresenter = () => {
       getNextPageParam: (lastPage) => {
         return lastPage.hasNext ? lastPage.page + 1 : undefined;
       },
+       retry: false,
       refetchOnWindowFocus: false,
     });
 
@@ -41,7 +43,10 @@ console.dir(schdReviews)
     <ScheduleListView
       keyword={keyword}
       setKeyword={setKeyword}
+      isLoggedIn={isLoggedIn}
+      logout={logout}
       schdReviews={schdReviews}
+      user={user}
       observerRef={observerRef}
       handleObserver={handleObserver}
       isFetchingNextPage={isFetchingNextPage}

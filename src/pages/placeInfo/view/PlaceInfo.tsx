@@ -9,6 +9,7 @@ import {
   SubTitle,
   Content,
   BackIcon,
+  MapContainer,
 } from "./PlaceInfo.style";
 import {
   Padding1,
@@ -74,7 +75,7 @@ console.log(placeIntro);
               <Content>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
               </Content>
-
+              <MapContainer id="map"></MapContainer>
               <PaddingMd />
               <PlaceReviews
                 keyword={keyword}
