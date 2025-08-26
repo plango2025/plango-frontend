@@ -1,12 +1,11 @@
-import React from 'react'
-import Sidebar from './Sidebar';
-import styled from 'styled-components';
+import React from "react";
+import Sidebar from "./Sidebar";
+import styled from "styled-components";
 
 const FullContainer = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  
 `;
 
 const FullLayout = ({ children }) => {
@@ -16,6 +15,6 @@ const FullLayout = ({ children }) => {
       <FullContainer>{children}</FullContainer>
     </>
   );
-}
+};
 
-export default FullLayout
+export default FullLayout;

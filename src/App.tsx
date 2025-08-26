@@ -3,7 +3,6 @@ import LoginPageView from "@/pages/login/view/LoginPageView";
 import MainPage from "./pages/main/Mainpage";
 import ScheduleCreationView from "@/pages/ScheduleCreationPage/ScheduleCreationView";
 // import Test from './components/test/Test';
-import { AuthProvider } from "./context/AuthContext";
 
 import { AccessTokenProvider } from "./context/AccessTokenContext";
 import ReviewForm from "./pages/ScheduleReview/form/presenter/ReviewFormPresenter";

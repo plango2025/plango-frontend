@@ -12,17 +12,13 @@ const BREAKPOINT = CONTAINER_WIDTH + SIDEBAR_WIDTH; // rem
 export const SidebarContainer = styled.div`
   position: fixed;
   width: ${SIDEBAR_WIDTH}rem;
-  display:  flex;
+  display: flex;
   flex-direction: column;
   height: 100%;
   top: 0;
   left: 0;
   background-color: white;
   z-index: 1;
-
-  @media (max-width: ${BREAKPOINT}rem) {
-    display: none;
-  }
 `;
 export const LogoContainer = styled.div`
   position: relative;
@@ -39,7 +35,6 @@ export const SidebarLogo = styled.img`
   position: relative;
   width: ${LOGO_WIDTH}rem;
   height: ${LOGO_WIDTH}rem;
-  
 `;
 
 export const IconList = styled.ul`
@@ -50,7 +45,6 @@ export const IconList = styled.ul`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-
 `;
 
 export const IconItem = styled.li`

@@ -6,7 +6,6 @@
   gap: 0;
 }
 
-
 //stepper 회색쪽 layout
 .layout1 {
   display: flex;
@@ -16,9 +15,7 @@
   background-color: whitesmoke;
   flex-shrink: 0;
   overflow: hidden; // 자식들이 넘치지 않게
-  
 }
-
 
 //가운데 내용
 .layout2 {
@@ -32,7 +29,7 @@
   align-items: center;
 }
 
-.layout2Division{ 
+.layout2Division {
   width: 100%;
   min-height: 50rem;
   display: flex;
@@ -54,8 +51,6 @@
   flex-direction: column; /* Steps 컴포넌트 내부 아이템이 세로로 배열되도록 명시 */
 }
 
-
-
 //1-2-3-4-5-6-7-8
 .indicatorLayout {
   display: flex;
@@ -76,8 +71,6 @@
   font-size: 12px;
   font-weight: 200;
 }
-
-
 
 //main 내용 시작 -------------------------------------
 .stepContent {
@@ -104,7 +97,7 @@
   background-color: white;
 }
 
-.stepemoji{
+.stepemoji {
   font-size: 24px;
 }
 
@@ -125,12 +118,9 @@
   background-color: white;
 }
 
-
-
 .buttonLayout {
-  
   display: flex;
-    justify-content: center; /* 위쪽에 정렬 */
+  justify-content: center; /* 위쪽에 정렬 */
   text-align: center;
   width: 60%;
   margin-bottom: 50px;
