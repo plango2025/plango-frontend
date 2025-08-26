@@ -34,15 +34,9 @@
                          아래 JSX 수정 사항을 참조하거나, '8px' 등으로 직접 픽셀 값을 지정하세요. */
 }
 
-
 .indicator {
   margin-right: 0 !important;
 }
-
-
-
-
-
 
 .textBoxLayout {
   width: 100%;
@@ -52,8 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-    margin: 0.6rem 0;
-
+  margin: 0.6rem 0;
 }
 
 .textBox {
@@ -70,7 +63,7 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-font-size: 32px;
+  font-size: 32px;
   transition: transform 0.2s ease;
 
   &:hover {
@@ -87,7 +80,6 @@ font-size: 32px;
   height: 120px;
   display: flex;
   justify-content: center;
-
   align-items: center;
 }
 
@@ -102,10 +94,6 @@ font-size: 32px;
   margin-left: 10px;
   width: 260px;
 }
-
-
-
-
 
 .stepDayname {
   font-weight: bold;

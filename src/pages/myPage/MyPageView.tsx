@@ -3,11 +3,18 @@ import React, { useState } from "react";
 import CommonSidebar from "@/components/common/sidebar/CommonSidebar";
 import styles from "./myPage.module.scss";
 import Tap from "./tap/Tap";
-import { Page1, Page2, Page3, Page4, Page5, Page6 } from "./tapPages/TapPagesView";
+import {
+  Page1,
+  Page2,
+  Page3,
+  Page4,
+  Page5,
+  Page6,
+} from "./tapPages/TapPagesView";
 import { UserProfile } from "./MyPageModel";
 import { LuPencil } from "react-icons/lu"; // Import the pen icon
 import MyPageEditModal from "./MyPageEditModal"; // Import the new modal component
-import { Spinner } from '@chakra-ui/react';
+import { Spinner } from "@chakra-ui/react";
 
 interface Props {
   user: UserProfile | null;
@@ -60,7 +67,6 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
                 ></div>
                 {/* Pen icon for editing */}
                 <button
-              
                   onClick={handleEditClick}
                   className={styles.editButton}
                   aria-label="Edit Profile"
@@ -78,7 +84,7 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
                     {user.birth}
                   </div>
                   <div className={styles.myLayout__textarea1__tag}>
-                    여행 {user.id}회차
+                    여행 {user.tourcount}회차
                   </div>
                 </div>
               </div>
@@ -86,16 +92,21 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
                 <div className={styles.myLayout__textarea2}>
                   <div>
                     <text className={styles.about}>About me</text>
-                    <div>
-                      {user.about}
-                    </div>
+                    <div>{user.about}</div>
                   </div>
-                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.tapLayout}>
-            <Tap section1={<Page1 />}  section2={<Page2 />} section3={<Page3 />} section4={<Page4 />} section5={<Page5 />} section6={<Page6 />} />
+            <Tap
+              section1={<Page1 />}
+              section2={<Page2 />}
+              section3={<Page3 />}
+              section4={<Page4 />}
+              section5={<Page5 />}
+              section6={<Page6 />}
+            />
           </div>
         </div>
       </main>

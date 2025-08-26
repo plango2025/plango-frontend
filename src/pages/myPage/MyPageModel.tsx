@@ -13,6 +13,7 @@ export interface UserProfile {
   about: string;
   address: string;
   profile_image: string;
+  tourcount: number;
 }
 
 export const useUserApi = () => {
@@ -37,6 +38,7 @@ export const useUserApi = () => {
       about: data.about ?? data.properties?.about ?? "",
       address: data.address ?? data.properties?.address ?? "",
       profile_image: data.profile_image ?? data.properties?.profile_image ?? "",
+      tourcount: data.tourcount ?? data.properties?.tourcount ?? 0,
     };
   };
 

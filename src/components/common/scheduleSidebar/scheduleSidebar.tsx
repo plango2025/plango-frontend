@@ -200,16 +200,18 @@ const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
               defaultStep={0}
               count={stepItems.length}
             >
-              <Steps.List>
+              <Steps.List justifyContent="flex-start">
                 {stepItems.map((_, index) => (
                   <Steps.Item
                     key={index}
                     index={index}
                     minHeight="150px"
                     maxHeight="150px"
+                    padding="0"
                     marginLeft="15px"
+                    flex="initial" // 이 줄을 추가하세요!
                   >
-                    <Steps.Indicator className={styles.indicor} />
+                    <Steps.Indicator className={styles.indicator} />
                     <Steps.Separator />
                   </Steps.Item>
                 ))}
