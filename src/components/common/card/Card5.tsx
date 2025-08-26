@@ -26,15 +26,7 @@ const CardComponent5: React.FC<Props> = ({ card }) => {
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-
-  const {
-    id,
-    name,
-    address,
-    thumbnail_url,
-    rating,
-    review_count,
-  } = card;
+  const { id, name, address, thumbnail_url, rating, review_count } = card;
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 
@@ -69,9 +61,8 @@ const CardComponent5: React.FC<Props> = ({ card }) => {
     };
   }, [api, thumbnail_url]);
 
-
   return (
-    <Wrapper onClick={() => navigate(`/reviews/${id}`)}>
+    <Wrapper onClick={() => navigate(`/place/${name}`)}>
       <div style={{ cursor: "pointer" }}>
         <Profile>
           <Avatar.Root size="sm">
@@ -85,17 +76,14 @@ const CardComponent5: React.FC<Props> = ({ card }) => {
         <Name>{address}</Name>
       </div>
 
-      
-            <Rating>
-              <RatingGroup.Root value={rating} count={5} readOnly>
-                <RatingGroup.HiddenInput />
-                <RatingGroup.Control />
-              </RatingGroup.Root>
-            </Rating>
+      <Rating>
+        <RatingGroup.Root value={rating} count={5} readOnly>
+          <RatingGroup.HiddenInput />
+          <RatingGroup.Control />
+        </RatingGroup.Root>
+      </Rating>
 
-    
       <Separator mt="0.2rem" mb="0.2rem" size="sm" mr="0.7rem" ml="0.7rem" />
-
     </Wrapper>
   );
 };

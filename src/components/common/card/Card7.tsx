@@ -62,7 +62,7 @@ const CardComponent7: React.FC<Props> = ({ card }) => {
   }, [api, thumbnail_url]);
 
   return (
-    <Wrapper onClick={() => navigate(`/reviews/${id}`)}>
+    <Wrapper onClick={() => navigate(`/plcae/${name}`)}>
       <div style={{ cursor: "pointer" }}>
         <Profile>
           <Avatar.Root size="sm">

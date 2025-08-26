@@ -1,8 +1,9 @@
-import { styled } from 'styled-components';
-import { cachedDataVersionTag } from 'v8';
+import { styled } from "styled-components";
+import { cachedDataVersionTag } from "v8";
 export const Wrapper = styled.div`
   width: 100%;
   height: 370px;
+  min-width: 0; // grid 아이템 폭 강제
   font-weight: 700;
   border-radius: 20px;
   box-shadow: 2px 5px 5px 3px rgb(199, 199, 199);
@@ -12,28 +13,26 @@ export const Wrapper = styled.div`
   }
 `;
 export const Profile = styled.div`
-padding-top: 1rem;
-padding-left: 1rem;
-margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap:11px;
-  width: 100%;  
+  gap: 11px;
+  width: 100%;
   height: 3rem;
-  border-radius: 40px 40px 0  0;
-  span{
+  border-radius: 40px 40px 0 0;
+  span {
     font-size: 1rem;
     color: #333;
   }
-  `;
+`;
 export const Image = styled.img`
-  width: 100%;  
+  width: 100%;
   height: 10rem;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-
-    
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 `;
 
 export const Name = styled.h2`
@@ -53,12 +52,12 @@ export const Rating = styled.div`
   padding-top: 0.3rem;
   padding-left: 0.6rem;
 `;
-export const ButtonBox=styled.div`
-display: flex;
+export const ButtonBox = styled.div`
+  display: flex;
   justify-content: space-between;
-`
+`;
 export const Button = styled.button`
-display: flex;
+  display: flex;
   border: none;
   border-radius: 5px;
   padding: 1rem 1rem;
@@ -67,9 +66,8 @@ display: flex;
   align-items: center;
   margin-bottom: 0.4rem;
 
-  span{
+  span {
     margin-left: 0.5rem;
-    padding:0;
+    padding: 0;
   }
-  
 `;
