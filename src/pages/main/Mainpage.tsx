@@ -22,6 +22,7 @@ import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
 import { AuthContext } from "@/context/AuthContext";
 import PlaceReviewTest from "../test/placeReivews";
+import { LogoutBtn } from '../ScheduleReview/lists/view/ScheduleListView';
 
 export default function MainPage() {
   const { isLoggedIn, logout} = useAccessToken();
@@ -48,7 +49,7 @@ export default function MainPage() {
             <LoginBtnWrapper>
               {isLoggedIn ? (
                 <>
-                  <button onClick={logout}>로그아웃</button>
+                  <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
                 </>
               ) : (
                 <LoginBtn />
