@@ -73,10 +73,16 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // 로그아웃
   const logout = async () => {
-    api.post("/auth/logout", {}, { requiresAuth: true });
-            setAccessToken(null);
-            toast("로그아웃되었습니다.");
-
+    api.post("/auth/logout", {}, { requiresAuth: true })
+    .then(() => {
+      console.log("일반 로그아웃 성공");
+      setAccessToken(null);
+      api.get("/oauth/kakao/logout", {}, { requiresAuth: false })
+      .then((result) => {
+        const logout_url = result.data.logout_redirect_uri;
+        window.location.href = logout_url;
+      });
+    });
   };
 
 
