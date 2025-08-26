@@ -20,9 +20,7 @@ export const SidebarContainer = styled.div`
   background-color: white;
   z-index: 1;
 
-  @media (max-width: ${BREAKPOINT}rem) {
-    display: none;
-  }
+ 
 `;
 export const LogoContainer = styled.div`
   position: relative;

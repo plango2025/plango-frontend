@@ -82,7 +82,6 @@ const CommentList = ({ comments }) => {
                         <Menu.Item
                           onClick={() => {
                             handleMenuClick("delete", c.id);
-                            console.log("클릭됨");
                           }}
                           value="삭제"
                         >

@@ -97,9 +97,7 @@ const MyPageEditModal: React.FC<Props> = ({ isOpen, onClose, user }) => {
         },
         body: JSON.stringify(updatedFields),
       });
-        console.log(updatePayload);
       if (!userUpdateResponse.ok) {
-        console.log(updatePayload);
         throw new Error('Failed to update user profile.');
       }
 

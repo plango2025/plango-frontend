@@ -20,7 +20,7 @@ export const usePlaceSearch = (keyword?: string) => {
   const [hasMore, setHasMore] = useState(false);
   const [liked, setLiked] = useState<boolean | null>(null);
   const [bookmarked, setBookmarked] = useState<boolean | null>(null);
-
+  const [likeCount, setLikeCount] = useState<number | null>(null);
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
 
@@ -39,9 +39,11 @@ export const usePlaceSearch = (keyword?: string) => {
     onSuccess: (data) => {
       setLiked(data.is_liked);
       setBookmarked(data.is_bookmarked);
+      setLikeCount(data.like_count);
       console.log("장소 정보:", data);
     },
   });
+
   const loadFirstReviews = useCallback(
     async (keyword: string, limit = 10) => {
       try {
@@ -60,6 +62,7 @@ export const usePlaceSearch = (keyword?: string) => {
     [api]
   );
 
+  
   const loadMoreReviews = useCallback(
     async (keyword: string, limit = 10) => {
       if (!hasMore || !nextCursor) return;
@@ -85,8 +88,10 @@ export const usePlaceSearch = (keyword?: string) => {
     if (!placeIntro) return;
     const nextLiked = !liked;
     setLiked(nextLiked);
+    
     try {
       await toggleLike(api, "PLACE", keyword!, nextLiked);
+      setLikeCount(nextLiked ? (likeCount ?? 0) + 1 : (likeCount ?? 0) - 1);
     } catch (err) {
       console.error(err);
       setLiked(!nextLiked); // 실패 시 롤백
@@ -108,6 +113,7 @@ export const usePlaceSearch = (keyword?: string) => {
 
   return {
     liked,
+    likeCount,
     bookmarked,
     placeIntro,
     loading,

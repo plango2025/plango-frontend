@@ -70,7 +70,6 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
 
   // 검색 실행 (공통)
   const triggerSearch = (place_name: string) => {
-    console.log("triggerSearch 호출, place_name:", place_name);
     setHasSearched(true); // 검색 실행 시 상태 업데이트
     setInputText(place_name);
 
@@ -104,7 +103,6 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   };
 
   const handleSuggestionClick = (s: LocationSuggestion) => {
-    console.log("handleSuggestionClick 호출:", s.place_name);
     setInputText(s.place_name);
     triggerSearch(s.place_name);
     setSuggestions([]);

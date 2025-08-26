@@ -40,7 +40,6 @@ const Card = forwardRef<HTMLDivElement, { review: Review }>(
       initialLikeCount: review.like_count,
       initialBookmarkCount: review.scrap_count,
     });
-    console.log(title, "Card - isLoggedIn:", isLoggedIn, "조항요", liked);
 
     // 썸네일 처리
     useEffect(() => {

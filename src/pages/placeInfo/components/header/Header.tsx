@@ -72,7 +72,6 @@ const Header = ({
           }}
         >
           {liked ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}{" "}
-          <p>{like_count}</p>
         </Box>
       </Flex>
 

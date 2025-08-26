@@ -3,7 +3,6 @@ export const fetchPlaceByKeyword=async(api, keyword:string)=>{
     params: { keyword },
     requiresAuth: false,
   });
-  console.log(res.data);
   return res.data;
 }
 

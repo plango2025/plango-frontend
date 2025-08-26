@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -7,6 +8,7 @@ export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 }
 
 export const createApiWithToken = (
+
   getAccessToken: () => string | null,
   setAccessToken: (token: string) => void
 ) => {
@@ -14,18 +16,12 @@ export const createApiWithToken = (
     baseURL: "http://localhost:8000/api",
     withCredentials: true,
   });
-
   // ✅ 요청 인터셉터
   let refreshingPromise: Promise<string | null> | null = null;
 
   api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
     const needsAuth = config.requiresAuth === true;
-    console.log(
-      "📝 [Request Interceptor] URL:",
-      config.url,
-      "requiresAuth:",
-      needsAuth
-    );
+   
 
     if (needsAuth && config.headers) {
       let token = getAccessToken();
@@ -60,7 +56,7 @@ export const createApiWithToken = (
             })
             .catch((e) => {
               toast.error("로그인이 필요한 서비스입니다.");
-
+              // window.location.href = "/login";
               console.error("🚫 refresh 실패 (request interceptor):", e);
               return null;
             })
@@ -146,6 +142,7 @@ export const createApiWithToken = (
           toast.error("로그인이 필요한 서비스입니다.");
           console.error("🚫 refresh 실패 (response interceptor):", refreshErr);
           return Promise.reject(refreshErr);
+
         }
       }
 
