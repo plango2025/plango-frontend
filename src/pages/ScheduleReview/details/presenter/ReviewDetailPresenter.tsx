@@ -17,7 +17,7 @@ import type { Comment } from "@/types/comment/comment";
 
 export const useReviewDetailPresenter = (id: string | undefined) => {
   const navigate = useNavigate();
-  const { accessToken, setAccessToken } = useAccessToken();
+  const { accessToken, setAccessToken,isLoggedIn } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
 
   // 엔티티 상태
@@ -49,23 +49,6 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     if (!review) return;
     navigate(`/schedule/${review.reference.schedule_id}`);
   };
-  // const handleLikeClick = async (type: "REVIEW" | "PLACE", id: string) => {
-  //   setLiked((prev) => {
-  //     const next = !prev;
-  //     void toggleLike(api, type, id, next); // type과 id를 그대로 전달
-  //     return next;
-  //   });
-  //   setLikeCount((c) => (liked ? c - 1 : c + 1));
-  // };
-
-  // const handleBookmarkClick = (type: "REVIEW" | "PLACE", id: string) => {
-  //   setBookmarked((prev) => {
-  //     const next = !prev;
-  //     void toggleScrap(api, type, id, next);
-  //     return next;
-  //   });
-  //   setBookmarkCount((c) => (bookmarked ? c - 1 : c + 1));
-  // };
 
   /** 댓글 등록 → 첫 페이지 새로고침 */
   const [commentInput, setCommentInput] = useState("");
@@ -94,8 +77,8 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
         api,
         refId: review.id,
         cursor: nextCursor,
-        limit: 20,
-      });
+        limit: 20
+      }, );
       setPages((prev) => [...prev, next]);
       setNextCursor(next.next_cursor);
       setHasMore(next.has_more);
@@ -109,7 +92,7 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     if (!id) return;
     (async () => {
       try {
-        const reviewData = await fetchReview(api, id);
+        const reviewData = await fetchReview(api, id, isLoggedIn);
         const first = await fetchComments({
           api,
           refId: reviewData.id,
@@ -163,7 +146,6 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   }, [sentinelRef.current]);
 
   const handleMenuClick = (action: "edit" | "delete") => {
-    console.log("여기를 아예 들어오지르 않네");
     switch (action) {
       case "edit":
         setIsEditModalOpen(true);
@@ -177,19 +159,13 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   };
 
   return {
-    // 데이터
     review,
     user,
     comments,
     allCount: comments.length,
-
-    // 페이지네이션 상태
     hasMore,
     isFetchingNext,
-
-    // 액션/UX
     handleScheduleClick,
-   
     handleCommentSubmit,
     handleMenuClick,
     comment: commentInput,

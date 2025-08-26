@@ -16,7 +16,6 @@ const ScheduleListView = ({
   keyword,
   user,
   logout,
-  isLoggedIn,
   setKeyword,
   schdReviews,
   observerRef,
@@ -27,7 +26,7 @@ const ScheduleListView = ({
   navigateToLogin,
   onSearch,
 }: any) => {
-  const { accessToken, setAccessToken } = useAccessToken();
+  const {isLoggedIn } = useAccessToken();
 
  
 

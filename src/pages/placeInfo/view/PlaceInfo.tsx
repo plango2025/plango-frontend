@@ -75,7 +75,7 @@ console.log(placeIntro);
               <Content>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
               </Content>
-              <MapContainer id="map"></MapContainer>
+              {/* <MapContainer id="map"></MapContainer> */}
               <PaddingMd />
               <PlaceReviews
                 keyword={keyword}

@@ -45,7 +45,8 @@ import {
 import { AutoCenter } from "@/components/common/align/AutoCenter";
 import type { Review, UserProfile } from "@/types/review/review";
 import type { Comment } from "@/types/comment/comment";
-import { useToggleLikeScrap } from '@/hooks/useToggleLikeScrap';
+import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
+import EditModal from "../components/editModal/EditModal";
 
 type ReviewDetailViewProps = {
   review: Review;
@@ -72,7 +73,6 @@ type ReviewDetailViewProps = {
   setComment: (value: string) => void;
 };
 
-
 const ReviewDetailView = ({
   review,
   comments,
@@ -84,6 +84,8 @@ const ReviewDetailView = ({
   isFetchingNext,
   hasMore,
   setSentinelEl,
+  isEditModalOpen,
+  setIsEditModalOpen,
 }: ReviewDetailViewProps) => {
   // 여기서 훅 사용!
   const {
@@ -99,6 +101,7 @@ const ReviewDetailView = ({
     initialLikeCount: review.like_count,
     initialBookmarkCount: review.scrap_count,
   });
+  console.log("이즈에딧모달", isEditModalOpen);
 
   // 숫자 포맷(천단위)
   const fmt = (n: number) => new Intl.NumberFormat().format(n);
@@ -107,6 +110,33 @@ const ReviewDetailView = ({
     <GridItem colSpan={12}>
       {review.file_urls.length > 0 && (
         <Header bgUrl={review.file_urls[0]}>
+          {/* 아래는 수정 관련 코드인데 수정이 필요해요 */}
+          {/* {
+  isEditModalOpen && (
+    <EditModal
+      isOpen={isEditModalOpen}
+      onClose={() => setIsEditModalOpen(false)}
+      initialReview={{
+        id: review.id,
+        type: review.type, // "PLACE" | "SCHEDULE"
+        title: review.title,
+        content: review.content,
+        rating: review.rating,
+        keyword: review.keyword, // PLACE 라면
+        scheduleId: review.reference?.id, // SCHEDULE 라면 맞는 필드 사용
+        file_urls: review.file_urls,
+      }}
+      savedSchedules={[]} // 필요하다면 부모에서 내려주기
+      onSubmit={async (payload) => {
+        // 수정 API 호출 로직
+        console.log("수정 요청 payload", payload);
+        // await api.patch(`/reviews/${review.id}`, payload)
+        setIsEditModalOpen(false);
+      }}
+      isSubmitting={false} // 저장 중 상태라면 true로
+    />
+    )} */}
+    
           <Menu.Root>
             <Menu.Trigger asChild>
               <MenuIcon>
@@ -122,12 +152,12 @@ const ReviewDetailView = ({
                   pb={"0.3rem"}
                 >
                   {/* TODO: 수정은 나중에 */}
-                  {/* <Menu.Item
+                  <Menu.Item
                     onClick={() => handleMenuClick("edit")}
                     value="수정"
                   >
                     수정
-                  </Menu.Item> */}
+                  </Menu.Item>
                   <Menu.Item
                     onClick={() => {
                       handleMenuClick("delete");

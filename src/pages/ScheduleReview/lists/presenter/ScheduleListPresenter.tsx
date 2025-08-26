@@ -12,15 +12,16 @@ const ScheduleListPresenter = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
 
-
+console.log(isLoggedIn)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: ["schdReviews", keyword],
-      queryFn: ({ pageParam = 0 }) => fetchReviews(api, keyword, pageParam),
+      queryKey: ["schdReviews", keyword, isLoggedIn],
+      queryFn: ({ pageParam = 0 }) =>
+        fetchReviews(api, keyword, pageParam, isLoggedIn),
       getNextPageParam: (lastPage) => {
         return lastPage.hasNext ? lastPage.page + 1 : undefined;
       },
-       retry: false,
+      retry: false,
       refetchOnWindowFocus: false,
     });
 

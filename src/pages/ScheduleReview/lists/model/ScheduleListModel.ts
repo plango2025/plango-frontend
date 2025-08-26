@@ -1,7 +1,7 @@
 // model/ScheduleListModel.ts
 import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 
-export const fetchReviews = async (api, searchKeyword = "") => {
+export const fetchReviews = async (api, searchKeyword = "", page = 0, isLoggedIn) => {
   const params: Record<string, string> = {
     targetType: "SCHEDULE",
   };
@@ -9,12 +9,12 @@ export const fetchReviews = async (api, searchKeyword = "") => {
   if (searchKeyword) {
     params.keyword = searchKeyword;
   }
-
+  console.log("🤗🤗🤗isLoggedIn:", isLoggedIn);
   const response = await api.get("/reviews", {
     params,
-    requiresAuth: true,
+    requiresAuth: isLoggedIn,
   });
-console.log("fetchReviews response:", response.data);
+  console.log("fetchReviews response:", response.data);
   return response.data;
 };
 
