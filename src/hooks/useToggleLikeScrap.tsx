@@ -86,7 +86,6 @@ export const useToggleLikeScrap = (
         if (status === 403)
           toast.error("본인이 작성한 글에는 좋아요를 누를 수 없습니다.");
         else if (status === 401) toast.error("로그인이 필요한 서비스입니다.");
-        else toast.error("좋아요 처리 중 오류가 발생했습니다.");
       }
     },
     [api, id, liked, type]
@@ -130,8 +129,8 @@ export const useToggleLikeScrap = (
         const status = (err as AxiosError)?.response?.status;
         if (status === 403)
           toast.error("본인이 작성한 글에는 스크랩을 할 수 없습니다.");
-        else if (status === 401) toast.error("로그인이 필요한 서비스입니다.");
-        else toast.error("스크랩 처리 중 오류가 발생했습니다.");
+        else if (status === 401 )
+          toast.error("로그인이 필요한 서비스입니다.");
       }
     },
     [api, id, bookmarked, type]

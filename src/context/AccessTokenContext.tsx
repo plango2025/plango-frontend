@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { createApiWithToken } from "@/api/axiosInstance";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 type UserProfile = {
   id: string;
@@ -33,14 +34,12 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
   const api = createApiWithToken(
     () => accessToken,
     (token) => {
-      console.log("✅ AccessToken 갱신됨:", token);
       setAccessToken(token);
     }
   );
 
   useEffect(() => {
     const init = async () => {
-      console.log("🚀 자동 로그인 시작");
       try {
         const res = await api.post(
           "/auth/refresh",
@@ -51,15 +50,12 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
           }
         );
         const newToken = res.headers["authorization"]?.replace("Bearer ", "");
-        console.log("🔑 Refresh 응답 헤더:", res.headers);
-        console.log("🎟️ 새로운 accessToken:", newToken);
 
         if (newToken) {
           setAccessToken(newToken);
           const profileRes = await api.get("/users/me/profile", {
             requiresAuth: true,
           });
-          console.log("👤 사용자 정보:", profileRes.data);
           setUser(profileRes.data);
         } else {
           console.warn("❌ refresh로도 accessToken 없음");
@@ -83,7 +79,6 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
 
   };
 
-  console.log("📌 AccessTokenContext 상태:", { accessToken, isLoggedIn, user });
 
   return (
     <AccessTokenContext.Provider

@@ -19,7 +19,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import PlaceReviews from "@/pages/test/placeReivews";
 import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
-import FullLayout from '@/layout/FullLayout';
+import FullLayout from "@/layout/FullLayout";
 
 const PlaceInfo = () => {
   const { keyword } = useParams();
@@ -32,6 +32,7 @@ const PlaceInfo = () => {
     loading,
     reviewItems,
     hasMore,
+    likeCount,
     loadFirstReviews,
     loadMoreReviews,
     handleLikeClick,
@@ -41,9 +42,9 @@ const PlaceInfo = () => {
   const handleBack = () => navigate(-1);
 
   if (loading || !placeIntro) return <Spinner />;
-
-  const { title, sub_title, content, address, images , rating, like_count} = placeIntro;
-console.log("평점입ㄴ디ㅏ아아아", rating);
+  console.log(likeCount);
+  const { title, sub_title, content, address, images, rating, like_count } =
+    placeIntro;
   return (
     <BackGround>
       <AppLayout>

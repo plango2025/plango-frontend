@@ -1,5 +1,5 @@
 // mypageview.tsx
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import CommonSidebar from "@/components/common/sidebar/CommonSidebar";
 import styles from "./myPage.module.scss";
 import Tap from "./tap/Tap";
@@ -15,6 +15,7 @@ import { UserProfile } from "./MyPageModel";
 import { LuPencil } from "react-icons/lu"; // Import the pen icon
 import MyPageEditModal from "./MyPageEditModal"; // Import the new modal component
 import { Spinner } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   user: UserProfile | null;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
+  const navigate = useNavigate();
   // State to manage the visibility of the pop-up
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,7 +44,7 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
   }
 
   if (error) {
-    return <div>{error}</div>; // 에러 메시지를 표시
+    navigate("/login");
   }
 
   if (!user) {

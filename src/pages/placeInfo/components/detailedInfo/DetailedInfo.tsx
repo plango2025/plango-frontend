@@ -15,7 +15,6 @@ import { InfoItem } from '../infolist/Infolist';
 // }
 
 const DetailedInfo = ({contentTypeId, introData}) => {
-  // console.log(introInfoLabelsMap[contentTypeId])
   const labelList: LabelItem[] = introInfoLabelsMap[contentTypeId] || [];
 
   return (
