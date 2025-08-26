@@ -7,6 +7,7 @@ import { Page1, Page2, Page3, Page4, Page5, Page6 } from "./tapPages/TapPagesVie
 import { UserProfile } from "./MyPageModel";
 import { LuPencil } from "react-icons/lu"; // Import the pen icon
 import MyPageEditModal from "./MyPageEditModal"; // Import the new modal component
+import { Spinner } from '@chakra-ui/react';
 
 interface Props {
   user: UserProfile | null;
@@ -30,7 +31,7 @@ const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
 
   // ✅ 렌더링 순서를 변경하여 error를 먼저 처리
   if (loading) {
-    return <div>로딩중...</div>;
+    return <Spinner />;
   }
 
   if (error) {

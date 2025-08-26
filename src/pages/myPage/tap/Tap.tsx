@@ -6,9 +6,9 @@ import styles from "./Tap.module.scss";
 const ProfileSubTabs = ({ section1, section2 }) => (
   <Tabs.Root variant="enclosed" fitted defaultValue={"sub-profile1"}>
     <Tabs.List className={styles.subTabsList}>
-      <Tabs.Trigger className={styles.subTabs} value="sub-profile1">Sub-Profile 1</Tabs.Trigger>
-      <Tabs.Trigger className={styles.subTabs} value="sub-profile2">Sub-Profile 2</Tabs.Trigger>
-    </Tabs.List>
+      <Tabs.Trigger className={styles.subTabs} value="sub-profile1">작성한 리뷰</Tabs.Trigger>
+      <Tabs.Trigger className={styles.subTabs} value="sub-profile2">보관한 일정</Tabs.Trigger>
+    </Tabs.List >
     <Tabs.Content value="sub-profile1"><div className = {styles.y_scroll}>{section1}</div></Tabs.Content>
     <Tabs.Content value="sub-profile2">{section2}</Tabs.Content>
   </Tabs.Root>
@@ -17,8 +17,8 @@ const ProfileSubTabs = ({ section1, section2 }) => (
 const LikesSubTabs = ({ section3, section4 }) => (
   <Tabs.Root variant="enclosed" fitted defaultValue="sub-likes1">
     <Tabs.List className={styles.subTabsList}>
-      <Tabs.Trigger className={styles.subTabs} value="sub-likes1">Sub-Likes 3</Tabs.Trigger>
-      <Tabs.Trigger className={styles.subTabs} value="sub-likes2">Sub-Likes 4</Tabs.Trigger>
+      <Tabs.Trigger className={styles.subTabs} value="sub-likes1">좋아한 리뷰</Tabs.Trigger>
+      <Tabs.Trigger className={styles.subTabs} value="sub-likes2">좋아한 장소</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="sub-likes1">{section3}</Tabs.Content>
     <Tabs.Content value="sub-likes2">{section4}</Tabs.Content>
@@ -28,8 +28,8 @@ const LikesSubTabs = ({ section3, section4 }) => (
 const BookmarkSubTabs = ({ section5, section6 }) => (
   <Tabs.Root variant="enclosed" fitted defaultValue="sub-bookmark1">
     <Tabs.List className={styles.subTabsList}>
-      <Tabs.Trigger className={styles.subTabs} value="sub-bookmark1">Sub-Bookmark 5</Tabs.Trigger>
-      <Tabs.Trigger className={styles.subTabs}value="sub-bookmark2">Sub-Bookmark 6</Tabs.Trigger>
+      <Tabs.Trigger className={styles.subTabs} value="sub-bookmark1">스크랩한 리뷰</Tabs.Trigger>
+      <Tabs.Trigger className={styles.subTabs} value="sub-bookmark2">스크랩한 장소</Tabs.Trigger>
     </Tabs.List>
     <Tabs.Content value="sub-bookmark1">{section5}</Tabs.Content>
     <Tabs.Content value="sub-bookmark2">{section6}</Tabs.Content>
@@ -42,15 +42,15 @@ const Tap = ({ section1, section2, section3, section4, section5, section6 }) => 
       <Tabs.List className={styles.tabsRoot} bg="bg.muted" rounded="l3" p="1">
         <Tabs.Trigger value="profile" className={styles.triggerRoot}>
           <LuUser />
-          profile
+          <p>profile</p>
         </Tabs.Trigger>
         <Tabs.Trigger className={styles.triggerRoot} value="likes">
           <LuFolder />
-          likes
+          <p>likes</p>
         </Tabs.Trigger>
         <Tabs.Trigger className={styles.triggerRoot} value="bookmark">
           <LuSquareCheck />
-          bookmark
+          <p>scrap</p>
         </Tabs.Trigger>
         <Tabs.Indicator rounded="l2" />
       </Tabs.List>

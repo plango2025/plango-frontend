@@ -36,7 +36,7 @@ function Sidebar() {
         </IconItem>
 
         <IconItem>
-          <FaUser />
+          <FaUser onClick={() => navigate("/reviews")} />
         </IconItem>
         {/* 알림 기능 생기면 넣기 */}
         {/* <IconItem>

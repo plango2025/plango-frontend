@@ -1,9 +1,8 @@
 .pageContainer {
   display: grid;
-  height: 50vh;      
-  grid-template-columns: repeat(3, 1fr); // 가로 3개
-  gap: 16px; // 카드 사이 간격
-  grid-auto-rows: 500px;                 
+  height: 50vh;
+  grid-template-columns: repeat(4, 1fr); // 가로 4개
+  gap:10px;
   box-sizing: border-box; // 패딩 계산 포함
   overflow-y: auto; // 세로 스크롤
 }

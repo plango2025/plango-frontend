@@ -47,7 +47,7 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   /** 일정 바로보기 */
   const handleScheduleClick = () => {
     if (!review) return;
-    navigate(`/schedule/${review.reference.schedule_id}`);
+    navigate(`/schedules/${review.reference.schedule_id}`);
   };
 
   /** 댓글 등록 → 첫 페이지 새로고침 */
