@@ -1,5 +1,5 @@
 import AppLayout from "@/layout/AppLayout";
-import { GridItem, Separator } from "@chakra-ui/react";
+import { GridItem, Separator, Spinner } from "@chakra-ui/react";
 import Header from "../components/header/Header";
 import Gallery from "../components/gallary/Gallery";
 import { IoIosArrowBack } from "react-icons/io";
@@ -19,6 +19,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import PlaceReviews from "@/pages/test/placeReivews";
 import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
+import FullLayout from '@/layout/FullLayout';
 
 const PlaceInfo = () => {
   const { keyword } = useParams();
@@ -39,10 +40,10 @@ const PlaceInfo = () => {
 
   const handleBack = () => navigate(-1);
 
-  if (loading || !placeIntro) return <div>로딩 중입니다...</div>;
+  if (loading || !placeIntro) return <Spinner />;
 
   const { title, sub_title, content, address, images , rating, like_count} = placeIntro;
-console.log(placeIntro);
+console.log("평점입ㄴ디ㅏ아아아", rating);
   return (
     <BackGround>
       <AppLayout>
@@ -75,7 +76,7 @@ console.log(placeIntro);
               <Content>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
               </Content>
-              <MapContainer id="map"></MapContainer>
+              {/* <MapContainer id="map"></MapContainer> */}
               <PaddingMd />
               <PlaceReviews
                 keyword={keyword}

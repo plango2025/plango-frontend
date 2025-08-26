@@ -1,85 +1,74 @@
 @use "../../assets/styles/grid.module.scss" as grid;
 
 .container {
-    display: flex;
+  display: flex;
 }
 
-.mainContainerLayout{
-    width: 100%;
-    @extend .col-span-12;
-    justify-items: center;
-    align-items: center;
-    
+.mainContainerLayout {
+  width: 100%;
+  @extend .col-span-12;
+  justify-items: center;
+  align-items: center;
 }
-
-
 
 .topLayout {
-    display: flex;
-    width: 100%;
-    @extend .col-span-12;
-    height: 35%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
- 
-
-
+  display: flex;
+  width: 100%;
+  @extend .col-span-12;
+  height: 35%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .myLayout__textarea1__name {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
-.myLayout__textarea1__address{
-    margin-bottom: 10px;
+.myLayout__textarea1__address {
+  margin-bottom: 10px;
 }
 
-.myLayout__textarea1__birth{
-    margin-bottom: 10px;
+.myLayout__textarea1__birth {
+  margin-bottom: 10px;
 }
 
-.myLayout__textarea1__tag{
-    margin-bottom: 10px;
+.myLayout__textarea1__tag {
+  margin-bottom: 10px;
 }
-
-
-
-
 
 .tapLayout {
   display: flex;
   width: 100%;
 
-  align-items: flex-start;   // 세로축 상단 정렬
+  align-items: flex-start; // 세로축 상단 정렬
   justify-content: flex-start; // 가로축 왼쪽 정렬 (필요 시)
-  height: 60%;               // 필요에 따라 100%로 변경 가능
-  padding: 16px;             // 상단 여백 확보
-  box-sizing: border-box;    // padding 포함
+  height: 60%; // 필요에 따라 100%로 변경 가능
+  padding: 16px; // 상단 여백 확보
+  box-sizing: border-box; // padding 포함
 }
 
-
 .tapContainer {
-  width: 100vw;   /* 뷰포트 너비 전부 */
-  height: 100vh;  /* 뷰포트 높이 전부 */
+  width: 100vw; /* 뷰포트 너비 전부 */
+  height: 100vh; /* 뷰포트 높이 전부 */
   display: flex;
   flex-direction: column; /* 탭 버튼 + 페이지 영역 세로 배치 */
 }
 
 .tapContent {
-  flex: 1;        /* 남은 영역을 전부 채움 */
+  flex: 1; /* 남은 영역을 전부 채움 */
   overflow: auto; /* 내용이 넘치면 스크롤 */
 }
 
 .about {
-    font-size: 1.5rem;
-    font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .editButton {
   position: absolute;
   bottom: 10px; /* 사진 아래로 */
-  right: 50%;    /* 중앙 정렬 보정 */
+  right: 60%; /* 중앙 정렬 보정 */
   transform: translateX(50%);
   background-color: #00000088;
   color: white;
@@ -94,43 +83,42 @@
   cursor: pointer;
 }
 .myLayout {
-    width: 100%;
-    height: 80%;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  border: 0px solid black;
+  border-radius: 25px;
+
+  box-shadow: 0 3px 10px rgb(213, 213, 213); // 진한 그림자
+
+  &__myLayout1 {
+    position: relative; /* 버튼 absolute 기준 */
     display: flex;
-    text-align: center;
     align-items: center;
-    border: 0px solid black;
-    border-radius: 25px;
 
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 5); // 진한 그림자
-    
-    &__myLayout1{
-      position: relative; /* 버튼 absolute 기준 */
-        display: flex;
-        align-items: center;
-        
+    width: 50%;
+    height: 100%;
+  }
 
-        width: 50%;
-        height: 100%;
-    }
+  &__myLayout2 {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
 
-    &__myLayout2{
-        display: flex;
-        align-items: center;
-        width: 50%;
-        height: 100%;
-    }
-
-    &__faceLayout {
-        width: 250px;
-        height: 250px;
-        margin-left: 3rem;
-        background-color: white;
-        border-radius: 250px;
-        flex-shrink: 0; // 크기 줄어들지 않도록
-        position: relative;
-    }
-    &__button {
+  &__faceLayout {
+    width: 190px;
+    height: 190px;
+    margin-left: 3rem;
+    background-color: white;
+    border-radius: 250px;
+    flex-shrink: 0; // 크기 줄어들지 않도록
+    position: relative;
+  }
+  &__button {
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -145,61 +133,54 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    }
+  }
 
-    &__fileInput {
-        display: none;
-    }
-    
-    &__textarea1 {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center; // 수직 가운데 정렬
-        margin-right: 3rem;
-        text-align: left;
-        height: 80%;
-        background-color: white;
-        margin-left: 3rem;
-        &__name {
-            font-size:24px;
-            font-weight: bold;
-        }
-        &__address {
+  &__fileInput {
+    display: none;
+  }
 
-        }
-        &__birthday {
-            
-        }
-        &__tag {
-            
-        }
+  &__textarea1 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // 수직 가운데 정렬
+    margin-right: 3rem;
+    text-align: left;
+    height: 80%;
+    background-color: white;
+    margin-left: 3rem;
+    &__name {
+      font-size: 24px;
+      font-weight: bold;
     }
+    &__address {
+    }
+    &__birthday {
+    }
+    &__tag {
+    }
+  }
 
-    &__textarea2 {
-        width: 100%;
-        height: 70%;
-        display: flex;
-        margin-left: 3rem;
-        overflow: hidden;
-        text-overflow: ellipsis; /* 넘치면 ... 처리 */
-        margin-right: 3rem;
-    }
+  &__textarea2 {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    margin-left: 3rem;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 넘치면 ... 처리 */
+    margin-right: 3rem;
+  }
 }
-
-
-
 
 .bottomLayout {
-    width: 100%;
-    height: 60%;
-    display: flex;
-    justify-content: space-between; // 요소 사이에 균등한 공간
-    gap: 1rem; // 요소 사이의 간격 (선택적, 위 아래 여백 등에도 사용)
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: space-between; // 요소 사이에 균등한 공간
+  gap: 1rem; // 요소 사이의 간격 (선택적, 위 아래 여백 등에도 사용)
+  align-items: center;
+  justify-content: center;
 }
-
 
 /* 모달 오버레이 (화면 전체 덮기) */
 .modalOverlay {
@@ -285,8 +266,7 @@
 
     &:focus {
       outline: none;
-      border-color: #4f8ef7;
-      box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.2);
+      border-color: #15bdb1;
     }
   }
 
@@ -320,11 +300,21 @@
 
 /* 애니메이션 */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

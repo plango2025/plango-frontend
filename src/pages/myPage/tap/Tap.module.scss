@@ -6,9 +6,13 @@
 
 .triggerRoot{
     width: 100%;
+    display: flex;
+    gap: 10px;
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-size: 16px;
+
 }
 
 .result {
@@ -25,26 +29,23 @@
 .subTabsList {
     max-width: 20%;
     height: 100%;
+    gap:10px;
+    background-color: white;
 }
 
 .subTabs {
 width: auto;       /* 동그라미 크기 */
   height: 40px;
   border-radius: 15px; /* 원 모양 */
-  border: 0.1px solid black;
+  border: 0.1px solid #d9d9d9;
   background-color: white;
   cursor: pointer;
+  color: #4d4d4d;
   transition: background-color 0.2s, border-color 0.2s;
   
   &:hover {
-    background-color: #e0f0ff; /* 연한 파란색 */
-    border-color: #3399ff;
-  }
-
-  &.active {
-    background-color: #3399ff; /* 클릭 시 파란색 */
-    border-color: #3399ff;
-    color: white;
+    background-color: #effffa; /* 연한 파란색 */
+    border-color: #15BDB1;
   }
 }
 

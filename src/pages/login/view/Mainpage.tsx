@@ -49,7 +49,7 @@ export default function MainPage() {
             <LoginBtnWrapper>
               {accessToken ? (
                 <>
-                  <button>로그아웃</button>
+                  <button >로그아웃</button>
                 </>
               ) : (
                 <LoginBtn />

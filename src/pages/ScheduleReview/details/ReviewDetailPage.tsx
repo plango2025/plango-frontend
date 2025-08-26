@@ -17,14 +17,14 @@ const ReviewDetailPage = () => {
     bookmarkCount,
     comment,
     setComment,
-    // handleLikeClick,
-    // handleBookmarkClick,
     handleCommentSubmit,
     handleScheduleClick,
     handleMenuClick,
     hasMore,
     isFetchingNext,
     setSentinelEl,
+    isEditModalOpen,
+    setIsEditModalOpen
   } = useReviewDetailPresenter(id);
 
   if (!review || !user) return <div>로딩 중...</div>;
@@ -47,10 +47,10 @@ const ReviewDetailPage = () => {
         comment={comment}
         setComment={setComment}
         handleScheduleClick={handleScheduleClick}
-        // handleLikeClick={handleLikeClick}
-        // handleBookmarkClick={handleBookmarkClick}
         handleCommentSubmit={handleCommentSubmit}
         handleMenuClick={handleMenuClick}
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
       />
     </AppLayout>
   );

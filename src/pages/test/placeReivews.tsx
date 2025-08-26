@@ -42,7 +42,7 @@ const PlaceReviews: React.FC<PlaceReviewsProps> = ({ keyword }) => {
       <PlaceReview title={keyword} items={visibleReviews} />
 
       {/* 버튼은 항상 보이도록 */}
-      <button
+     {reviewItems.length>0 && <button
         onClick={handleToggle}
         style={{
           display: "block",
@@ -55,7 +55,7 @@ const PlaceReviews: React.FC<PlaceReviewsProps> = ({ keyword }) => {
         }}
       >
         {expanded ? "접기" : "더보기"}
-      </button>
+      </button>} 
 
       {loading && reviewItems.length > 0 && (
         <div style={{ textAlign: "center", margin: "16px 0" }}>

@@ -11,12 +11,12 @@ import AppLayout from "@/layout/AppLayout";
 import Header from "../components/Header";
 import Card from "@/components/common/card/Card";
 import { useAccessToken } from "@/context/AccessTokenContext";
+import styled from 'styled-components';
 
 const ScheduleListView = ({
   keyword,
   user,
   logout,
-  isLoggedIn,
   setKeyword,
   schdReviews,
   observerRef,
@@ -27,7 +27,7 @@ const ScheduleListView = ({
   navigateToLogin,
   onSearch,
 }: any) => {
-  const { accessToken, setAccessToken } = useAccessToken();
+  const {isLoggedIn } = useAccessToken();
 
  
 
@@ -54,7 +54,7 @@ const ScheduleListView = ({
               리뷰 작성하기
             </GoFormBtn>
             {isLoggedIn ? (
-              <button onClick={logout}>로그아웃</button>
+              <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
             ) : (
               <LoginBtn onClick={navigateToLogin} className="login-button">
                 로그인
@@ -88,5 +88,20 @@ const ScheduleListView = ({
     </Wrapper>
   );
 };
+export const LogoutBtn = styled.button`
+  background-color: #b3b1b1;
+  width: 8rem;
+  height: 2.5rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    background-color: #bebebe;
+  }
+`;
 
 export default ScheduleListView;

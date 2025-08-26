@@ -38,7 +38,6 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   );
 
-  // 자동 로그인
   useEffect(() => {
     const init = async () => {
       console.log("🚀 자동 로그인 시작");
@@ -78,10 +77,10 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // 로그아웃
   const logout = async () => {
-    console.log("🔓 로그아웃 실행");
-    setAccessToken(null);
-    setUser(null);
-    toast("로그아웃 되었습니다.");
+    api.post("/auth/logout", {}, { requiresAuth: true });
+            setAccessToken(null);
+            toast("로그아웃되었습니다.");
+
   };
 
   console.log("📌 AccessTokenContext 상태:", { accessToken, isLoggedIn, user });

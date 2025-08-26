@@ -17,32 +17,31 @@ import {
 } from "@/api/axiosInstance";
 import { Review } from "@/types/review/review";
 import { Rating } from "@/components/common/card/Card.style";
-import { useToggleLikeScrap } from '@/hooks/useToggleLikeScrap';
+import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
 
 const Card = forwardRef<HTMLDivElement, { review: Review }>(
   ({ review }, ref) => {
-    const { accessToken, setAccessToken } = useAccessToken();
+    const { accessToken, setAccessToken, isLoggedIn } = useAccessToken();
     const api = createApiWithToken(() => accessToken, setAccessToken);
     const navigate = useNavigate();
 
-    const {
-      id,
-      title,
-      rating,
-      author,
-      thumbnail_url,
-      comment_count,
-    } = review;
-
- 
+    const { id, title, rating, author, thumbnail_url, comment_count } = review;
     const [localImg, setLocalImg] = useState<string | null>(null);
-const { liked, likeCount, bookmarked, bookmarkCount, toggleLike, toggleBookmark } = useToggleLikeScrap("REVIEW", id, {
-  initialLiked: review.is_liked,
-  initialBookmarked: review.is_scrapped,
-  initialLikeCount: review.like_count,
-  initialBookmarkCount: review.scrap_count,
-});
-   
+    const {
+      liked,
+      likeCount,
+      bookmarked,
+      bookmarkCount,
+      toggleLike,
+      toggleBookmark,
+    } = useToggleLikeScrap("REVIEW", id, {
+      initialLiked: review.is_liked,
+      initialBookmarked: review.is_scrapped,
+      initialLikeCount: review.like_count,
+      initialBookmarkCount: review.scrap_count,
+    });
+    console.log(title, "Card - isLoggedIn:", isLoggedIn, "조항요", liked);
+
     // 썸네일 처리
     useEffect(() => {
       if (!thumbnail_url) return;
@@ -74,7 +73,6 @@ const { liked, likeCount, bookmarked, bookmarkCount, toggleLike, toggleBookmark 
       };
     }, [api, thumbnail_url]);
 
-  
     return (
       <Wrapper ref={ref} onClick={() => navigate(`/reviews/${id}`)}>
         <div style={{ cursor: "pointer" }}>

@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { toast } from "react-toastify";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   requiresAuth?: boolean;
@@ -58,9 +59,9 @@ export const createApiWithToken = (
               }
             })
             .catch((e) => {
+              toast.error("로그인이 필요한 서비스입니다.");
+
               console.error("🚫 refresh 실패 (request interceptor):", e);
-              alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-              window.location.href = "/login";
               return null;
             })
             .finally(() => {
@@ -142,9 +143,8 @@ export const createApiWithToken = (
 
           return api(originalRequest);
         } catch (refreshErr) {
+          toast.error("로그인이 필요한 서비스입니다.");
           console.error("🚫 refresh 실패 (response interceptor):", refreshErr);
-          alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-          window.location.href = "/login";
           return Promise.reject(refreshErr);
         }
       }
