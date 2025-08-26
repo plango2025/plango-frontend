@@ -211,15 +211,15 @@ const formatSubtitleValue = (key: string, value: any) => {
     return scheduleCountLabelsMap[value] ?? "알 수 없는 일정";
   }
 
-  if (key === "required_places" && Array.isArray(value)) {
-    if (value.length === 0) return "선택 안 됨";
-    if (value.length <= 3) {
-      // 장소 이름을 쉼표로 연결해서 보여주기
-      return value.map((place: { name: string }) => place.name).join(", ");
-    }
-    // 4개 이상이면 요약 표시
-    return `${value.length}곳 선택됨`;
-  }
+  // if (key === "required_places" && Array.isArray(value)) {
+  //   if (value.length === 0) return "선택 안 됨";
+  //   if (value.length <= 3) {
+  //     // 장소 이름을 쉼표로 연결해서 보여주기
+  //     return value.map((place: { name: string }) => place.name).join(", ");
+  //   }
+  //   // 4개 이상이면 요약 표시
+  //   return `${value.length}곳 선택됨`;
+  // }
 
   return String(value);
 };

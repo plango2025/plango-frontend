@@ -4,7 +4,7 @@ import { useTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeat
 import { LocationSuggestion } from "./locationsuggestion";
 import axios from "axios";
 import CardView from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/components/card/CardView"; // CardView 컴포넌트 임포트"
-type SearchBarMode = "button" | "autocomplete";
+type SearchBarMode = "button" | "autocomplete" | "selected";
 
 type SearchBarPresenterProps = {
   mode: SearchBarMode;
@@ -17,11 +17,13 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   mode,
   onSearch,
 }) => {
+  const [hasSearched, setHasSearched] = useState(false);
   const { travelPlan, setTravelPlan } = useTravelPlan();
   const [inputText, setInputText] = useState("");
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
   const cache = useRef<Record<string, LocationSuggestion[]>>({});
+
   // 자동완성용 API 호출
   useEffect(() => {
     if (mode !== "autocomplete") return;
@@ -69,14 +71,14 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   // 검색 실행 (공통)
   const triggerSearch = (place_name: string) => {
     console.log("triggerSearch 호출, place_name:", place_name);
-
+    setHasSearched(true); // 검색 실행 시 상태 업데이트
     setInputText(place_name);
 
     setTravelPlan((prev) => {
       if (mode === "button") {
         return {
           ...prev,
-          required_places: [{ name: place_name, address: "" }],
+          destination: place_name,
         };
       } else if (mode === "button4") {
         return {
@@ -144,21 +146,36 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
         )}
       </div>
 
-      {mode === "autocomplete" &&
-        Array.isArray(suggestions) &&
-        suggestions.length > 0 && (
-          <ul className={styles.suggestionList}>
-            {suggestions.map((s) => (
-              <li
-                key={s.id}
-                onClick={() => handleSuggestionClick(s)}
-                className={styles.suggestionItem}
-              >
-                {s.place_name}
-              </li>
-            ))}
-          </ul>
-        )}
+      {mode === "autocomplete" && (
+        <>
+          {Array.isArray(suggestions) && suggestions.length > 0 ? (
+            <div className={styles.suggestionList}>
+              <div className={styles.cardWrapper}>
+                <CardView
+                  cards={suggestions.map((s) => ({
+                    placeName: s.place_name,
+                    addressName: s.address_name,
+                    categoryName: s.category_name,
+                    onCardClick: () => handleSuggestionClick(s),
+                  }))}
+                />
+              </div>
+            </div>
+          ) : (
+            !hasSearched && (
+              <div className={styles.noResult}>
+                <div className={styles.suggestionList}>
+                  <div className={styles.cardWrapper}>
+                    <div className={styles.noResultMessage}>
+                      검색 결과가 없습니다. 장소를 입력해 주세요.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          )}
+        </>
+      )}
     </div>
   );
 };
