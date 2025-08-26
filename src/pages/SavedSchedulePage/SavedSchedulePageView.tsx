@@ -21,6 +21,7 @@ import {
 } from "@/api/axiosInstance";
 import { CheckSavedSchedule } from "./SavedSchedulePagePresenter";
 import styles from "./SavedSchedulePage.module.scss";
+import { ScheduleResponse } from "./SavedSchedulePageModel";
 
 // StepItem 인터페이스
 export interface StepItem {
@@ -34,6 +35,10 @@ export interface StepItem {
 }
 
 const ScheduleSidebar: React.FC = () => {
+  const [scheduleParams, setScheduleParams] = useState<
+    ScheduleResponse["parameters"] | null
+  >(null);
+
   const { schedule_id } = useParams<{ schedule_id: string }>();
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
@@ -58,6 +63,8 @@ const ScheduleSidebar: React.FC = () => {
         setScheduleId(response.data.schedule_id);
         setScheduleTitle(response.data.schedule.title);
         setStepItems(scheduleSidebarModel(response.data));
+        setScheduleParams(response.data.parameters); // ✅ 파라미터 저장
+        console.log("response", response.data);
       } catch (err) {
         console.error("일정 불러오기 실패:", err);
       } finally {
@@ -104,28 +111,6 @@ const ScheduleSidebar: React.FC = () => {
     }
   };
 
-  /** 피드백 전송 */
-  const handleFeedbackClick = async () => {
-    if (!scheduleId) return alert("스케줄 ID가 없습니다.");
-    if (!feedback.trim()) return alert("피드백을 입력해주세요.");
-
-    setIsLoading(true);
-    try {
-      const response = await api.patch(`/schedules/${scheduleId}/feedback`, {
-        feedback,
-      });
-      const result = response.data;
-      alert("피드백이 저장되었습니다!");
-      setFeedback("");
-      setStepItems(scheduleSidebarModel(result));
-    } catch (error) {
-      alert("피드백 저장 중 오류가 발생했습니다.");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <>
       {isLoading && (
@@ -148,7 +133,8 @@ const ScheduleSidebar: React.FC = () => {
       )}
 
       <div className={styles.layout}>
-        <div className={styles.title}>
+        <div className={styles.toplayout}>
+          <div className={styles.title}></div>
           <Text fontSize="2xl" fontWeight="bold">
             <button
               onClick={handleBookmarkClick}
@@ -169,10 +155,23 @@ const ScheduleSidebar: React.FC = () => {
               <span>{scheduleTitle}</span>
             </button>
           </Text>
+          <div className={styles.indicatorTitleLine2} />
+          <Text>일정 파라미터</Text>
+          <div>
+            <p>
+              필수코스: {scheduleParams?.required_places?.join(", ") || "-"}
+            </p>
+            <p>여행지: {scheduleParams?.destination || "-"}</p>
+            <p>여행 기간: {scheduleParams?.duration || "-"}일</p>
+            <p>동행자: {scheduleParams?.companion || "-"}</p>
+            <p>여행 스타일: {scheduleParams?.style || "-"}</p>
+            <p>일정 개수: {scheduleParams?.schedule_count || "-"}개</p>
+            <p>예산: {scheduleParams?.budget || "-"}원</p>
+            <p>기타 사항: {scheduleParams?.extra || "없음"}</p>
+          </div>
         </div>
 
         <div className={styles.indicatorTitleLine}></div>
-
         <Flex className={styles.flexContent}>
           <Box>
             <Steps.Root
@@ -262,24 +261,6 @@ const ScheduleSidebar: React.FC = () => {
             </Stack>
           </Box>
         </Flex>
-
-        <div className={styles.textBoxLayout}>
-          <div className={styles.textBox}>
-            <textarea
-              placeholder="수정하고 싶은 내용을 입력해주세요."
-              className={styles.textarea}
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-            />
-
-            <button
-              className={styles.clickButton}
-              onClick={handleFeedbackClick}
-            >
-              <FaArrowCircleUp />
-            </button>
-          </div>
-        </div>
       </div>
     </>
   );

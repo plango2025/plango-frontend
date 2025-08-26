@@ -13,7 +13,7 @@ export interface ScheduleDay {
 
 export interface ScheduleResponse {
   schedule_id: string;
-  parameter: {
+  parameters: {
     required_places: string[];
     destination: string;
     duration: string;

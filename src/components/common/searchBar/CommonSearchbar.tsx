@@ -4,7 +4,12 @@ import { useTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeat
 import { LocationSuggestion } from "./locationsuggestion";
 import axios from "axios";
 import CardView from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/components/card/CardView"; // CardView 컴포넌트 임포트"
-type SearchBarMode = "button" | "autocomplete" | "selected";
+type SearchBarMode =
+  | "button"
+  | "autocomplete"
+  | "selected"
+  | "button4"
+  | "button5";
 
 type SearchBarPresenterProps = {
   mode: SearchBarMode;
@@ -52,7 +57,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
           signal: controller.signal,
         })
         .then((res) => {
-          const result = res.data.content ?? [];
+          const result = res.data.items ?? [];
           setSuggestions(result);
 
           // 3. 캐시에 저장
