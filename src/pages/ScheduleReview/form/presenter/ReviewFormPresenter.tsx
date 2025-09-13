@@ -76,7 +76,7 @@ const ReviewFormPresenter = () => {
     const baseName = file.name.substring(0, file.name.lastIndexOf("."));
     const safeName = baseName
       .replace(/\s+/g, "_")
-      .replace(/[^\w\-]/g, "")
+      .replace(/[^\w-]/g, "")
       .toLowerCase();
     const newFileName = `${safeName}${ext}`;
     return new File([file], newFileName, { type: file.type });
