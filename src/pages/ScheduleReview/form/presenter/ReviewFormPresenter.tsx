@@ -52,10 +52,10 @@ const ReviewFormPresenter = () => {
     }
   };
 
+  
   // 보관함 일정 불러오기
-  const {
-    data,
-  } = useInfiniteQuery({
+  const {data} = useInfiniteQuery({
+    initialPageParam: 1,
     queryKey: ["savedSchedules"],
     queryFn: ({ pageParam = null }) => fetchSchedules({ pageParam }, api),
     getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
