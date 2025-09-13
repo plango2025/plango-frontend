@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
-import { fetchReviews, createDummySchedule } from "../model/ScheduleListModel";
+import { fetchReviews} from "../model/ScheduleListModel";
 import ScheduleListView from "../view/ScheduleListView";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -13,8 +13,9 @@ const ScheduleListPresenter = () => {
   const [keyword, setKeyword] = useState("");
 
 console.log(isLoggedIn)
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
+      initialPageParam:0,
       queryKey: ["schdReviews", keyword, isLoggedIn],
       queryFn: ({ pageParam = 0 }) =>
         fetchReviews(api, keyword, pageParam, isLoggedIn),
@@ -52,15 +53,6 @@ console.dir(schdReviews)
       handleObserver={handleObserver}
       isFetchingNextPage={isFetchingNextPage}
       navigateToNewReview={() => navigate("/reviews/new/SCHEDULE")}
-      handleCreateDummy={async () => {
-        try {
-          await createDummySchedule(api);
-          refetch();
-        } catch (error) {
-          console.error("임시 리뷰 생성 실패:", error);
-          alert("에러가 발생했습니다.");
-        }
-      }}
       navigateToLogin={() => navigate("/login")}
     />
   );

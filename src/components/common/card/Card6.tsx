@@ -10,21 +10,18 @@ import {
 import { Avatar, RatingGroup, Separator } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
-import {
-  createApiWithToken,
-} from "@/api/axiosInstance";
+import { createApiWithToken } from "@/api/axiosInstance";
 import { ReviewItem } from "@/pages/myPage/tapPages/TapPagesmodel";
 import { Rating } from "@/components/common/card/Card.style";
 
 interface Props {
-  card: ReviewItem; // ✅ props 이름을 card로 명확히
+  card: ReviewItem;
 }
 
-const CardComponent6= ({ card }:Props) => {
+const CardComponent6 = ({ card }: Props) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
-
 
   const {
     id,
@@ -48,6 +45,7 @@ const CardComponent6= ({ card }:Props) => {
   // 썸네일 처리
   useEffect(() => {
     if (!thumbnail_url) return;
+
     const isRemote = /^https?:\/\//i.test(thumbnail_url);
     if (isRemote) {
       setLocalImg(thumbnail_url);
@@ -63,11 +61,13 @@ const CardComponent6= ({ card }:Props) => {
       try {
         const res = await api.get(`/files/${encodeURIComponent(fileName)}`, {
           responseType: "blob",
-        } );
+        });
         objectUrl = URL.createObjectURL(res.data);
         setLocalImg(objectUrl);
       } catch (err) {
         console.error("이미지 불러오기 실패", err);
+      }
+    })();
 
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
@@ -106,7 +106,8 @@ const CardComponent6= ({ card }:Props) => {
             params: { type: "REVIEW", ref_id: id },
           });
 
-      const newBookmarked = (res.data.scrapped ?? res.data.bookmarked) as boolean;
+      const newBookmarked = (res.data.scrapped ??
+        res.data.bookmarked) as boolean;
       setBookmarked(newBookmarked);
       setBookmarkCount((prev) =>
         newBookmarked ? prev + 1 : Math.max(prev - 1, 0)
@@ -151,7 +152,7 @@ const CardComponent6= ({ card }:Props) => {
             <FaBookmark size={20} color="#F9DE51" />
           ) : (
             <FaRegBookmark size={20} color="gray" />
-          )}{" "}
+          )}
           <span>{bookmarkCount}</span>
         </Button>
 

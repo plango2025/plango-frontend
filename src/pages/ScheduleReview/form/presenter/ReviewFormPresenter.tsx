@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
 import {
-  createDummySchedule,
   fetchSchedules,
   postReview,
   uploadImages,
@@ -35,22 +34,6 @@ const ReviewFormPresenter = () => {
 
   // URL 파라미터에서 type, keyword 가져오기
   const { type, keyword } = useParams<{ type: string; keyword?: string }>();
-
-  // 일정 더미 생성
-  const handleCreateDummy = async () => {
-    try {
-      const dummy = await createDummySchedule(api);
-      const dummyScheduleId = dummy.schedule_id;
-      setSelectedSchedule({
-        id: dummyScheduleId,
-        reviewtitle: `일정 임시 제목(id 동일) ${dummyScheduleId}`,
-      });
-      setShowModal(false);
-    } catch (e: any) {
-      console.error(e.response?.data);
-      alert("더미 일정 생성 실패");
-    }
-  };
 
   // 보관함 일정 불러오기
   const { data } = useInfiniteQuery({
@@ -140,7 +123,6 @@ const ReviewFormPresenter = () => {
 
   return (
     <ReviewFormView
-      handleCreateDummy={handleCreateDummy}
       showModal={showModal}
       setShowModal={setShowModal}
       reviewData={reviewData}
@@ -151,9 +133,7 @@ const ReviewFormPresenter = () => {
       handleSelectSchedule={handleSelectSchedule}
       handleSubmit={handleSubmit}
       selectedSchedule={selectedSchedule}
-      type={type}
-      keyword={keyword}
-    />
+            />
   );
 };
 
