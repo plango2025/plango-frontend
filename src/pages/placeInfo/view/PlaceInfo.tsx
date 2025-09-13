@@ -9,7 +9,6 @@ import {
   SubTitle,
   Content,
   BackIcon,
-  MapContainer,
 } from "./PlaceInfo.style";
 import {
   Padding1,
@@ -19,7 +18,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import PlaceReviews from "@/pages/test/placeReivews";
 import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
-import FullLayout from "@/layout/FullLayout";
 
 const PlaceInfo = () => {
   const { keyword } = useParams();

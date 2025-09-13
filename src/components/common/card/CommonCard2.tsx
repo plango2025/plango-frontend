@@ -1,4 +1,4 @@
-import { Button, Card, Image, Text } from "@chakra-ui/react";
+import {  Card, Image } from "@chakra-ui/react";
 import styles from "./CommonCard.module.scss";
 import { CiBookmark } from "react-icons/ci";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -11,7 +11,7 @@ interface CommonCardProps {
   title: string;
 }
 
-const CommonCard: React.FC<CommonCardProps> = ({ thumbnail_url, destination, title }) => {
+const CommonCard: React.FC<CommonCardProps> = ({ destination, title }) => {
   return (
     <div className={styles.mainbody}>
     <Card.Root className={styles.root}>

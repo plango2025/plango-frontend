@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"; // useState 추가
+import  { useEffect, useState } from "react"; // useState 추가
 import {
   Button,
-  ButtonGroup,
   Stack,
   Steps,
   Spinner,
@@ -63,6 +62,7 @@ const CommonStepperPresenter = () => {
         errorMessage = "응답 없음, 요청 실패";
       } else {
         errorMessage = error.message;
+        alert(errorMessage)
       }
 
       alert("전부 기입해주길 바랍니다."); // 여기서 팝업 띄움

@@ -12,14 +12,13 @@ import {
 import { useParams } from "react-router-dom";
 import { scheduleSidebarModel } from "./SavedSchedulePageModel";
 import { useAccessToken } from "@/context/AccessTokenContext";
-import { FaRegBookmark, FaBookmark, FaArrowCircleUp } from "react-icons/fa";
+import { FaRegBookmark, FaBookmark} from "react-icons/fa";
 import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
 import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
 import {
   createApiWithToken,
   CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
-import { CheckSavedSchedule } from "./SavedSchedulePagePresenter";
 import styles from "./SavedSchedulePage.module.scss";
 import { ScheduleResponse } from "./SavedSchedulePageModel";
 
@@ -49,7 +48,6 @@ const ScheduleSidebar: React.FC = () => {
   const [scheduleTitle, setScheduleTitle] = useState("");
   const [scheduleId, setScheduleId] = useState<string | null>(null);
   const [pinnedPlaces, setPinnedPlaces] = useState<string[]>([]);
-  const [feedback, setFeedback] = useState("");
 
   /** ✅ 페이지 시작 시 서버에서 일정 불러오기 */
   useEffect(() => {

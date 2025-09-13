@@ -1,7 +1,7 @@
 import { FileUpload, Icon, Box } from "@chakra-ui/react";
 import { LuUpload } from "react-icons/lu";
 
-const ImageUploader = ({ files, onChange }) => {
+const ImageUploader = ({  onChange }) => {
   return (
     <FileUpload.Root
       maxW="xl"

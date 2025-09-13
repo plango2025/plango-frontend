@@ -17,7 +17,7 @@ export const createDummySchedule = async (api) => {
   } as CustomAxiosRequestConfig);
   return response.data;
 };
-export const uploadImages = async (api, files: File[],renameFile ) => {
+export const uploadImages = async (api, files: File[]) => {
   const urls: string[] = [];
 console.dir(files);
 

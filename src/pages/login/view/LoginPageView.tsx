@@ -11,8 +11,7 @@ import {
 import { GridItem } from "@chakra-ui/react";
 import AppLayout from "@/layout/AppLayout";
 import { KakaoLoginBtn } from '@/components/common/buttons/Buttons';
-import { useAccessToken } from '@/context/AccessTokenContext';
-import { createApiWithToken } from '@/api/axiosInstance';
+
 
 const LoginPageView: React.FC = () => {
   

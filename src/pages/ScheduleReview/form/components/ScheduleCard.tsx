@@ -60,7 +60,6 @@ export interface ScheduleCardProps {
   onhandleSelect: (value: string) => void;
 }
 const ScheduleCard = ({
-  id,
   thumbnail_url,
   title,
   destination,

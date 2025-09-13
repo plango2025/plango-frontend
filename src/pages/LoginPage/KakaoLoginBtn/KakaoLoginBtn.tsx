@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState } from 'react';
 
 function KakaoLoginBtn() {
-const [user, setUser] = useState<KakaoUser | null>(null); // null → 로그인 안 됨  { nickname: string, id: string } → 로그인 됨
 const [error, setError] = useState<string | null>(null);
 //로그인 버튼 클릭 시-> 로그인 리디렉션 URL 받아서 이동
 const handleLogin = async () => {

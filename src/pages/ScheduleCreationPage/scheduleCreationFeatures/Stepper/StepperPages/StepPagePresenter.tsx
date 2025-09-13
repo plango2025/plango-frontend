@@ -1,8 +1,6 @@
 // api.ts
 import axios from "axios";
 import { TravelPlan } from "./StepPagesModel"; // 인터페이스가 정의된 곳으로 경로 맞춰줘
-import { ScheduleResponse } from "./StepPagesModel"; // 혹은 분리된 타입 경로로 수정
-
 const BASE_URL = "http://localhost:8000"; // 여기에 서버 주소
 
 // TravelPlan 보내기 (POST)

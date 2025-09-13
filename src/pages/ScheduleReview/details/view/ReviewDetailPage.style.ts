@@ -1,7 +1,5 @@
 import styled from "styled-components";
-interface HeaderProps {
-  backgroundUrl: string;
-}
+
 export const ReviewLink= styled.p`
 color:red
 `

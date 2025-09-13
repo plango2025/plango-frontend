@@ -21,7 +21,7 @@ import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
 
 const Card = forwardRef<HTMLDivElement, { review: Review }>(
   ({ review }, ref) => {
-    const { accessToken, setAccessToken, isLoggedIn } = useAccessToken();
+    const { accessToken, setAccessToken } = useAccessToken();
     const api = createApiWithToken(() => accessToken, setAccessToken);
     const navigate = useNavigate();
 

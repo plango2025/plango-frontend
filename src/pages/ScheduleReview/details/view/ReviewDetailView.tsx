@@ -12,10 +12,7 @@ import {
   Separator,
   RatingGroup,
   Tag,
-  Stack,
   Menu,
-  MenuList,
-  MenuItem,
   Portal,
 } from "@chakra-ui/react";
 import { IoMdMore } from "react-icons/io";
@@ -43,10 +40,9 @@ import {
   SidePaddingTextbox,
 } from "@/components/common/padding/padding";
 import { AutoCenter } from "@/components/common/align/AutoCenter";
-import type { Review, UserProfile } from "@/types/review/review";
+import type { Review } from "@/types/review/review";
 import type { Comment } from "@/types/comment/comment";
 import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
-import EditModal from "../components/editModal/EditModal";
 
 type ReviewDetailViewProps = {
   review: Review;
@@ -84,8 +80,6 @@ const ReviewDetailView = ({
   isFetchingNext,
   hasMore,
   setSentinelEl,
-  isEditModalOpen,
-  setIsEditModalOpen,
 }: ReviewDetailViewProps) => {
   // 여기서 훅 사용!
   const {
@@ -101,7 +95,6 @@ const ReviewDetailView = ({
     initialLikeCount: review.like_count,
     initialBookmarkCount: review.scrap_count,
   });
-  console.log("이즈에딧모달", isEditModalOpen);
 
   // 숫자 포맷(천단위)
   const fmt = (n: number) => new Intl.NumberFormat().format(n);

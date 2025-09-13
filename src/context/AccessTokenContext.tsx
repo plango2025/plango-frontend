@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { createApiWithToken } from "@/api/axiosInstance";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
 
 type UserProfile = {
   id: string;

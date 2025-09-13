@@ -1,9 +1,8 @@
 import { Box, RatingGroup, Separator } from "@chakra-ui/react";
-import { FaBookmark, FaHeart, FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdOutlineNavigateNext } from "react-icons/md";
-import { Padding1, PaddingMd } from "@/components/common/padding/padding";
+import { Padding1 } from "@/components/common/padding/padding";
 
 const Gallery = styled.div`
   width: 100%;
@@ -227,14 +226,7 @@ const DateText = styled.div`
   font-size: 10px;
   color: #999;
 `;
-const Thumb = styled.img`
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
-  background: #f2f2f2;
-  margin: 6px 0 10px;
-`;
+
 const Body = styled.p`
   font-size: 14px;
   color: #333;
@@ -245,12 +237,7 @@ const Body = styled.p`
   text-overflow: ellipsis;
   min-height: 34px;
 `;
-const Foot = styled.div`
-  display: flex;
-  gap: 12px;
-  color: #444;
-  font-size: 14px;
-`;
+
 const MoreBtn = styled.button`
   margin: 16px auto 0;
   display: block;

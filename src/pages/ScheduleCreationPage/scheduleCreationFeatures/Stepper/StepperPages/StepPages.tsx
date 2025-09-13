@@ -2,7 +2,7 @@ import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar";
 import styles from "./StepPages.module.scss";
 import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CommonSlider from "@/components/common/slider/CommonSlider";
-import { useTravelPlan, TravelPlanProvider } from "./StepPageContext";
+import { useTravelPlan} from "./StepPageContext";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useAccessToken } from "@/context/AccessTokenContext";
@@ -25,7 +25,7 @@ const step1CommonCheckboxLabels1 = [
 // StepPage1 컴포넌트 선언
 const StepPage1 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan(); // 단일 선택을 위해 선택된 항목이 있으면 해제, 없으면 설정
-  const { accessToken, setAccessToken } = useAccessToken();
+  const { accessToken} = useAccessToken();
   console.log("accessToken" + accessToken);
   useEffect(() => {
     // extra가 없을 때만 초기값 설정
@@ -92,7 +92,7 @@ const StepPage1 = () => {
 };
 
 const StepPage2 = () => {
-  const [selectedPlace, setSelectedPlace] = useState<string>("");
+  const [selectedPlace] = useState<string>("");
 
   return (
     <div className={styles.containerSp2}>
@@ -359,7 +359,7 @@ const parseScheduleLabelToCount = (label: string): number | null => {
   if (label.includes("5곳 이상")) return 5;
 
   // "적당한 일정 (하루 2-3곳)" → 3 (최대 방문 수)
-  let match = label.match(/하루 (\d+)-(\d+)곳/);
+  const match = label.match(/하루 (\d+)-(\d+)곳/);
   if (match) {
     return parseInt(match[2], 10); // 2-3 중 3 반환
   }

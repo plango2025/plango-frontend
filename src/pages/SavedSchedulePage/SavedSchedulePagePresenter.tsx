@@ -1,4 +1,3 @@
-import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 import axios from "axios";
 import { ScheduleResponse } from "./SavedSchedulePageModel";
 

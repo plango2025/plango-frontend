@@ -1,4 +1,4 @@
-import { Box, Input, InputGroup, Kbd } from "@chakra-ui/react";
+import { Box, Input, InputGroup} from "@chakra-ui/react";
 import { Title, Wrapper } from "./Header.style";
 import { LuSearch } from "react-icons/lu";
 import { PaddingMd } from '@/components/common/padding/padding';

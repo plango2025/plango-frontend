@@ -16,12 +16,9 @@ import {
   Bold,
 } from "./Main.style";
 import LoginBtn from "@/components/common/loginBtn/LoginBtn";
-import { useContext, useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
-import { createApiWithToken } from "@/api/axiosInstance";
-import { AuthContext } from "@/context/AuthContext";
-import PlaceReviewTest from "../test/placeReivews";
 import { LogoutBtn } from '../ScheduleReview/lists/view/ScheduleListView';
 
 export default function MainPage() {

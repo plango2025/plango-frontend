@@ -11,6 +11,7 @@ interface Props {
   liked: boolean;
   onLikeClick?: () => void;
   onBookmarkClick?: () => void;
+  rating:number
 }
 
 const Header = ({
@@ -21,7 +22,6 @@ const Header = ({
   onLikeClick,
   onBookmarkClick,
   rating,
-  like_count,
 }: Props) => {
   return (
     <Wrapper>

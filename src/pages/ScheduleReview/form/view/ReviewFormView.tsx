@@ -54,7 +54,6 @@ useEffect(() => {
     }));
   }
 }, [type, keyword]);
-  const param = useParams();
 
   console.log(type, keyword);
   return (

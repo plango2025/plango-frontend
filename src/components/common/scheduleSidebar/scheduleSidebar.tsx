@@ -13,7 +13,6 @@ import styles from "./scheduleSidebar.module.scss";
 import { scheduleSidebarModel } from "./scheduleSidebarModel";
 import { useLocation } from "react-router-dom";
 import { useMapContext } from "@/components/common/kakaomap/MapContext";
-import { useAccessToken } from "@/context/AccessTokenContext";
 import { FaRegBookmark, FaBookmark, FaArrowCircleUp } from "react-icons/fa";
 import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
 import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
@@ -39,12 +38,11 @@ interface ScheduleSidebarProps {
   stepsData?: StepItem[];
 }
 
-const ScheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
+const ScheduleSidebar: React.FC<ScheduleSidebarProps> = () => {
   const location = useLocation();
   const { scheduleResponse } = location.state || {};
   const { centerMapToLocation, showPlaceOverlay } = useMapContext();
   const [feedback, setFeedback] = useState("");
-  const { accessToken } = useAccessToken();
   const api = createApiWithToken(
     () => localStorage.getItem("accessToken"),
     () => {}

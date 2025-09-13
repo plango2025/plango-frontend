@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Wrapper, Image, Name, ButtonBox, Button, Profile } from "./Card.style";
-import {
-  FaHeart,
-  FaRegHeart,
-  FaRegBookmark,
-  FaRegCommentDots,
-  FaBookmark,
-} from "react-icons/fa";
-import { Avatar, RatingGroup, Separator } from "@chakra-ui/react";
+import { Wrapper, Image, Name, Profile } from "./Card.style";
+import { Avatar, Separator } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import {
@@ -15,7 +8,6 @@ import {
   CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 import { ScheduleItem } from "@/pages/myPage/tapPages/TapPagesmodel";
-import { Rating } from "@/components/common/card/Card.style";
 
 interface Props {
   card: ScheduleItem; // ✅ props 이름을 card로 명확히
@@ -29,9 +21,6 @@ const CardComponent3: React.FC<Props> = ({ card }) => {
   const {
     schedule_id,
     title,
-    destination,
-    duration,
-    created_at,
     thumbnail_url,
   } = card;
 

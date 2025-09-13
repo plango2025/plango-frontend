@@ -7,7 +7,6 @@ import {
 } from "../model/placeInfoModel";
 import { createApiWithToken } from "@/api/axiosInstance";
 import { useAccessToken } from "@/context/AccessTokenContext";
-import { PlaceIntro } from "@/types/place";
 import {
   toggleLike,
   toggleScrap,

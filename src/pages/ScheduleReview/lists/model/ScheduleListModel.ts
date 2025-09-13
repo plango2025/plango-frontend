@@ -1,7 +1,7 @@
 // model/ScheduleListModel.ts
 import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
 
-export const fetchReviews = async (api, searchKeyword = "", page = 0, isLoggedIn) => {
+export const fetchReviews = async (api, searchKeyword = "", isLoggedIn) => {
   const params: Record<string, string> = {
     targetType: "SCHEDULE",
   };

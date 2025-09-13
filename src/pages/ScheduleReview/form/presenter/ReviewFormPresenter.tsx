@@ -1,5 +1,5 @@
 // ReviewFormPresenter.tsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
@@ -55,11 +55,6 @@ const ReviewFormPresenter = () => {
   // 보관함 일정 불러오기
   const {
     data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
   } = useInfiniteQuery({
     queryKey: ["savedSchedules"],
     queryFn: ({ pageParam = null }) => fetchSchedules({ pageParam }, api),

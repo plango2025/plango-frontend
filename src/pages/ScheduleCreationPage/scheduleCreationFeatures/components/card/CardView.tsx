@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import SearchBarPresenter from "@/components/common/searchBar/CommonSearchbar"; // 분리된 SearchBarPresenter 임포트
 import cardStyles from "./CardView.module.scss"; // Card 전용 SCSS 모듈 임포트 (이제 CardView 내부에서 사용)
 
 import {
   useTravelPlan,
-  TravelPlanProvider,
 } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPageContext"; // Context에서 travelPlan을 가져옴
 
 // 카드 데이터의 타입을 정의하는 인터페이스
@@ -76,41 +74,41 @@ const CardView: React.FC<CardViewProps> = ({ cards }) => {
     boxSizing: "border-box",
   };
 
-  const sampleData: CardData[] = [
-    {
-      placeName: "강원대학교 춘천캠퍼스",
-      addressName: "강원특별자치도 춘천시 효자동 192-1",
-      categoryName: "교육,학문 > 학교 > 대학교",
-    },
-    {
-      placeName: "서울대학교 관악캠퍼스",
-      addressName: "서울특별시 관악구 관악로 1",
-      categoryName: "교육,학문 > 학교 > 대학교",
-    },
-    {
-      placeName: "을지로3가역",
-      addressName: "서울특별시 중구 을지로 122",
-      categoryName: "교통,운송 > 지하철,전철 > 지하철역",
-    },
-    {
-      placeName: "강릉대학교",
-      addressName: "강원특별자치도 강릉시 죽헌길 7",
-      categoryName: "교육,학문 > 학교 > 대학교",
-    },
-    {
-      placeName: "강남역",
-      addressName: "서울특별시 강남구 테헤란로 402",
-      categoryName: "교통,운송 > 지하철,전철 > 지하철역",
-    },
-    {
-      placeName: "춘천시청",
-      addressName: "강원특별자치도 춘천시 시청로 11",
-      categoryName: "공공,행정 > 시청",
-    },
-  ];
+  // const sampleData: CardData[] = [
+  //   {
+  //     placeName: "강원대학교 춘천캠퍼스",
+  //     addressName: "강원특별자치도 춘천시 효자동 192-1",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "서울대학교 관악캠퍼스",
+  //     addressName: "서울특별시 관악구 관악로 1",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "을지로3가역",
+  //     addressName: "서울특별시 중구 을지로 122",
+  //     categoryName: "교통,운송 > 지하철,전철 > 지하철역",
+  //   },
+  //   {
+  //     placeName: "강릉대학교",
+  //     addressName: "강원특별자치도 강릉시 죽헌길 7",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "강남역",
+  //     addressName: "서울특별시 강남구 테헤란로 402",
+  //     categoryName: "교통,운송 > 지하철,전철 > 지하철역",
+  //   },
+  //   {
+  //     placeName: "춘천시청",
+  //     addressName: "강원특별자치도 춘천시 시청로 11",
+  //     categoryName: "공공,행정 > 시청",
+  //   },
+  // ];
 
   // 검색 상태
-  const [actualSelectedPlaceName, setActualSelectedPlaceName] =
+  const [actualSelectedPlaceName] =
     useState<string>("");
   // 필터링된 카드 데이터 상태
   const [filteredCards, setFilteredCards] = useState<CardData[]>(cards);

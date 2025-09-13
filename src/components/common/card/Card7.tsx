@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Wrapper, Image, Name, ButtonBox, Button, Profile } from "./Card.style";
-import {
-  FaHeart,
-  FaRegHeart,
-  FaRegBookmark,
-  FaRegCommentDots,
-  FaBookmark,
-} from "react-icons/fa";
+import { Wrapper, Image, Name,Profile } from "./Card.style";
 import { Avatar, RatingGroup, Separator } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
@@ -26,7 +19,7 @@ const CardComponent7: React.FC<Props> = ({ card }) => {
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-  const { id, name, address, thumbnail_url, rating, review_count } = card;
+  const { name, address, thumbnail_url, rating} = card;
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 

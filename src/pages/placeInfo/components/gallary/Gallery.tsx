@@ -1,4 +1,3 @@
-import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -7,12 +6,6 @@ import { Pagination, Navigation } from "swiper/modules";
 import { Wrapper } from './Gallery.styles';
 import { createGlobalStyle } from "styled-components";
 
-interface ImageItem {
-  contentid: number;
-  imgname: string;
-  originimgurl: string;
-  serialnum: string;
-}
 interface GalleryProps {
   images: string[];
 }

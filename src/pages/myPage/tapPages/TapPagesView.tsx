@@ -1,8 +1,5 @@
 // TapPages.tsx
 import React from "react";
-import CommonCard from "@/components/common/card/CommonCard";
-import CommonCard2 from "@/components/common/card/CommonCard2";
-
 import styles from "./TapPages.module.scss";
 import { Text, Button } from "@chakra-ui/react";
 import {

@@ -23,7 +23,7 @@ const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
   onSearch,
 }) => {
   const [hasSearched, setHasSearched] = useState(false);
-  const { travelPlan, setTravelPlan } = useTravelPlan();
+  const {  setTravelPlan } = useTravelPlan();
   const [inputText, setInputText] = useState("");
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);

@@ -1,5 +1,4 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {

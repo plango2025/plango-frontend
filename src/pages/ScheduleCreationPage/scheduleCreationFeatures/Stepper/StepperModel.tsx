@@ -1,4 +1,3 @@
-import { Content } from "node_modules/@chakra-ui/react/dist/types/components/action-bar/namespace";
 
 export const steps = [
   {

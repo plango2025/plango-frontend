@@ -6,8 +6,6 @@ import {
   fetchComments,
   postComment,
   CommentPage,
-  toggleLike,
-  toggleScrap,
   deleteReview,
 } from "../model/ReviewDetailModel";
 import { useAccessToken } from "@/context/AccessTokenContext";

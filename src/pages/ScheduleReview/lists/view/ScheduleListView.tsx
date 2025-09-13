@@ -15,7 +15,6 @@ import styled from 'styled-components';
 
 const ScheduleListView = ({
   keyword,
-  user,
   logout,
   setKeyword,
   schdReviews,
@@ -23,7 +22,6 @@ const ScheduleListView = ({
   handleObserver,
   isFetchingNextPage,
   navigateToNewReview,
-  handleCreateDummy,
   navigateToLogin,
   onSearch,
 }: any) => {
