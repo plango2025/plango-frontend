@@ -1,6 +1,6 @@
 // 리뷰 타입
 
-export type ReviewType = "SCHEDULE"; // 필요하면 다른 타입도 추가: | "PLACE" | "ATTRACTION" ...
+export type ReviewType = { SCHEDULE: "SCHEDULE"; PLACE: "PLACE" }; // 필요하면 다른 타입도 추가: | "PLACE" | "ATTRACTION" ...
 
 export interface ReviewReference {
   schedule_id: string;

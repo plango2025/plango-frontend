@@ -40,9 +40,10 @@ import {
   SidePaddingTextbox,
 } from "@/components/common/padding/padding";
 import { AutoCenter } from "@/components/common/align/AutoCenter";
-import type { Review } from "@/types/review/review";
+import type { Review, UserProfile } from "@/types/review/review";
 import type { Comment } from "@/types/comment/comment";
 import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
+
 
 type ReviewDetailViewProps = {
   review: Review;
@@ -79,7 +80,7 @@ const ReviewDetailView = ({
   handleMenuClick,
   isFetchingNext,
   hasMore,
-  setSentinelEl,
+  setSentinelEl
 }: ReviewDetailViewProps) => {
   // 여기서 훅 사용!
   const {
@@ -103,33 +104,8 @@ const ReviewDetailView = ({
     <GridItem colSpan={12}>
       {review.file_urls.length > 0 && (
         <Header bgUrl={review.file_urls[0]}>
-          {/* 아래는 수정 관련 코드인데 수정이 필요해요 */}
-          {/* {
-  isEditModalOpen && (
-    <EditModal
-      isOpen={isEditModalOpen}
-      onClose={() => setIsEditModalOpen(false)}
-      initialReview={{
-        id: review.id,
-        type: review.type, // "PLACE" | "SCHEDULE"
-        title: review.title,
-        content: review.content,
-        rating: review.rating,
-        keyword: review.keyword, // PLACE 라면
-        scheduleId: review.reference?.id, // SCHEDULE 라면 맞는 필드 사용
-        file_urls: review.file_urls,
-      }}
-      savedSchedules={[]} // 필요하다면 부모에서 내려주기
-      onSubmit={async (payload) => {
-        // 수정 API 호출 로직
-        console.log("수정 요청 payload", payload);
-        // await api.patch(`/reviews/${review.id}`, payload)
-        setIsEditModalOpen(false);
-      }}
-      isSubmitting={false} // 저장 중 상태라면 true로
-    />
-    )} */}
-    
+          {/* TODO: 수정모달 구현하기 */}
+  
           <Menu.Root>
             <Menu.Trigger asChild>
               <MenuIcon>
@@ -172,11 +148,11 @@ const ReviewDetailView = ({
                 p={1}
                 pr={3}
                 pl={3}
-                colorPalette={review.type === "PLACE" ? "cyan" : "orange"} // PLACE: cyan, SCHEDULE: orange
+                colorPalette={review.type.SCHEDULE ? "cyan" : "orange"} // PLACE: cyan, SCHEDULE: orange
                 size={"lg"}
               >
                 <Tag.Label>
-                  {review.type === "PLACE" ? "장소리뷰" : "일정리뷰"}
+                  {review.type.PLACE ? "장소리뷰" : "일정리뷰"}
                 </Tag.Label>
               </Tag.Root>
             </HStack>
