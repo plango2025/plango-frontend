@@ -14,12 +14,12 @@ interface Props {
   card: ScrapPlaceItem; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent7 = ({ card }) => {
+const CardComponent7 = ({ card }: Props) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-  const { name, address, thumbnail_url, rating} = card;
+  const { name, address, thumbnail_url, rating } = card;
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 

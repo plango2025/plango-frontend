@@ -13,16 +13,12 @@ interface Props {
   card: ScheduleItem; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent3= ({ card }) => {
+const CardComponent3 = ({ card }: Props) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
 
-  const {
-    schedule_id,
-    title,
-    thumbnail_url,
-  } = card;
+  const { schedule_id, title, thumbnail_url } = card;
 
   const [localImg, setLocalImg] = useState<string | null>(null);
 

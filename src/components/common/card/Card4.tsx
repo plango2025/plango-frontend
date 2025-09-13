@@ -21,11 +21,10 @@ interface Props {
   card: MyLoveReview; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent4= ({ card }) => {
+const CardComponent4 = ({ card }: Props) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
-
 
   const {
     id,
@@ -109,7 +108,8 @@ const CardComponent4= ({ card }) => {
             params: { type: "REVIEW", ref_id: id },
           });
 
-      const newBookmarked = (res.data.scrapped ?? res.data.bookmarked) as boolean;
+      const newBookmarked = (res.data.scrapped ??
+        res.data.bookmarked) as boolean;
       setBookmarked(newBookmarked);
       setBookmarkCount((prev) =>
         newBookmarked ? prev + 1 : Math.max(prev - 1, 0)
