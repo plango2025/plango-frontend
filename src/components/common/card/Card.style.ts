@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { cachedDataVersionTag } from "v8";
 export const Wrapper = styled.div`
   width: 100%;
   height: 370px;
