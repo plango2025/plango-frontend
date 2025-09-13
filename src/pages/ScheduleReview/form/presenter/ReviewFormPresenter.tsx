@@ -32,7 +32,7 @@ const ReviewFormPresenter = () => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
-  
+
   // URL 파라미터에서 type, keyword 가져오기
   const { type, keyword } = useParams<{ type: string; keyword?: string }>();
 
@@ -52,12 +52,11 @@ const ReviewFormPresenter = () => {
     }
   };
 
-  
   // 보관함 일정 불러오기
-  const {data} = useInfiniteQuery({
-    initialPageParam: 1,
+  const { data } = useInfiniteQuery({
+    initialPageParam: null,
     queryKey: ["savedSchedules"],
-    queryFn: ({ pageParam = null }) => fetchSchedules({ pageParam }, api),
+    queryFn: ({ pageParam }) => fetchSchedules({ pageParam }, api),
     getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
   });
 
@@ -87,12 +86,21 @@ const ReviewFormPresenter = () => {
   const handleSubmit = async () => {
     try {
       // 필수 항목 체크
-      if (type === "SCHEDULE" && (!selectedSchedule || !reviewData.content || !reviewData.title || reviewData.rating === 0)) {
+      if (
+        type === "SCHEDULE" &&
+        (!selectedSchedule ||
+          !reviewData.content ||
+          !reviewData.title ||
+          reviewData.rating === 0)
+      ) {
         alert("모든 항목을 입력해주세요.");
         return;
       }
 
-      if (type === "PLACE" && (!keyword || !reviewData.content || reviewData.rating === 0)) {
+      if (
+        type === "PLACE" &&
+        (!keyword || !reviewData.content || reviewData.rating === 0)
+      ) {
         alert("모든 항목을 입력해주세요.");
         return;
       }
