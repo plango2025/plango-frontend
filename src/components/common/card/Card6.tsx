@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import {
   createApiWithToken,
-  CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 import { ReviewItem } from "@/pages/myPage/tapPages/TapPagesmodel";
 import { Rating } from "@/components/common/card/Card.style";
@@ -64,13 +63,11 @@ const CardComponent6= ({ card }:Props) => {
       try {
         const res = await api.get(`/files/${encodeURIComponent(fileName)}`, {
           responseType: "blob",
-        } as CustomAxiosRequestConfig);
+        } );
         objectUrl = URL.createObjectURL(res.data);
         setLocalImg(objectUrl);
       } catch (err) {
         console.error("이미지 불러오기 실패", err);
-      }
-    })();
 
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);

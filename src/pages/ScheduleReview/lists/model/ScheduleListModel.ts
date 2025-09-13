@@ -1,6 +1,3 @@
-// model/ScheduleListModel.ts
-import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
-
 export const fetchReviews = async (api, searchKeyword = "", isLoggedIn) => {
   const params: Record<string, string> = {
     targetType: "SCHEDULE",
@@ -23,5 +20,5 @@ export const fetchReviews = async (api, searchKeyword = "", isLoggedIn) => {
 export const createDummySchedule = async (api: any) => {
   return api.post("/schedules/dummy-create", {}, {
     requiresAuth: false,
-  } as CustomAxiosRequestConfig);
+  } );
 };

@@ -1,8 +1,4 @@
 // ReviewFormModel.ts
-
-import { CustomAxiosRequestConfig } from "@/api/axiosInstance";
-
-
 export const fetchSchedules = async ({pageParam=null},  api) => {
   const res = await api.get("/users/schedules", {
     params: { cursor: pageParam },
@@ -14,7 +10,7 @@ export const fetchSchedules = async ({pageParam=null},  api) => {
 export const createDummySchedule = async (api) => {
   const response = await api.post("/schedules/dummy", {}, {
     requiresAuth: true,
-  } as CustomAxiosRequestConfig);
+  } );
   return response.data;
 };
 export const uploadImages = async (api, files: File[]) => {

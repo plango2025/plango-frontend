@@ -18,7 +18,6 @@ import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
 import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
 import {
   createApiWithToken,
-  CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 
 // StepItem 인터페이스
@@ -59,7 +58,7 @@ const ScheduleSidebar= () => {
     try {
       await api.patch(`/schedules/${scheduleId}/keep`, {}, {
         requiresAuth: true,
-      } as CustomAxiosRequestConfig);
+      });
       setBookmarked(true);
       alert("일정이 보관되었습니다.");
     } catch (error) {
@@ -80,7 +79,7 @@ const ScheduleSidebar= () => {
       try {
         const response = await api.patch(url, body, {
           requiresAuth: true,
-        } as CustomAxiosRequestConfig);
+        });
         return response.data;
       } catch (error) {
         console.error("핀 저장 오류", error);

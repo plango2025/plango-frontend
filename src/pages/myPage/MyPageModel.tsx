@@ -1,7 +1,6 @@
 // MyPageModel.ts
 import {
   createApiWithToken,
-  CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { useMemo } from "react";
@@ -28,7 +27,7 @@ export const useUserApi = () => {
   const fetchUserProfile = async (): Promise<UserProfile> => {
     const res = await api.get("/users", {
       requiresAuth: true,
-    } as CustomAxiosRequestConfig);
+    });
 
     const data = res.data;
     return {

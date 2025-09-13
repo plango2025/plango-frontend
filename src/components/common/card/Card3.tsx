@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import {
   createApiWithToken,
-  CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 import { ScheduleItem } from "@/pages/myPage/tapPages/TapPagesmodel";
 
@@ -40,7 +39,7 @@ const CardComponent3 = ({ card }: Props) => {
       try {
         const res = await api.get(`/files/${encodeURIComponent(fileName)}`, {
           responseType: "blob",
-        } as CustomAxiosRequestConfig);
+        } );
         objectUrl = URL.createObjectURL(res.data);
         setLocalImg(objectUrl);
       } catch (err) {

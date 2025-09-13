@@ -1,11 +1,11 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-
-export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+declare module "axios" {
+export interface AxiosRequestConfig {
   requiresAuth?: boolean;
   _retry?: boolean;
 }
-
+}
 export const createApiWithToken = (
 
   getAccessToken: () => string | null,
@@ -18,7 +18,7 @@ export const createApiWithToken = (
   // ✅ 요청 인터셉터
   let refreshingPromise: Promise<string | null> | null = null;
 
-  api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
+  api.interceptors.request.use(async (config) => {
     const needsAuth = config.requiresAuth === true;
    
 
@@ -94,7 +94,7 @@ export const createApiWithToken = (
       return response;
     },
     async (error: AxiosError) => {
-      const originalRequest = error.config as CustomAxiosRequestConfig;
+      const originalRequest = error.config;
       console.error(
         "❌ [Response Error]",
         error.response?.status,

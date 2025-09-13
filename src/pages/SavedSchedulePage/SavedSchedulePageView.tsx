@@ -17,7 +17,6 @@ import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
 import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
 import {
   createApiWithToken,
-  CustomAxiosRequestConfig,
 } from "@/api/axiosInstance";
 import styles from "./SavedSchedulePage.module.scss";
 import { ScheduleResponse } from "./SavedSchedulePageModel";
@@ -79,7 +78,7 @@ const ScheduleSidebar = () => {
     try {
       await api.patch(`/schedules/${scheduleId}/keep`, {}, {
         requiresAuth: true,
-      } as CustomAxiosRequestConfig);
+      });
       setBookmarked(true);
       alert("일정이 보관되었습니다.");
     } catch (error) {
@@ -100,7 +99,7 @@ const ScheduleSidebar = () => {
       const body = { places: [...pinnedPlaces, placeName] };
       await api.patch(url, body, {
         requiresAuth: true,
-      } as CustomAxiosRequestConfig);
+    });
       setPinnedPlaces((prev) => [...prev, placeName]);
       alert(`"${placeName}"가 저장되었습니다.`);
     } catch (error) {
