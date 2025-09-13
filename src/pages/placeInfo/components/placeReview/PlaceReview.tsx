@@ -42,6 +42,7 @@ type Item = {
   comment_count: number;
   file_urls?: string[];
   content: string;
+  created_at: string
 };
 
 const PlaceReview = ({

@@ -1,11 +1,16 @@
 // model/ReviewDetailModel.ts
 import { Comment } from "@/types/comment/comment";
 import { Review, UserProfile } from "@/types/review/review";
-import { toast } from 'react-toastify';
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 export type ScrapResponse = { scrapped: boolean; scrap_count: number };
 
 /** 리뷰 상세 */
-export const fetchReview = async (api: any, id: string, isLoggedIn: boolean): Promise<Review> => {
+export const fetchReview = async (
+  api: any,
+  id: string,
+  isLoggedIn: boolean
+): Promise<Review> => {
   const res = await api.get(`/reviews/${id}`, { requiresAuth: isLoggedIn });
   console.log("상세에서의 리뷰:", res.data);
   return res.data;
@@ -127,15 +132,20 @@ export const toggleScrap = async (
 export const deleteReview = async (api: any, id: string): Promise<void> => {
   try {
     await api.delete(`/reviews/${id}`, { requiresAuth: true });
-  } catch (error) {
+  } catch (err) {
+    const error = err as AxiosError;
+
     if (error.status === 403) {
       toast.error("본인이 작성한 글만 삭제할 수 있습니다.");
     }
   }
-};export const deleteComment = async (api: any, id: string): Promise<void> => {
+};
+export const deleteComment = async (api: any, id: string): Promise<void> => {
   try {
     await api.delete(`/comments/${id}`, { requiresAuth: true });
-  } catch (error) {
+  } catch (err) {
+    const error = err as AxiosError;
+
     if (error.status === 403) {
       toast.error("본인이 작성한 글만 삭제할 수 있습니다.");
     }

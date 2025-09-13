@@ -95,7 +95,7 @@ useEffect(() => {
                 placeholder="제목을 입력하세요"
               />
               <AutoCenter>
-                <ImageUploader files={imageFiles} onChange={setImageFiles} />
+                <ImageUploader onChange={setImageFiles} />
               </AutoCenter>
               <Rating>
                 <RatingGroup.Root

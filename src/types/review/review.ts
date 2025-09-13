@@ -22,16 +22,13 @@ export interface Review {
   created_at: string; // "YYYY-MM-DD HH:mm:ss" (예: "2025-07-20 12:54:49")
   rating: number;
   author: UserProfile;
-
   type: ReviewType; // 예: "SCHEDULE"
   reference: ReviewReference;
   thumbnail_url: string;
   file_urls: string[];
-
   like_count: number;
   comment_count: number;
   scrap_count: number;
-
   is_liked: boolean; // 내가 좋아요 눌렀는지
   is_scrapped: boolean; // 내가 스크랩 했는지
 }
