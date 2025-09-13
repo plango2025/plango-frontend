@@ -10,7 +10,11 @@ export interface ReviewReference {
   created_at: string; // "2025-07-20" 형식
   thumbnail_url: string;
 }
-
+export interface UserProfile {
+  id: string; // 사용자 ID
+  nickname: string; // 닉네임
+  profile_image?: string; // 프로필 이미지 (null 또는 undefined 허용)
+}
 export interface Review {
   id: string;
   title: string;
