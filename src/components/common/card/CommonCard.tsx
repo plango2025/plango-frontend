@@ -12,7 +12,7 @@ interface CommonCardProps {
   rating: string;
 }
 
-const CommonCard: React.FC<CommonCardProps> = ({ profile_image, name, title, rating }) => {
+const CommonCard = ({ profile_image, name, title, rating }:CommonCardProps) => {
   return (
     <Card.Root maxW="sm" className={styles.root}>
       <Card.Title className={styles.title}>{profile_image}{name}</Card.Title>

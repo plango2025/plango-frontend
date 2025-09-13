@@ -14,7 +14,7 @@ interface Props {
   card: ScrapPlaceItem; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent7: React.FC<Props> = ({ card }) => {
+const CardComponent7 = ({ card }) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();

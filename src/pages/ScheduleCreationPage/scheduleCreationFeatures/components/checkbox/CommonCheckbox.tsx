@@ -9,12 +9,12 @@ interface CommonCheckboxProps {
   isChecked?: boolean; // External control for checked state
 }
 
-const CommonCheckbox: React.FC<CommonCheckboxProps> = ({
+const CommonCheckbox= ({
   labels,
   large = false,
   onChange,
   isChecked = false, // Default to false if not provided
-}) => {
+}: CommonCheckboxProps) => {
   // We'll primarily use the `isChecked` prop for controlling the state
   // and manage `selectedValues` only if `isChecked` is not provided (i.e., for multi-select scenarios).
   // For the StepPage3 use case, `isChecked` will always be provided.
@@ -22,7 +22,6 @@ const CommonCheckbox: React.FC<CommonCheckboxProps> = ({
   // If you strictly want single selection from the outside, you can remove `selectedValues` state
   // and directly use `isChecked` prop.
   // However, keeping it makes the component more versatile if used elsewhere for multi-select.
-
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;

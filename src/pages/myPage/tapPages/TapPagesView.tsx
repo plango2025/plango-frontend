@@ -19,7 +19,7 @@ import CardComponent6 from "@/components/common/card/Card6";
 import CardComponent7 from "@/components/common/card/Card7";
 
 // 1- 1 내가 작성한 리뷰 목록 조회 API
-const ReviewPage1_1: React.FC = () => {
+const ReviewPage1_1 = () => {
   const {
     data: reviews,
     hasMore,
@@ -47,7 +47,7 @@ const ReviewPage1_1: React.FC = () => {
 };
 
 // 1-2 내가 보관한 일정 목록 조회 api
-const ReviewPage1_2: React.FC = () => {
+const ReviewPage1_2 = () => {
   const {
     data: schedules,
     hasMore,
@@ -75,7 +75,7 @@ const ReviewPage1_2: React.FC = () => {
 };
 
 // 2-1 내가 좋아한 리뷰 목록 조회 api
-const ReviewPage2_1: React.FC = () => {
+const ReviewPage2_1 = () => {
   const {
     data: reviews,
     hasMore,
@@ -102,7 +102,7 @@ const ReviewPage2_1: React.FC = () => {
   );
 };
 // 2-2 내가 좋아한 장소 목록 조회 api
-const ReviewPage2_2: React.FC = () => {
+const ReviewPage2_2 = () => {
   const {
     data: reviews,
     hasMore,
@@ -130,7 +130,7 @@ const ReviewPage2_2: React.FC = () => {
 };
 
 // 3-1 내가 스크랩한 리뷰 목록 조회 api
-const ReviewPage3_1: React.FC = () => {
+const ReviewPage3_1= () => {
   const {
     data: reviews,
     hasMore,
@@ -158,7 +158,7 @@ const ReviewPage3_1: React.FC = () => {
 };
 
 // 3-2 내가 스크랩한 장소 목록 조회 api
-const ReviewPage3_2: React.FC = () => {
+const ReviewPage3_2 = () => {
   const {
     data: reviews,
     hasMore,

@@ -13,7 +13,7 @@ import AppLayout from "@/layout/AppLayout";
 import { KakaoLoginBtn } from '@/components/common/buttons/Buttons';
 
 
-const LoginPageView: React.FC = () => {
+const LoginPageView = () => {
   
   const { handleLogin, error } = useLoginPresenter();
   //  const getKakaoLoginUrl = async (): Promise<string> => {

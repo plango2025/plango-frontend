@@ -33,7 +33,7 @@ export interface StepItem {
   imageUrl: string;
 }
 
-const ScheduleSidebar: React.FC = () => {
+const ScheduleSidebar = () => {
   const [scheduleParams, setScheduleParams] = useState<
     ScheduleResponse["parameters"] | null
   >(null);

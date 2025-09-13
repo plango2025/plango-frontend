@@ -22,9 +22,7 @@ const AccessTokenContext = createContext<AccessTokenContextType | undefined>(
   undefined
 );
 
-export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const isLoggedIn = !!accessToken;
@@ -72,18 +70,17 @@ export const AccessTokenProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // 로그아웃
   const logout = async () => {
-    api.post("/auth/logout", {}, { requiresAuth: true })
-    .then(() => {
+    api.post("/auth/logout", {}, { requiresAuth: true }).then(() => {
       console.log("일반 로그아웃 성공");
       setAccessToken(null);
-      api.get("/oauth/kakao/logout", {}, { requiresAuth: false })
-      .then((result) => {
-        const logout_url = result.data.logout_redirect_uri;
-        window.location.href = logout_url;
-      });
+      api
+        .get("/oauth/kakao/logout", {}, { requiresAuth: false })
+        .then((result) => {
+          const logout_url = result.data.logout_redirect_uri;
+          window.location.href = logout_url;
+        });
     });
   };
-
 
   return (
     <AccessTokenContext.Provider

@@ -2,7 +2,7 @@ import styles from "./LoginPage.module.scss"; // SCSS 모듈 import
 import SideBar from "@/components/common/sidebar/CommonSidebar";
 import KakaoLoginBtn from "./KakaoLoginBtn/KakaoLoginBtn";
 
-const LoginView: React.FC = () => {
+const LoginView = () => {
   
  
   return (

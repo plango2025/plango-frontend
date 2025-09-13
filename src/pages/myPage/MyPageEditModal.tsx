@@ -10,7 +10,7 @@ interface Props {
   user: UserProfile;
 }
 
-const MyPageEditModal: React.FC<Props> = ({ isOpen, onClose, user }) => {
+const MyPageEditModal = ({ isOpen, onClose, user }: Props) => {
   const [formData, setFormData] = useState({
     nickname: user.nickname,
     address: user.address,
@@ -27,7 +27,9 @@ const MyPageEditModal: React.FC<Props> = ({ isOpen, onClose, user }) => {
     return null;
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -54,19 +56,22 @@ const MyPageEditModal: React.FC<Props> = ({ isOpen, onClose, user }) => {
         fileFormData.append("files", newProfileImage); // ✅ 단수형
 
         // POST /api/files with the access token
-        const fileUploadResponse = await fetch('http://localhost:8000/api/files', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          },
-          body: fileFormData,
-        });
+        const fileUploadResponse = await fetch(
+          "http://localhost:8000/api/files",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: fileFormData,
+          }
+        );
 
         const fileUploadData = await fileUploadResponse.json();
         if (fileUploadData.file_urls && fileUploadData.file_urls.length > 0) {
           profileImageUrl = fileUploadData.file_urls[0];
         } else {
-          throw new Error('File upload failed.');
+          throw new Error("File upload failed.");
         }
       }
 
@@ -89,25 +94,28 @@ const MyPageEditModal: React.FC<Props> = ({ isOpen, onClose, user }) => {
       }, {});
 
       // PATCH /api/users with the access token
-      const userUpdateResponse = await fetch('http://localhost:8000/api/users', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify(updatedFields),
-      });
+      const userUpdateResponse = await fetch(
+        "http://localhost:8000/api/users",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(updatedFields),
+        }
+      );
       if (!userUpdateResponse.ok) {
-        throw new Error('Failed to update user profile.');
+        throw new Error("Failed to update user profile.");
       }
 
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+      alert("프로필이 성공적으로 업데이트되었습니다.");
       window.location.reload(); // ✅ 새로고침
       onClose();
       // You might want to reload the user data in the parent component after a successful update.
     } catch (error) {
-      console.error('Error updating profile:', error);
-      alert('프로필 업데이트 중 오류가 발생했습니다.');
+      console.error("Error updating profile:", error);
+      alert("프로필 업데이트 중 오류가 발생했습니다.");
     }
   };
 

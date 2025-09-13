@@ -25,12 +25,12 @@ interface CardViewProps {
 }
 
 // CardView 컴포넌트 내부에 Card 컴포넌트 정의
-const Card: React.FC<CardProps> = ({
+const Card= ({
   placeName,
   addressName,
   categoryName,
   onCardClick,
-}) => {
+}: CardProps) => {
   const { setTravelPlan } = useTravelPlan(); // Context에서 settravelPlan을 가져옴
   return (
     <div className={cardStyles.card}>
@@ -62,7 +62,7 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-const CardView: React.FC<CardViewProps> = ({ cards }) => {
+const CardView= ({ cards }: CardViewProps) => {
   const globalStyles: React.CSSProperties = {
     backgroundColor: "#f0f2f5",
     margin: 0,
@@ -108,8 +108,7 @@ const CardView: React.FC<CardViewProps> = ({ cards }) => {
   // ];
 
   // 검색 상태
-  const [actualSelectedPlaceName] =
-    useState<string>("");
+  const [actualSelectedPlaceName] = useState<string>("");
   // 필터링된 카드 데이터 상태
   const [filteredCards, setFilteredCards] = useState<CardData[]>(cards);
 

@@ -18,10 +18,10 @@ type SearchBarPresenterProps = {
 
 const BASE_URL = "http://localhost:8000"; // 여기에 서버 주소
 
-const SearchBarPresenter: React.FC<SearchBarPresenterProps> = ({
+const SearchBarPresenter = ({
   mode,
   onSearch,
-}) => {
+}:SearchBarPresenterProps) => {
   const [hasSearched, setHasSearched] = useState(false);
   const {  setTravelPlan } = useTravelPlan();
   const [inputText, setInputText] = useState("");

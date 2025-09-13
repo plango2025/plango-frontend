@@ -23,7 +23,7 @@ interface Props {
   error: string | null;
 }
 
-const MyPageView: React.FC<Props> = ({ user, loading, error }) => {
+const MyPageView= ({ user, loading, error }: Props) => {
   const navigate = useNavigate();
   // State to manage the visibility of the pop-up
   const [isModalOpen, setIsModalOpen] = useState(false);

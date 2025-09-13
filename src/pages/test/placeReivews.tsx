@@ -6,7 +6,7 @@ import { usePlaceSearch } from "../placeInfo/presenter/PlaceInfoPresenter";
 interface PlaceReviewsProps {
   keyword: string;
 }
-const PlaceReviews: React.FC<PlaceReviewsProps> = ({ keyword }) => {
+const PlaceReviews = ({ keyword }:PlaceReviewsProps) => {
   const {
     reviewItems,
     loadFirstReviews,

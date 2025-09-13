@@ -34,11 +34,8 @@ export interface StepItem {
   longitude: number;
 }
 
-interface ScheduleSidebarProps {
-  stepsData?: StepItem[];
-}
 
-const ScheduleSidebar: React.FC<ScheduleSidebarProps> = () => {
+const ScheduleSidebar= () => {
   const location = useLocation();
   const { scheduleResponse } = location.state || {};
   const { centerMapToLocation, showPlaceOverlay } = useMapContext();

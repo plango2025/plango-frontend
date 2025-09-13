@@ -7,7 +7,7 @@ interface Props {
   scheduleData?: ScheduleData;
 }
 
-const SchedulePreview: React.FC<Props> = ({ scheduleData }) => {
+const SchedulePreview = ({ scheduleData }: Props) => {
   return (
     <ScheduleInfo>
       <h1>

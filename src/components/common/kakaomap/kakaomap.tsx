@@ -23,7 +23,7 @@ interface Place {
   phone?: string;
 }
 
-const KakaoMap: React.FC = () => {
+const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
   const { setMap } = useMapContext();

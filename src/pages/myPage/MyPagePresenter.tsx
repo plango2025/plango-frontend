@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyPageView from "./MyPageView";
 import { UserProfile, useUserApi } from "./MyPageModel";
 
-export const MyPagePresenter: React.FC = () => {
+export const MyPagePresenter= () => {
   const { fetchUserProfile } = useUserApi();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);

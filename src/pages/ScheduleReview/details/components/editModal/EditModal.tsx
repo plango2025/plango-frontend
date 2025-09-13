@@ -68,7 +68,7 @@ const useBodyScrollLock = (locked: boolean) => {
   }, [locked]);
 };
 
-const ModalPortal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ModalPortal= ({ children }) => {
   const target =
     document.getElementById("modal-root") ??
     (() => {
@@ -80,10 +80,13 @@ const ModalPortal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return createPortal(children, target);
 };
 
-const Overlay: React.FC<{
+const Overlay = ({
+  onClose,
+  children,
+}: {
   onClose: () => void;
   children: React.ReactNode;
-}> = ({ onClose, children }) => {
+}) => {
   // ESC 닫기
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -127,14 +130,14 @@ const Overlay: React.FC<{
 };
 
 /** -------- 실제 수정 모달 -------- */
-const EditModal: React.FC<EditReviewModalProps> = ({
+const EditModal = ({
   isOpen,
   onClose,
   initialReview,
   savedSchedules = [],
   onSubmit,
   isSubmitting = false,
-}) => {
+}:EditReviewModalProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showSchedulePicker, setShowSchedulePicker] = useState(false);
 

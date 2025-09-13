@@ -13,7 +13,7 @@ interface Props {
   card: ScheduleItem; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent3: React.FC<Props> = ({ card }) => {
+const CardComponent3= ({ card }) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();

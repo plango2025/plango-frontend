@@ -1,11 +1,11 @@
 import { Slider } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface CommonSliderProps {
   onValueChange: (value: number) => void;
 }
 
-const CommonSlider: React.FC<CommonSliderProps> = ({ onValueChange }) => {
+const CommonSlider = ({ onValueChange }: CommonSliderProps) => {
   const [value, setValue] = useState<number>(50);
 
   // ValueChangeDetails 타입 맞춤

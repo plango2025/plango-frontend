@@ -21,7 +21,7 @@ interface Props {
   card: MyLoveReview; // ✅ props 이름을 card로 명확히
 }
 
-const CardComponent4: React.FC<Props> = ({ card }) => {
+const CardComponent4= ({ card }) => {
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
   const navigate = useNavigate();
