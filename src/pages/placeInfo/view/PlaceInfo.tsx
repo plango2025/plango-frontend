@@ -26,7 +26,7 @@ const PlaceInfo = () => {
   const {
     liked,
     bookmarked,
-    placeIntro,
+    placeIntroData,
     loading,
     reviewItems,
     hasMore,
@@ -39,10 +39,10 @@ const PlaceInfo = () => {
 
   const handleBack = () => navigate(-1);
 
-  if (loading || !placeIntro) return <Spinner />;
+  if (loading || !placeIntroData) return <Spinner />;
   console.log(likeCount);
   const { title, sub_title, content, address, images, rating, like_count } =
-    placeIntro;
+    placeIntroData 
   return (
     <BackGround>
       <AppLayout>
@@ -66,7 +66,6 @@ const PlaceInfo = () => {
                 onLikeClick={handleLikeClick}
                 onBookmarkClick={handleBookmarkClick}
                 rating={Math.floor(rating)}
-                like_count={like_count}
               />
 
               <Separator mt="2rem" mb="2rem" />

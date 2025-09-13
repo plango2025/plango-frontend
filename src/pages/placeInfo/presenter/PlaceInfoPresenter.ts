@@ -1,5 +1,5 @@
 // src/pages/placeInfo/presenter/PlaceInfoPresenter.ts
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   fetchPlaceByKeyword,
@@ -11,6 +11,7 @@ import {
   toggleLike,
   toggleScrap,
 } from "@/pages/ScheduleReview/details/model/ReviewDetailModel";
+import { PlaceIntro } from '@/types/place';
 
 export const usePlaceSearch = (keyword?: string) => {
   // 리뷰 상태
@@ -22,26 +23,27 @@ export const usePlaceSearch = (keyword?: string) => {
   const [likeCount, setLikeCount] = useState<number | null>(null);
   const { accessToken, setAccessToken } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
-
+const [reviewCount,setReviewCount] = useState(0)
   // 장소소개 API (React Query)
   const {
-    data: placeIntro,
+    data: placeIntroData,
     isLoading: loading,
     error,
-  } = useQuery({
+  } = useQuery<PlaceIntro>({
     queryKey: ["placeInfo", keyword],
     queryFn: () => fetchPlaceByKeyword(api, keyword!),
     enabled: !!keyword,
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 30 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setLiked(data.is_liked);
-      setBookmarked(data.is_bookmarked);
-      setLikeCount(data.like_count);
-      console.log("장소 정보:", data);
-    },
   });
+
+useEffect(() => {
+  if (placeIntroData) {
+    setLiked(placeIntroData.is_liked);
+    setBookmarked(placeIntroData.is_scrapped);
+    setLikeCount(placeIntroData.like_count);
+    setReviewCount(placeIntroData.review_count)
+    console.log("장소 정보:", placeIntroData);
+  }
+}, [placeIntroData]);
 
   const loadFirstReviews = useCallback(
     async (keyword: string, limit = 10) => {
@@ -63,7 +65,7 @@ export const usePlaceSearch = (keyword?: string) => {
 
   
   const loadMoreReviews = useCallback(
-    async (keyword: string, limit = 10) => {
+    async (keyword: string, limit = 5) => {
       if (!hasMore || !nextCursor) return;
       try {
         const data = await fetchPlaceReviews(api, {
@@ -84,7 +86,7 @@ export const usePlaceSearch = (keyword?: string) => {
 
   /** 좋아요 (낙관적 토글) */
   const handleLikeClick = async () => {
-    if (!placeIntro) return;
+    if (!placeIntroData) return;
     const nextLiked = !liked;
     setLiked(nextLiked);
     
@@ -99,7 +101,7 @@ export const usePlaceSearch = (keyword?: string) => {
 
   /** 북마크 (낙관적 토글) */
   const handleBookmarkClick = async () => {
-    if (!placeIntro) return;
+    if (!placeIntroData) return;
     const nextBookmarked = !bookmarked;
     setBookmarked(nextBookmarked);
     try {
@@ -114,7 +116,7 @@ export const usePlaceSearch = (keyword?: string) => {
     liked,
     likeCount,
     bookmarked,
-    placeIntro,
+    placeIntroData,
     loading,
     error,
     reviewItems,
@@ -123,5 +125,6 @@ export const usePlaceSearch = (keyword?: string) => {
     loadMoreReviews,
     handleLikeClick,
     handleBookmarkClick,
+    reviewCount,
   };
 };

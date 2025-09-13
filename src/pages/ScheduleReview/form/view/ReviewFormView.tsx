@@ -27,7 +27,6 @@ const ReviewFormView = ({
   setShowModal,
   reviewData,
   setReviewData,
-  imageFiles,
   setImageFiles,
   selectedSchedule,
   savedSchedules,

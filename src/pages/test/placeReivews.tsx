@@ -12,7 +12,7 @@ const PlaceReviews = ({ keyword }:PlaceReviewsProps) => {
     loadFirstReviews,
     loadMoreReviews,
     loading,
-    totalCount,
+    reviewCount:totalCount,
   } = usePlaceSearch(keyword);
 
   const [expanded, setExpanded] = useState(false);

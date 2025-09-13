@@ -5,6 +5,7 @@ import { MdOutlineNavigateNext } from "react-icons/md";
 import { Padding1 } from "@/components/common/padding/padding";
 
 const Gallery = styled.div`
+height: 200px;
   width: 100%;
   height: 15rem;
   display: flex;
@@ -80,7 +81,7 @@ const PlaceReview = ({
               <User>
                 <Avatar src={it.author.profile_image} />
                 <div>
-                  <Nick>{it.author.nickname}</Nick>
+                 PlaceInfo<Nick>{it.author.nickname}</Nick>
                   <Box display="flex" alignItems={"center"} gap="0.5rem">
                     <Rating>
                       <RatingGroup.Root
@@ -113,10 +114,8 @@ const PlaceReview = ({
             {it.file_urls && it.file_urls.length > 0 && (
               <>
                 <Gallery
-                  h="200px"
-                  templateRows="repeat(2, 1fr)"
-                  templateColumns="repeat(5, 1fr)"
-                  gap={4}
+                 
+                 
                 >
                   <Thumbnail src={it.file_urls[0]} />
                   <SmallImgContainer>
