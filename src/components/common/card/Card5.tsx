@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Wrapper, Image, Name, Profile } from "./Card.style";
 import { Avatar, RatingGroup, Separator } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";

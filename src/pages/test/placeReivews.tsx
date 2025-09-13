@@ -1,5 +1,5 @@
 // PlaceReviews.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PlaceReview from "../placeInfo/components/placeReview/PlaceReview";
 import { usePlaceSearch } from "../placeInfo/presenter/PlaceInfoPresenter";
 

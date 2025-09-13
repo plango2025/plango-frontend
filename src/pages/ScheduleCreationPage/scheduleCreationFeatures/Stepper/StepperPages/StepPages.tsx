@@ -3,7 +3,7 @@ import styles from "./StepPages.module.scss";
 import CommonCheckbox from "../../components/checkbox/CommonCheckbox";
 import CommonSlider from "@/components/common/slider/CommonSlider";
 import { useTravelPlan} from "./StepPageContext";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useAccessToken } from "@/context/AccessTokenContext";
 

@@ -1,6 +1,6 @@
 // KakaoMap.tsx
 
-import React, { useEffect, useRef } from "react";
+import  { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./kakaomap.css";
 import { useMapContext } from "./MapContext";

@@ -1,5 +1,5 @@
 // Card.tsx
-import React, { forwardRef, useEffect, useState } from "react";
+import  { forwardRef, useEffect, useState } from "react";
 import { Wrapper, Image, Name, ButtonBox, Button, Profile } from "./Card.style";
 import {
   FaHeart,

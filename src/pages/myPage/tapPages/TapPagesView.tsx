@@ -1,5 +1,3 @@
-// TapPages.tsx
-import React from "react";
 import styles from "./TapPages.module.scss";
 import { Text, Button } from "@chakra-ui/react";
 import {

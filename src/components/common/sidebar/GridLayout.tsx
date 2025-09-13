@@ -1,5 +1,4 @@
 import { Grid } from "@chakra-ui/react";
-import React from "react";
 
 export const CONTAINER_WIDTH = 74.625;
 interface GridLayoutProps {

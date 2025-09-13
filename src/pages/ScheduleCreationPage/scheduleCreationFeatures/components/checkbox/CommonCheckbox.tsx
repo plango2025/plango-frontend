@@ -1,4 +1,3 @@
-import React from "react";
 import { CheckboxCard } from "@chakra-ui/react";
 import styles from "./CommonCheckbox.module.scss";
 

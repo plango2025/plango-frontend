@@ -1,5 +1,4 @@
-// MyPageEditModal.tsx
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import styles from './myPage.module.scss';
 import { UserProfile } from "./MyPageModel";
 import { useAccessToken } from "@/context/AccessTokenContext"; // Import the hook

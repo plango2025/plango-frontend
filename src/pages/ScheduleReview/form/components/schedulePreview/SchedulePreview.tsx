@@ -1,4 +1,3 @@
-import React from "react";
 import { Place, ScheduleInfo } from ".././schedulePreview/SchedulePreview.style";
 import { HStack, Separator, Text } from "@chakra-ui/react";
 import type { ScheduleData } from "../../types/types"; // 위치에 따라 경로 수정

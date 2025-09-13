@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import cardStyles from "./CardView.module.scss"; // Card 전용 SCSS 모듈 임포트 (이제 CardView 내부에서 사용)
 
 import {

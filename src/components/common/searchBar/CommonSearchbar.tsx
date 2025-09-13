@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import  { useState, useEffect, useRef } from "react";
 import styles from "./CommonSearchbar.module.scss";
 import { useTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPageContext";
 import { LocationSuggestion } from "./locationsuggestion";
