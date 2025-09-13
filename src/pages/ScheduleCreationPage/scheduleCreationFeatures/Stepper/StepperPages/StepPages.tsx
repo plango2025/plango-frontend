@@ -36,7 +36,7 @@ const StepPage1 = () => {
     }
   }, []);
 
-  const handleCheckboxClick = (label: string, checked: boolean) => {
+  const handleCheckboxClick = (label: string) => {
     setTravelPlan((prev) => {
       if (prev.destination === label) {
         return {
@@ -68,8 +68,8 @@ const StepPage1 = () => {
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
-            onChange={(clickedLabel, clickedChecked) =>
-              handleCheckboxClick(clickedLabel, clickedChecked)
+            onChange={(clickedLabel) =>
+              handleCheckboxClick(clickedLabel)
             }
             isChecked={isChecked}
           />
@@ -134,7 +134,7 @@ const StepPage3 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
   // 이 함수는 'duration' 필드가 단일 값을 가지도록 변경합니다.
-  const handleCheckboxClick = (label: string, checked: boolean) => {
+  const handleCheckboxClick = (label: string) => {
     // 'checked' 값은 CommonCheckbox 내부에서 이미 토글된 상태를 반영할 것이므로,
     // 여기서는 단순히 'label' 값을 'duration'에 할당합니다.
     // 만약 체크 해제를 허용한다면 'checked'가 false일 때 null을 할당할 수 있습니다.
@@ -177,8 +177,8 @@ const StepPage3 = () => {
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
-            onChange={(clickedLabel, clickedChecked) =>
-              handleCheckboxClick(clickedLabel, clickedChecked)
+            onChange={(clickedLabel) =>
+              handleCheckboxClick(clickedLabel)
             }
             isChecked={isChecked} // CommonCheckbox에 현재 선택 상태를 전달
           />
@@ -211,7 +211,7 @@ const StepPage4 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
   // 단일 선택만 가능하도록 수정
-  const handleCheckboxClick = (label: string, checked: boolean) => {
+  const handleCheckboxClick = (label: string) => {
     setTravelPlan((prev) => {
       if (prev.companion === label) {
         return {
@@ -242,8 +242,8 @@ const StepPage4 = () => {
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
-            onChange={(clickedLabel, clickedChecked) =>
-              handleCheckboxClick(clickedLabel, clickedChecked)
+            onChange={(clickedLabel) =>
+              handleCheckboxClick(clickedLabel)
             }
             isChecked={isChecked}
           />
@@ -286,7 +286,7 @@ const StepPage5 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
   // 단일 선택만 가능하도록 수정
-  const handleCheckboxClick = (label: string, checked: boolean) => {
+  const handleCheckboxClick = (label: string) => {
     setTravelPlan((prev) => {
       if (prev.style === label) {
         return {
@@ -317,8 +317,8 @@ const StepPage5 = () => {
           <CommonCheckbox
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
-            onChange={(clickedLabel, clickedChecked) =>
-              handleCheckboxClick(clickedLabel, clickedChecked)
+            onChange={(clickedLabel) =>
+              handleCheckboxClick(clickedLabel)
             }
             isChecked={isChecked}
           />
@@ -371,7 +371,7 @@ const parseScheduleLabelToCount = (label: string): number | null => {
 const StepPage6 = () => {
   const { travelPlan, setTravelPlan } = useTravelPlan();
 
-  const handleCheckboxClick = (label: string, checked: boolean) => {
+  const handleCheckboxClick = (label: string) => {
     const parsedCount = parseScheduleLabelToCount(label);
 
     setTravelPlan((prev) => {
@@ -406,8 +406,8 @@ const StepPage6 = () => {
             key={`${rowIndex}-${colIndex}`}
             labels={[label]}
             large
-            onChange={(clickedLabel, clickedChecked) =>
-              handleCheckboxClick(clickedLabel, clickedChecked)
+            onChange={(clickedLabel) =>
+              handleCheckboxClick(clickedLabel)
             }
             isChecked={isChecked}
           />

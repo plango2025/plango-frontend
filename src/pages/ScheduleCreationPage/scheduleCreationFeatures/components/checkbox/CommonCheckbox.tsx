@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { CheckboxCard } from "@chakra-ui/react";
 import styles from "./CommonCheckbox.module.scss";
 
@@ -22,13 +22,7 @@ const CommonCheckbox: React.FC<CommonCheckboxProps> = ({
   // If you strictly want single selection from the outside, you can remove `selectedValues` state
   // and directly use `isChecked` prop.
   // However, keeping it makes the component more versatile if used elsewhere for multi-select.
-  const [internalSelected, setInternalSelected] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Sync internal state with external isChecked prop
-    // This makes the component "controlled" when isChecked is passed.
-    setInternalSelected(isChecked);
-  }, [isChecked]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
