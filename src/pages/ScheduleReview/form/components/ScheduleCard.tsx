@@ -5,7 +5,8 @@ import { IoMdTime } from "react-icons/io";
 
 const CardWrapper = styled.div`
   margin: 1rem 0;
-  min-width: 200px;
+  max-width: 240px;
+  max-height: 300px;
   cursor: pointer;
   background-color: #ffffff;
   width: 100%;
@@ -15,7 +16,7 @@ const CardWrapper = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
-  max-height: 200px;
+  height: 120px;
   object-fit: cover;
   border-radius:7px 7px 0 0;
 `;
@@ -59,7 +60,6 @@ export interface ScheduleCardProps {
   onhandleSelect: (value: string) => void;
 }
 const ScheduleCard = ({
-  id,
   thumbnail_url,
   title,
   destination,

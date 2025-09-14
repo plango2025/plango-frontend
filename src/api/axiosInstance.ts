@@ -1,11 +1,13 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-
-export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+declare module "axios" {
+export interface AxiosRequestConfig {
   requiresAuth?: boolean;
   _retry?: boolean;
 }
-
+}
 export const createApiWithToken = (
+
   getAccessToken: () => string | null,
   setAccessToken: (token: string) => void
 ) => {
@@ -13,74 +15,86 @@ export const createApiWithToken = (
     baseURL: "http://localhost:8000/api",
     withCredentials: true,
   });
-
   // ✅ 요청 인터셉터
   let refreshingPromise: Promise<string | null> | null = null;
 
-api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
-  const needsAuth = config.requiresAuth === true;
+  api.interceptors.request.use(async (config) => {
+    const needsAuth = config.requiresAuth === true;
+   
 
-  if (needsAuth && config.headers) {
-    let token = getAccessToken();
-
-    if (!token) {
-      // 이미 리프레시 중이면 해당 promise를 기다림
-      if (!refreshingPromise) {
-        refreshingPromise = axios
-          .post(
-            "http://localhost:8000/api/auth/refresh",
-            {},
-            {
-              withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            const newToken = res.headers["authorization"]?.replace(
-              "Bearer ",
-              ""
-            );
-            if (newToken) {
-              setAccessToken(newToken);
-              return newToken;
-            } else {
-              throw new Error("❌ refresh 후에도 accessToken 없음");
-            }
-          })
-          .catch((e) => {
-            console.error("🚫 refresh 실패 (request):", e);
-            alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-            window.location.href = "/login";
-            return null;
-          })
-          .finally(() => {
-            refreshingPromise = null;
-          });
-      }
-
-      token = await refreshingPromise;
+    if (needsAuth && config.headers) {
+      let token = getAccessToken();
+      console.log("🔑 현재 accessToken:", token);
 
       if (!token) {
-        return Promise.reject(new Error("❌ accessToken 갱신 실패"));
+        console.log("⏳ accessToken 없음 → refresh 시도");
+        if (!refreshingPromise) {
+          refreshingPromise = axios
+            .post(
+              "http://localhost:8000/api/auth/refresh",
+              {},
+              {
+                withCredentials: true,
+                headers: { "Content-Type": "application/json" },
+              }
+            )
+            .then((res) => {
+              console.log("🔄 refresh 응답:", res);
+              const newToken = res.headers["authorization"]?.replace(
+                "Bearer ",
+                ""
+              );
+              console.log("🎟️ 새 accessToken (request interceptor):", newToken);
+
+              if (newToken) {
+                setAccessToken(newToken);
+                return newToken;
+              } else {
+                throw new Error("❌ refresh 후에도 accessToken 없음");
+              }
+            })
+            .catch((e) => {
+              toast.error("로그인이 필요한 서비스입니다.");
+              // window.location.href = "/login";
+              console.error("🚫 refresh 실패 (request interceptor):", e);
+              return null;
+            })
+            .finally(() => {
+              refreshingPromise = null;
+            });
+        }
+
+        token = await refreshingPromise;
+
+        if (!token) {
+          console.error("❌ accessToken 갱신 실패");
+          return Promise.reject(new Error("❌ accessToken 갱신 실패"));
+        }
       }
+
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log(
+        "🛠️ 요청에 accessToken 설정 완료:",
+        config.headers.Authorization
+      );
     }
 
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+    return config;
+  });
 
   // ✅ 응답 인터셉터
   api.interceptors.response.use(
     (response) => {
-      console.log("📥 [Response] 응답 성공:", response.config.url);
+      console.log(
+        "📥 [Response Success] URL:",
+        response.config.url,
+        "Status:",
+        response.status
+      );
       return response;
     },
     async (error: AxiosError) => {
-      const originalRequest = error.config as CustomAxiosRequestConfig;
+      const originalRequest = error.config;
       console.error(
         "❌ [Response Error]",
         error.response?.status,
@@ -88,6 +102,7 @@ api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
         originalRequest.url
       );
 
+      // 401 → 토큰 만료 처리
       if (
         error.response?.status === 401 &&
         !originalRequest._retry &&
@@ -103,15 +118,16 @@ api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
             {},
             {
               withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: { "Content-Type": "application/json" },
             }
           );
           console.log("✅ refresh 성공");
 
           const newToken = res.headers["authorization"]?.replace("Bearer ", "");
-          console.log("🎟️ 새로운 accessToken:", newToken);
+          console.log(
+            "🎟️ 새로운 accessToken (response interceptor):",
+            newToken
+          );
 
           if (!newToken)
             throw new Error("❌ access token 없음 (응답 인터셉터)");
@@ -122,10 +138,10 @@ api.interceptors.request.use(async (config: CustomAxiosRequestConfig) => {
 
           return api(originalRequest);
         } catch (refreshErr) {
+          toast.error("로그인이 필요한 서비스입니다.");
           console.error("🚫 refresh 실패 (response interceptor):", refreshErr);
-          alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
-          window.location.href = "/login";
           return Promise.reject(refreshErr);
+
         }
       }
 

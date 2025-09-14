@@ -11,10 +11,9 @@ import {
 import { GridItem } from "@chakra-ui/react";
 import AppLayout from "@/layout/AppLayout";
 import { KakaoLoginBtn } from '@/components/common/buttons/Buttons';
-import { useAccessToken } from '@/context/AccessTokenContext';
-import { createApiWithToken } from '@/api/axiosInstance';
-
-const LoginPageView: React.FC = () => {
+import logo from "@assets/images/icons/plane.png";
+import bgImg from "@assets/images/login/background.png"
+const LoginPageView = () => {
   
   const { handleLogin, error } = useLoginPresenter();
   //  const getKakaoLoginUrl = async (): Promise<string> => {
@@ -33,19 +32,19 @@ const LoginPageView: React.FC = () => {
           <TitleWrapper>
             <TitleDesc>여행 계획? 이젠 클릭 한 번으로 끝!</TitleDesc>
             <TitleLogo>
-              <img src="/src/assets/images/icons/plane.png" alt="Plango Logo" />
+              <img src={logo} alt="Plango Logo" />
               <h1>Plango</h1>
             </TitleLogo>
           </TitleWrapper>
 
           <CenterWrapper>
             <CenterImage
-              src="/src/assets/images/login/background.png"
+              src={bgImg}
               alt="Background Image"
             />
           </CenterWrapper>
           <CenterWrapper>
-            <KakaoLoginBtn onClick={handleLogin}/>
+            <KakaoLoginBtn onClick={handleLogin} />
           </CenterWrapper>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </Container>

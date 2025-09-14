@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import styled from "styled-components";
 
 export const Wrap = styled.div`
   overflow: hidden;
@@ -35,7 +34,7 @@ flex-direction: column;
 `
 
 export const Text= styled.p`
-font-size: 20px;
+font-size: 22px;
 `
 
 export const StartBtn = styled.button`

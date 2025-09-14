@@ -1,6 +1,6 @@
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import styled from "styled-components";
-export const getStarsIcons = (rating: number) => {
+const getStarsIcons = (rating: number) => {
   const stars = [];
   const rounded = Math.floor(rating * 2) / 2;
   for (let i = 1; i <= 5; i++) {

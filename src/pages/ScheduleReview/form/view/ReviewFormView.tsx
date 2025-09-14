@@ -20,13 +20,13 @@ import ImageUploader from "../components/ImageUploader";
 import { AutoCenter } from "./../../../../components/common/align/AutoCenter";
 import { PaddingMd } from "./../../../../components/common/padding/padding";
 import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 const ReviewFormView = ({
   showModal,
   setShowModal,
   reviewData,
   setReviewData,
-  imageFiles,
   setImageFiles,
   selectedSchedule,
   savedSchedules,
@@ -34,7 +34,6 @@ const ReviewFormView = ({
   handleSubmit,
 }) => {
   const textareaRef = useRef(null);
-
   const handleResizeHeight = () => {
     const textarea = textareaRef.current;
     if (textarea) {
@@ -42,28 +41,40 @@ const ReviewFormView = ({
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
+console.log(reviewData);
+const { type, keyword } = useParams();
 
-  useEffect(() => {
-    handleResizeHeight();
-  }, []);
+useEffect(() => {
+  handleResizeHeight();
+  if (type === "PLACE") {
+    setReviewData((prev) => ({
+      ...prev,
+      title: keyword,
+    }));
+  }
+}, [type, keyword]);
+
+  console.log(type, keyword);
   return (
     <BackGround>
       <AppLayout>
         <GridItem colSpan={12}>
           <Bottom>
-            <SubmitBtn onClick={handleSubmit}>등록하기</SubmitBtn>
+            <SubmitBtn onClick={() => handleSubmit(type, keyword)}>등록하기</SubmitBtn>
           </Bottom>
 
           <FormContainer>
-            {showModal && (
+            {/* 타입이 SCHEDULE일 때 */}
+
+            {type === "SCHEDULE" && showModal && (
               <ScheduleSelector
                 savedSchedules={savedSchedules}
                 handleSelectSchedule={handleSelectSchedule}
               />
             )}
-
             <SidePadding>
-              {!showModal && (
+              {/* 타입이 SCHEDULE일 때 */}
+              {type === "SCHEDULE" && !showModal && savedSchedules && (
                 <SelectedScheduleTitle>
                   <Button onClick={() => setShowModal(true)}>
                     <FaExchangeAlt />
@@ -71,19 +82,22 @@ const ReviewFormView = ({
                   {selectedSchedule.reviewtitle}
                 </SelectedScheduleTitle>
               )}
+            </SidePadding>
+            <SidePadding>
+             
               <input
                 type="text"
-                value={reviewData.title}
+                value={type === "PLACE" ? keyword : reviewData.title}
                 onChange={(e) =>
                   setReviewData({ ...reviewData, title: e.target.value })
                 }
                 placeholder="제목을 입력하세요"
               />
               <AutoCenter>
-                <ImageUploader files={imageFiles} onChange={setImageFiles} />
+                <ImageUploader onChange={setImageFiles} />
               </AutoCenter>
               <Rating>
-                <RatingGroup.Root 
+                <RatingGroup.Root
                   value={reviewData.rating}
                   onValueChange={(e) =>
                     setReviewData({ ...reviewData, rating: e.value ?? 0 })
@@ -91,9 +105,7 @@ const ReviewFormView = ({
                   count={5}
                 >
                   <RatingGroup.HiddenInput />
-                  <RatingGroup.Control
-                  
-                  />
+                  <RatingGroup.Control />
                 </RatingGroup.Root>
               </Rating>
               <PaddingMd />

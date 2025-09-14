@@ -18,6 +18,7 @@ export const Item = styled.li`
 `;
 
 export const Header = styled.div`
+width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -49,4 +50,10 @@ export const Content = styled.div`
   border-radius: 8px;
   font-size: 1rem;
   line-height: 1.5;
+`;
+export const SideFlex = styled.div`
+width: 100%;
+  display: flex;
+  justify-content: space-between;
+ 
 `;

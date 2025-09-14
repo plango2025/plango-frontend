@@ -1,8 +1,8 @@
 import styles from "./LoginPage.module.scss"; // SCSS 모듈 import
 import SideBar from "@/components/common/sidebar/CommonSidebar";
 import KakaoLoginBtn from "./KakaoLoginBtn/KakaoLoginBtn";
-
-const LoginView: React.FC = () => {
+import logo from "@assets/images/login/background.png"
+const LoginView = () => {
   
  
   return (
@@ -14,7 +14,7 @@ const LoginView: React.FC = () => {
           여행 계획? 이젠 클릭 한 번으로 끝!
         </span>
         <div className={styles.container__title__logo}>
-          <img src="/src/assets/images/icons/plane.png" alt="Plango Logo" />
+          <img src={logo} alt="Plango Logo" />
           {/* @assets 왜 안되는 지 알아보기 */}
           <h1>Plango</h1>
         </div>

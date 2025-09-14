@@ -11,7 +11,7 @@ interface Navigation{
 }
 
 function CommonNav() {
-  const [navigation, setNavigation] = useState<Navigation[]>(nav);
+  const [navigation] = useState<Navigation[]>(nav);
 
   //useState로 선언한 반응성을 가진 데이터를 기반으로 UI를 반복호풀해보도록한다. 
   const navLink = navigation.map((item:Navigation)=>{

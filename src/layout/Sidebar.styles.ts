@@ -1,28 +1,22 @@
 // CommonSidebar.styles.ts
 import styled from "styled-components";
-import { CONTAINER_WIDTH } from "./GridLayout";
 
 // ✅ 숫자로 관리
-const LOGO_WIDTH = 4.5; // rem
+const LOGO_WIDTH = 2.5; // rem
 const LOGO_TOP_MARGIN = 2.938; // rem
-const ICON_WIDTH = 2.5; // rem
-const SIDEBAR_WIDTH = 7; // rem
-const BREAKPOINT = CONTAINER_WIDTH + SIDEBAR_WIDTH; // rem
+const ICON_WIDTH = 2; // rem
+const SIDEBAR_WIDTH = 5; // rem
 
 export const SidebarContainer = styled.div`
   position: fixed;
   width: ${SIDEBAR_WIDTH}rem;
-  display:  flex;
+  display: flex;
   flex-direction: column;
   height: 100%;
   top: 0;
   left: 0;
   background-color: white;
   z-index: 1;
-
-  @media (max-width: ${BREAKPOINT}rem) {
-    display: none;
-  }
 `;
 export const LogoContainer = styled.div`
   position: relative;
@@ -32,31 +26,27 @@ export const LogoContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: ${LOGO_TOP_MARGIN}rem;
-  /* margin-bottom: ${LOGO_TOP_MARGIN}rem; */
 `;
 
 export const SidebarLogo = styled.img`
   position: relative;
   width: ${LOGO_WIDTH}rem;
   height: ${LOGO_WIDTH}rem;
-  
 `;
 
 export const IconList = styled.ul`
   position: relative;
   width: 100%;
-  height: calc(100% - ${LOGO_TOP_MARGIN}rem - ${LOGO_WIDTH}rem);
+  height: calc(90% - ${LOGO_TOP_MARGIN}rem - ${LOGO_WIDTH}rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-
-  gap: 2rem;
 `;
 
 export const IconItem = styled.li`
   font-size: ${ICON_WIDTH}rem;
-  color: #919294;
+  color: #bebebeff;
   cursor: pointer;
   width: ${ICON_WIDTH}rem;
 

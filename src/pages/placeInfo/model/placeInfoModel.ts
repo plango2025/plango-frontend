@@ -1,42 +1,25 @@
-// import { PlaceSSEEvent } from "../types/type";
-
-// export type PlaceSSEData = {
-//   type: "preview" | "detail" | "llm_input";
-//   data: PlaceSSEEvent;
-// };
-
-// export const fetchPlaceByKeyword = (
-//   keyword: string,
-//   onMessage: (data: PlaceSSEData) => void,
-//   onDone: () => void,
-//   onError: (err: Event) => void
-// ) => {
-//   const source = new EventSource(
-//     `http://localhost:8080/api/place?keyword=${encodeURIComponent(keyword)}`
-//   );
-//   source.onmessage = (event) => {
-//     try {
-//       const parsed: PlaceSSEData = JSON.parse(event.data);
-//       onMessage(parsed);
-//       if (parsed.type === "llm_input") source.close();
-//       onDone()
-//     } catch (e) {
-//       console.error("파싱 오류", e);
-//     }
-//   };
-
-//   source.onerror = (err) => {
-//     console.error("SSE 연결 오류:", err);
-//     onError(err);
-//     source.close();
-//   };
-// };
 export const fetchPlaceByKeyword=async(api, keyword:string)=>{
-
   const res = await api.get("/places", {
     params: { keyword },
     requiresAuth: false,
   });
-  console.log(res.data);
   return res.data;
 }
+
+export const fetchPlaceReviews = async (
+  api,
+  {
+    keyword,
+    limit = 10,
+    cursor,
+  }: { keyword: string; limit?: number; cursor?: string | null }
+) => {
+  // baseURL이 '/api'가 아니라면 경로를 '/api/reviews'로 바꿔주세요.
+  const res = await api.get("places/reviews", {
+    params: { keyword, limit, cursor },
+    // is_liked, is_scrapped 위해 토큰 포함
+    requiresAuth: true,
+  });
+  console.log("장소 리뷰 불러오기:", res.data);
+  return res.data
+};

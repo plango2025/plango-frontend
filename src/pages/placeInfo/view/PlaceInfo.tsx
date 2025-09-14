@@ -1,5 +1,5 @@
 import AppLayout from "@/layout/AppLayout";
-import { GridItem, Separator } from "@chakra-ui/react";
+import { GridItem, Separator, Spinner } from "@chakra-ui/react";
 import Header from "../components/header/Header";
 import Gallery from "../components/gallary/Gallery";
 import { IoIosArrowBack } from "react-icons/io";
@@ -16,35 +16,31 @@ import {
   PlaceIntroPadding,
 } from "@/components/common/padding/padding";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import PlaceReviews from "@/pages/test/placeReivews";
 import { usePlaceSearch } from "../presenter/PlaceInfoPresenter";
 
 const PlaceInfo = () => {
   const { keyword } = useParams();
   const navigate = useNavigate();
 
-  const { placeIntro, loading, searchPlace } = usePlaceSearch();
+  const {
+    liked,
+    bookmarked,
+    placeIntroData,
+    loading,
+    reviewItems,
+    hasMore,
+    loadFirstReviews,
+    loadMoreReviews,
+    handleLikeClick,
+    handleBookmarkClick,
+  } = usePlaceSearch(keyword);
 
-  useEffect(() => {
-    if (keyword && keyword.trim()) {
-      searchPlace(keyword);
-    }
-  }, [keyword]);
+  const handleBack = () => navigate(-1);
 
-  const handleBack = () => {
-    const isExternal =
-      document.referrer === "" ||
-      !document.referrer.startsWith(window.location.origin);
-    if (isExternal) navigate("/schedule/create");
-    else navigate(-1);
-  };
-
-  if (loading || !placeIntro) {
-    return <div>로딩 중입니다...</div>;
-  }
-
-  const { title, sub_title, content, address, images } = placeIntro;
-
+  if (loading || !placeIntroData) return <Spinner />;
+  const { title, sub_title, content, address, images, rating } =
+    placeIntroData 
   return (
     <BackGround>
       <AppLayout>
@@ -57,11 +53,34 @@ const PlaceInfo = () => {
               </BackIcon>
 
               <Gallery images={images} />
-              <Header name={title} subtitle={sub_title} address={address} />
+
+              {/* Header에 상태와 클릭 핸들러 전달 */}
+              <Header
+                name={title}
+                subtitle={sub_title}
+                address={address}
+                bookmarked={bookmarked}
+                liked={liked}
+                onLikeClick={handleLikeClick}
+                onBookmarkClick={handleBookmarkClick}
+                rating={Math.floor(rating)}
+              />
+
               <Separator mt="2rem" mb="2rem" />
               <SubTitle>{sub_title}</SubTitle>
               <Padding1 />
-              <Content>{content}</Content>
+              <Content>
+                <div dangerouslySetInnerHTML={{ __html: content }} />
+              </Content>
+              {/* <MapContainer id="map"></MapContainer> */}
+              <PaddingMd />
+              <PlaceReviews
+                keyword={keyword}
+                reviewItems={reviewItems}
+                hasMore={hasMore}
+                loadFirstReviews={loadFirstReviews}
+                loadMoreReviews={loadMoreReviews}
+              />
             </PlaceIntroPadding>
           </PlaceInfoWrapper>
         </GridItem>

@@ -64,8 +64,6 @@ export const SelectedScheduleTitle = styled.p`
 
 
   color: #15bdb1;
-  height: 100px;
-  line-height: 100px;
   align-items: center;
   text-align: center;
  
@@ -158,29 +156,28 @@ export const Bottom = styled.div`
   max-width: 1000px;
 
   height: 70px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
   padding: 0.5rem 1rem;
+ margin-bottom: 1rem;
   display: flex;
   justify-content: center;
   z-index: 1000; /* 필요 시 위로 띄움 */
 `;
 export const SidePadding = styled.div`
-  padding: 2rem  2rem 7rem 2rem; 
+  padding: 2rem  2rem 0rem 2rem; 
   width: 100%;
 `;
 export const SubmitBtn = styled.button`
   width: 100%;
-  max-width: 300px;
+  max-width: 250px;
+  line-height: 20px;
   height: 50px;
   padding: 0.75rem 1.5rem;
   background-color: #15bdb1;
+  text-align: center;
   color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 1.4rem;
-  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {

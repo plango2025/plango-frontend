@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import styles from "./searchbar.module.scss";
 
-const searchbar: React.FC = () => {
+const Searchbar = () => {
   const [inputText, setInputText] = useState<string>(""); // 입력값을 관리하는 상태
 
   return (
@@ -20,4 +20,4 @@ const searchbar: React.FC = () => {
   );
 };
 
-export default searchbar;
+export default Searchbar;

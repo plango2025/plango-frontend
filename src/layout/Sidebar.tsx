@@ -31,12 +31,12 @@ function Sidebar() {
           <BsStars />
         </IconItem>
 
-        <IconItem onClick={() => navigate("/schdReviews")}>
+        <IconItem onClick={() => navigate("/reviews")}>
           <IoShareSocialSharp />
         </IconItem>
 
         <IconItem>
-          <FaUser />
+          <FaUser onClick={() => navigate("/myPageView")} />
         </IconItem>
         {/* 알림 기능 생기면 넣기 */}
         {/* <IconItem>

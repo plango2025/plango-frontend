@@ -1,93 +1,181 @@
-import { useEffect, useState } from "react";
+// presenter/useReviewDetailPresenter.ts
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   fetchReview,
   fetchComments,
   postComment,
+  CommentPage,
+  deleteReview,
 } from "../model/ReviewDetailModel";
 import { useAccessToken } from "@/context/AccessTokenContext";
 import { createApiWithToken } from "@/api/axiosInstance";
-import { Review, UserProfile } from "@/types/review/review";
-import { Comment } from "@/types/comment/comment";
+import type { Review, UserProfile } from "@/types/review/review";
+import type { Comment } from "@/types/comment/comment";
+
 export const useReviewDetailPresenter = (id: string | undefined) => {
-    const navigate = useNavigate()
-  const { accessToken, setAccessToken } = useAccessToken();
+  const navigate = useNavigate();
+  const { accessToken, setAccessToken,isLoggedIn } = useAccessToken();
   const api = createApiWithToken(() => accessToken, setAccessToken);
+
+  // 엔티티 상태
   const [review, setReview] = useState<Review | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [comments, setComments] = useState<Comment[] | null>([]);
-  const [liked, setLiked] = useState(false); // 내가 좋아요 눌렀는지
-  const [likeCount, setLikeCount] = useState(0); // 좋아요 개수
-  const [bookmarked, setBookmarked] = useState(false);
-  const [bookmarkCount, setBookmarkCount] = useState(0);
-  const [comment, setComment] = useState<string>("");
-  const [loading, setLoading] = useState(true);
 
-const handleScheduleClick=()=>{
-  navigate(`/schedule/${review.reference.schedule_id}`);
-}
-  const handleLikeClick = (e:MouseEvent) => {
-      e.stopPropagation();
-    setLiked((prev) => {
-      const newLiked = !prev;
-      setLikeCount((prevCount) => (newLiked ? prevCount + 1 : prevCount - 1));
-      console.log("like clicked"); 
-      return newLiked;
-    });
-  };
-  const handleBookmarkClick = () => {
-    setBookmarked((prev) => {
-      const newBookmarked = !prev;
-      setBookmarkCount((prevCount) =>
-        newBookmarked ? prevCount + 1 : prevCount - 1
-      );
-      return newBookmarked;
-    });
-  };
-  const handleCommentSubmit = async () => {
+  // 댓글 페이지 누적 / 페이지네이션 상태
+  const [pages, setPages] = useState<CommentPage[]>([]);
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(false);
+
+  // UX
+  const [liked, setLiked] = useState(null);
+  const [likeCount, setLikeCount] = useState(review?.like_count || 0);
+  const [bookmarked, setBookmarked] = useState(null);
+  const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [isFetchingNext, setIsFetchingNext] = useState(false);
+
+  // 합쳐진 댓글 리스트 (항상 전체 노출: 버튼 없음)
+  const comments: Comment[] = useMemo(
+    () => pages.flatMap((p) => p.items),
+    [pages]
+  );
+
+  /** 일정 바로보기 */
+  const handleScheduleClick = () => {
     if (!review) return;
-    await postComment(api, review.id, comment);
-    const newComments = await fetchComments(api, review.id);
-    setComments(newComments);
-    setComment("");
+    navigate(`/schedules/${review.reference.schedule_id}`);
   };
+
+  /** 댓글 등록 → 첫 페이지 새로고침 */
+  const [commentInput, setCommentInput] = useState("");
+  const handleCommentSubmit = async () => {
+    if (!review || !commentInput.trim()) return;
+    await postComment(api, review.id, commentInput.trim());
+
+    const first = await fetchComments({
+      api,
+      refId: review.id,
+      cursor: null,
+      limit: 20,
+    });
+    setPages([first]);
+    setNextCursor(first.next_cursor);
+    setHasMore(first.has_more);
+    setCommentInput("");
+  };
+
+  /** 다음 페이지 로드(무한 스크롤에서 호출) */
+  const loadNextPage = async () => {
+    if (!review || !hasMore || !nextCursor || isFetchingNext) return;
+    try {
+      setIsFetchingNext(true);
+      const next = await fetchComments({
+        api,
+        refId: review.id,
+        cursor: nextCursor,
+        limit: 20
+      }, );
+      setPages((prev) => [...prev, next]);
+      setNextCursor(next.next_cursor);
+      setHasMore(next.has_more);
+    } finally {
+      setIsFetchingNext(false);
+    }
+  };
+
+  /** 초기 로드 */
   useEffect(() => {
     if (!id) return;
     (async () => {
       try {
-        const reviewData = await fetchReview(api, id);
-        const commentList = await fetchComments(api, reviewData.id);
+        const reviewData = await fetchReview(api, id, isLoggedIn);
+        const first = await fetchComments({
+          api,
+          refId: reviewData.id,
+          cursor: null,
+          limit: 20,
+        });
+
         setReview(reviewData);
         setUser(reviewData.author);
+        setLiked(reviewData.is_liked);
         setLikeCount(reviewData.like_count);
+        setBookmarked(reviewData.is_scrapped);
         setBookmarkCount(reviewData.scrap_count);
-        setComments(commentList);
-      } catch (err) {
-        //불러오기를 실패했을때
-        console.error(err);
+
+        setPages([first]);
+        setNextCursor(first.next_cursor);
+        setHasMore(first.has_more);
+      } catch (e) {
+        console.error(e);
       } finally {
-        //성공이든 실패든 상관없이, 마지막에 무조건 실행
         setLoading(false);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  /** 무한 스크롤용 센티넬 ref & 옵저버 등록 */
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          loadNextPage();
+        }
+      },
+      {
+        root: null, // viewport 기준(페이지 전체 스크롤)
+        rootMargin: "0px 0px 200px 0px", // 미리 당겨 로드
+        threshold: 0.01,
+      }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+    // hasMore/nextCursor가 변해도 ref는 동일하므로 의존성에 넣지 않음
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sentinelRef.current]);
+
+  const handleMenuClick = (action: "edit" | "delete") => {
+    switch (action) {
+      case "edit":
+        break;
+      case "delete":
+        console.log("삭제");
+        deleteReview(api, id);
+        navigate("/reviews")
+        break;
+    }
+  };
 
   return {
     review,
     user,
     comments,
-    setComments,
-    loading,
-    handleLikeClick,
-    handleBookmarkClick,
-    handleCommentSubmit,
+    allCount: comments.length,
+    hasMore,
+    isFetchingNext,
     handleScheduleClick,
+    handleCommentSubmit,
+    handleMenuClick,
+    comment: commentInput,
+    setComment: setCommentInput,
+
     liked,
     likeCount,
     bookmarked,
     bookmarkCount,
-    comment,
-    setComment,
+    loading,
+
+    // View에 내려줄 센티넬 ref setter
+    setSentinelEl: (el: HTMLDivElement | null) => {
+      sentinelRef.current = el;
+    },
   };
 };

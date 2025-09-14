@@ -1,3 +1,5 @@
+@use "@/assets/styles/color.scss" as *;
+
 //stepPage1--------------------------
 .containerSp1 {
   display: flex;
@@ -9,6 +11,7 @@
 }
 
 .searchBarContainerSp1 {
+  width: 80%;
   margin-top: 50px;
 }
 
@@ -21,10 +24,14 @@
 .containerSp2 {
   display: flex;
   width: 100%;
-  height: 100%;
-  flex-direction: column; // 세로 정렬 설정
-  justify-content: flex-start;
-  align-items: center; // 세로 중앙 정렬
+
+  flex-direction: column;
+  justify-content: center; // 세로 가운데 정렬
+  align-items: center; // 가로 가운데 정렬
+}
+
+.containerSp2_85 {
+  width: 85%;
 }
 
 .searchBarContainerSp2 {
@@ -83,6 +90,7 @@
 }
 
 .searchBarContainerSp4 {
+  width: 60%;
   margin-top: 50px;
 }
 
@@ -104,6 +112,7 @@
 }
 
 .searchBarContainerSp5 {
+  width: 60%;
   margin-top: 50px;
 }
 
@@ -140,19 +149,42 @@
 }
 //stepage7-------------------------
 
-.CommonSliderContainerSp7{
+.CommonSliderContainerSp7 {
   display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  transform: translateY(-25%); /* 25% 위로 이동 */
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.budgetInfo {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 4px;
+  strong {
+    color: $icons; // 포인트 컬러
+  }
 }
 
+.saveButton {
+  background-color: #15bdb1;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #15bdb1;
+  }
+}
 
 //stepage8-------------------------
 
-.inputContainerSp8{
+.inputContainerSp8 {
   display: flex;
   width: 100%;
   height: 100%;
@@ -161,7 +193,6 @@
   align-items: center; // 세로 중앙 정렬
   margin-top: 3rem;
 }
-
 
 .textareaSp8 {
   border: 1px solid black;

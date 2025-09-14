@@ -23,7 +23,9 @@ export const Title = styled.h1`
     font-size: 1.1rem;
   }
 `;
-export const Rating = styled.div``;
+export const Rating = styled.div`
+  color: rgba(255, 200, 0, 1);
+`;
 export const Stars = styled.div`
   margin: 0;
   display: flex;

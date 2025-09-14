@@ -1,25 +1,22 @@
 import styled from "styled-components";
-interface HeaderProps {
-  backgroundUrl: string;
-}
+
 export const ReviewLink= styled.p`
 color:red
 `
-export const Header = styled.div<HeaderProps>`
+export const Header = styled.div<{ bgUrl?: string }>`
   max-width: 100%;
   position: relative;
   padding: 15rem 3rem 5rem 3rem;
-  padding-top: 15rem;
-max-height: 30rem;
+  max-height: 30rem;
   color: white;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
-  ${({ backgroundUrl }) =>
-    backgroundUrl
+  ${({ bgUrl }) =>
+    bgUrl
       ? `
-        background-image: url(${encodeURI(backgroundUrl)});
+        background-image: url(${encodeURI(bgUrl)});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -27,6 +24,7 @@ max-height: 30rem;
       : `
         background-color: white;
       `}
+
   &::before {
     content: "";
     position: absolute;
@@ -35,11 +33,14 @@ max-height: 30rem;
     z-index: 0;
   }
 `;
-export const Title = styled.p`
+export const Title = styled.div`
   width: 100%;
   font-size: 3rem;
   line-height: 3.5rem;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 export const Wrapper = styled.div`
   padding-bottom: 3rem;
@@ -104,36 +105,51 @@ export const CommentSection = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 export const InputWrap = styled.div`
-
   border-radius: 40px;
-  width: 100%;
- 
-  display: flex;
-  justify-content:space-between;
-  border:1px solid #C5C5C5;
 
   
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  background-color: #edededff;
+
+  justify-content: space-between;
+  /* border:1px solid #d6d6d6ff; */
 `;
 export const CommentInput = styled.input`
   width: 100%;
+  background-color: #edededff;
 
   height: 3rem;
   padding: 2rem;
-  border-radius:40px 0  0  40px;
+  border-radius: 40px 0 0 40px;
   font-size: 18px;
   outline: none;
- 
 `;
 export const CommentSubmitBtn = styled.button`
-width:8rem;
-
-  border-radius: 20px ;
+width:7rem;
+font-size: 18px;
+  border-radius: 40px ;
   background-color:#15BDB1;
   color:white;
   :focus{
       background-color:#109A90
 
+  }
+`;
+
+export const MenuIcon = styled.div`
+  position: absolute;
+  font-size: 2rem;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  cursor: pointer;
+  color: white;
+  &:hover {
+    opacity: 0.8;
   }
 `;

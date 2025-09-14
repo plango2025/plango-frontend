@@ -1,40 +1,176 @@
+import { useState, useEffect } from "react";
+import cardStyles from "./CardView.module.scss"; // Card 전용 SCSS 모듈 임포트 (이제 CardView 내부에서 사용)
+
 import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  HStack,
-  Image,
-  Spacer,
-} from "@chakra-ui/react";
-import styles from "./CardView.module.scss";
-export const CardView = () => (
-  <Card.Root flexDirection="row" overflow="hidden" maxW="xl">
-    <div className={styles.imageLayout}>
-      <Image
-        objectFit="cover"
-        maxW="200px"
-        src="https://lh3.googleusercontent.com/gps-cs-s/AB5caB_e0M0es76YU8P_4Gj-wRZlRs6WtXBpKDrJHjQyGu_qn_2O1DjwA9b8uZ8YHhm1ghL3vy01k-0dJRIsG1UiAibxwxFfNIDKSXHHGG7UVouZZWPxbrvV6GumShZAxXdXqkVw2MyX=s680-w680-h510"
-        alt="지브리 테마파크"
-      />
-    </div>
-    <Box className={styles.boxStyle}>
-      <Card.Body>
-        <Card.Title mb="1" className={styles.titleStyle}>지브리 테마 파크</Card.Title>
-        <Card.Description className={styles.descriptionStyle}>
-          Caffè latte is a coffee beverage of Italian origin made with espresso
-          and steamed milk.
-        </Card.Description>
-        <HStack mt="1">
-          <Badge className={styles.badgeStyle}>미정</Badge>
-          <Badge>미정</Badge>
-        </HStack>
-      </Card.Body>
-      <div className={styles.buttonLayout}>
-        <Button className={styles.buttonStyle}>+</Button>
+  useTravelPlan,
+} from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPageContext"; // Context에서 travelPlan을 가져옴
+
+// 카드 데이터의 타입을 정의하는 인터페이스
+interface CardData {
+  placeName: string;
+  addressName: string;
+  categoryName: string;
+}
+
+interface CardProps {
+  placeName: string;
+  addressName: string;
+  categoryName: string;
+  onCardClick?: (placeName: string) => void;
+}
+
+interface CardViewProps {
+  cards: CardData[]; // 외부에서 받을 카드 데이터 배열
+  onCardClick?: (placeName: string) => void; // 선택 핸들러
+}
+
+// CardView 컴포넌트 내부에 Card 컴포넌트 정의
+const Card= ({
+  placeName,
+  addressName,
+  categoryName,
+  onCardClick,
+}: CardProps) => {
+  const { setTravelPlan } = useTravelPlan(); // Context에서 settravelPlan을 가져옴
+  return (
+    <div className={cardStyles.card}>
+      <h2 className={cardStyles.cardTitle}>{placeName}</h2>
+      <div className={cardStyles.cardContent}>
+        <p className={cardStyles.dataItem}>
+          <span className={cardStyles.dataLabel}>주소:</span> {addressName}
+        </p>
       </div>
-    </Box>
-  </Card.Root>
-);
+      <button
+        className={cardStyles.circleButton}
+        onClick={() => {
+          console.log(`버튼 클릭: ${placeName}`);
+          setTravelPlan((prev) => ({
+            ...prev,
+            required_places: [{ name: placeName, address: addressName }],
+          }));
+          onCardClick?.(placeName); // 부모에게 전달
+        }}
+      >
+        ...
+      </button>
+      <div className={cardStyles.cardFooter}>
+        <p className={cardStyles.dataItem}>
+          <span className={cardStyles.dataLabel}>카테고리:</span> {categoryName}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const CardView= ({ cards }: CardViewProps) => {
+  const globalStyles: React.CSSProperties = {
+    backgroundColor: "#f0f2f5",
+    margin: 0,
+    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    minHeight: "100vh",
+    boxSizing: "border-box",
+  };
+
+  // const sampleData: CardData[] = [
+  //   {
+  //     placeName: "강원대학교 춘천캠퍼스",
+  //     addressName: "강원특별자치도 춘천시 효자동 192-1",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "서울대학교 관악캠퍼스",
+  //     addressName: "서울특별시 관악구 관악로 1",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "을지로3가역",
+  //     addressName: "서울특별시 중구 을지로 122",
+  //     categoryName: "교통,운송 > 지하철,전철 > 지하철역",
+  //   },
+  //   {
+  //     placeName: "강릉대학교",
+  //     addressName: "강원특별자치도 강릉시 죽헌길 7",
+  //     categoryName: "교육,학문 > 학교 > 대학교",
+  //   },
+  //   {
+  //     placeName: "강남역",
+  //     addressName: "서울특별시 강남구 테헤란로 402",
+  //     categoryName: "교통,운송 > 지하철,전철 > 지하철역",
+  //   },
+  //   {
+  //     placeName: "춘천시청",
+  //     addressName: "강원특별자치도 춘천시 시청로 11",
+  //     categoryName: "공공,행정 > 시청",
+  //   },
+  // ];
+
+  // 검색 상태
+  const [actualSelectedPlaceName] = useState<string>("");
+  // 필터링된 카드 데이터 상태
+  const [filteredCards, setFilteredCards] = useState<CardData[]>(cards);
+
+  // actualSelectedPlaceName이 변경될 때마다 카드 데이터를 필터링
+  useEffect(() => {
+    if (actualSelectedPlaceName) {
+      const filtered = cards.filter((card) =>
+        card.placeName.includes(actualSelectedPlaceName)
+      );
+      setFilteredCards(filtered);
+    } else {
+      setFilteredCards(cards);
+    }
+  }, [actualSelectedPlaceName, cards]);
+
+  return (
+    <div style={globalStyles}>
+      <style>
+        {`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+        `}
+      </style>
+
+      {/* 현재 검색 상태 표시 (선택 사항) */}
+      <div
+        style={{
+          marginBottom: "20px",
+          width: "100%",
+          maxWidth: "700px",
+          textAlign: "center",
+        }}
+      ></div>
+
+      {/* 필터링된 카드들을 렌더링 */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
+        {filteredCards.length > 0 ? (
+          filteredCards.map((data, index) => (
+            <Card
+              key={index}
+              placeName={data.placeName}
+              addressName={data.addressName}
+              categoryName={data.categoryName}
+            />
+          ))
+        ) : (
+          <p style={{ color: "#888", marginTop: "50px" }}>
+            검색 결과가 없습니다.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default CardView;

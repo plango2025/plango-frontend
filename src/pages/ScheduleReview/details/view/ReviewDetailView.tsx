@@ -1,14 +1,24 @@
+// ReviewDetailView.tsx
 import {
   Avatar,
   GridItem,
-  Heading,
-  RatingGroup,
-  Separator,
   Text,
-  Badge, Box, Button, Card, HStack, Image
+  Badge,
+  Box,
+  Button,
+  Card,
+  HStack,
+  Image,
+  Separator,
+  RatingGroup,
+  Tag,
+  Menu,
+  Portal,
 } from "@chakra-ui/react";
+import { IoMdMore } from "react-icons/io";
 
 import {
+  MenuIcon,
   Title,
   InputWrap,
   Header,
@@ -21,61 +31,131 @@ import {
   CommentSubmitBtn,
   CommentSection,
   CommentInput,
-  ReviewLink,
 } from "./ReviewDetailPage.style";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { Rating } from "@/components/Card.style";
-import { Review, UserProfile } from "@/types/review/review";
+import { Rating } from "@/components/common/card/Card.style";
 import CommentList from "@/pages/ScheduleReview/details/components/CommentList";
 import {
-  PaddingLg,
   PaddingMd,
   SidePaddingTextbox,
 } from "@/components/common/padding/padding";
-import { getStarsIcons } from "@/components/common/Rating/Rating";
-import { AutoCenter } from "./../../../../components/common/align/AutoCenter";
+import { AutoCenter } from "@/components/common/align/AutoCenter";
+import type { Review, UserProfile } from "@/types/review/review";
+import type { Comment } from "@/types/comment/comment";
+import { useToggleLikeScrap } from "@/hooks/useToggleLikeScrap";
+
+
 type ReviewDetailViewProps = {
   review: Review;
   user: UserProfile;
-  comments: Comment[] | null;
-  setComments: (value: Comment[]) => {};
+  comments: Comment[]; // 화면에 표시할 전체 목록 (무한 스크롤)
+  allCount: number; // 로드된 댓글 총 개수(표시용)
+  hasMore: boolean; // 다음 페이지 존재 여부
+  isFetchingNext: boolean; // 다음 페이지 로딩 중
+  handleMenuClick: (action: "edit" | "delete") => void;
+  // 무한 스크롤 센티넬 엘리먼트 세터
+  setSentinelEl: (el: HTMLDivElement | null) => void;
+  // UX/액션
   loading: boolean;
   liked: boolean;
   likeCount: number;
   bookmarked: boolean;
   bookmarkCount: number;
   handleScheduleClick: () => void;
-  handleLikeClick: () => void;
-  handleBookmarkClick: () => void;
+  // handleLikeClick: () => void;
+  // handleBookmarkClick: () => void;
   handleCommentSubmit: () => void;
   comment: string;
   setComment: (value: string) => void;
 };
+
 const ReviewDetailView = ({
+  review,
+  comments,
   comment,
   setComment,
-  liked,
-  likeCount,
-  bookmarked,
-  bookmarkCount,
-  handleLikeClick,
-  handleBookmarkClick,
   handleCommentSubmit,
   handleScheduleClick,
-  review,
-  user,
-  comments,
-  setComments,
-  loading,
+  handleMenuClick,
+  isFetchingNext,
+  hasMore,
+  setSentinelEl
 }: ReviewDetailViewProps) => {
-  
+  // 여기서 훅 사용!
+  const {
+    liked,
+    likeCount,
+    bookmarked,
+    bookmarkCount,
+    toggleLike,
+    toggleBookmark,
+  } = useToggleLikeScrap("REVIEW", review.id, {
+    initialLiked: review.is_liked,
+    initialBookmarked: review.is_scrapped,
+    initialLikeCount: review.like_count,
+    initialBookmarkCount: review.scrap_count,
+  });
+
+  // 숫자 포맷(천단위)
+  const fmt = (n: number) => new Intl.NumberFormat().format(n);
+
   return (
     <GridItem colSpan={12}>
-      {/* <ReviewLink onClick={handleScheduleClick}>{review.id}</ReviewLink> */}
-     
       {review.file_urls.length > 0 && (
-        <Header backgroundUrl={review.file_urls[0]}>
-          <Title>{review.title}</Title>
+        <Header bgUrl={review.file_urls[0]}>
+          {/* TODO: 수정모달 구현하기 */}
+
+          <Menu.Root>
+            <Menu.Trigger asChild>
+              <MenuIcon>
+                <IoMdMore />
+              </MenuIcon>
+            </Menu.Trigger>
+            <Portal>
+              <Menu.Positioner>
+                <Menu.Content
+                  pl={"0.6rem"}
+                  pr={"0.6rem"}
+                  pt={"0.3rem"}
+                  pb={"0.3rem"}
+                >
+                  {/* TODO: 수정은 나중에 */}
+                  <Menu.Item
+                    onClick={() => handleMenuClick("edit")}
+                    value="수정"
+                  >
+                    수정
+                  </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      handleMenuClick("delete");
+                      console.log("클릭됨");
+                    }}
+                    value="삭제"
+                  >
+                    삭제
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Portal>
+          </Menu.Root>
+
+          <Title>
+            {review.title}
+            <HStack zIndex={"1000"} key={"md"}>
+              <Tag.Root
+                p={1}
+                pr={3}
+                pl={3}
+                colorPalette={review.type === "PLACE" ? "cyan" : "orange"} // PLACE: cyan, SCHEDULE: orange
+                size={"lg"}
+              >
+                <Tag.Label>
+                  {review.type === "PLACE" ? "장소리뷰" : "일정리뷰"}
+                </Tag.Label>
+              </Tag.Root>
+            </HStack>
+          </Title>
           <Profile>
             <Avatar.Root size="sm">
               <Avatar.Fallback name={review.author.nickname} />
@@ -96,33 +176,45 @@ const ReviewDetailView = ({
           </Rating>
         </Header>
       )}
+
       <Wrapper>
         <SidePaddingTextbox>
-          <PaddingMd/>
-          <AutoCenter>
-          <Card.Root  bg="white" 
-   flexDirection="row" pr="1rem" gap="2rem" overflow="hidden" w="100%">
-    <Image
-      objectFit="cover"
-      maxW="200px"
-      src={review.reference.thumbnail_url}
-      alt={review.title}
-    />
-    <Box>
-      <Card.Body>
-        <Card.Title  pt="1.5rem" >{review.reference.title}</Card.Title>
-        
-       <HStack mt="2">
-  <Badge p="0.3rem">{review.reference.destination}</Badge>
-  <Badge p="0.3rem">{review.reference.duration}</Badge>
-</HStack>
-      </Card.Body>
-      <Card.Footer pb="1rem">
-        <Button  onClick ={handleScheduleClick} p="0.5rem" mt="1rem">일정 바로보기</Button>
-      </Card.Footer >
-    </Box>
-  </Card.Root>
-  </AutoCenter>
+          <PaddingMd />
+          {review.type  === "SCHEDULE" && (
+            <AutoCenter>
+              <Card.Root
+                bg="white"
+                flexDirection="row"
+                pr="1rem"
+                gap="2rem"
+                overflow="hidden"
+                w="100%"
+              >
+                <Image
+                  objectFit="cover"
+                  maxW="200px"
+                  src={review.reference.thumbnail_url}
+                  alt={review.title}
+                />
+                <Box>
+                  <Card.Body>
+                    <Card.Title pt="1.5rem">
+                      {review.reference.title}
+                    </Card.Title>
+                    <HStack mt="2">
+                      <Badge p="0.3rem">{review.reference.destination}</Badge>
+                      <Badge p="0.3rem">{review.reference.duration}</Badge>
+                    </HStack>
+                  </Card.Body>
+                  <Card.Footer pb="1rem">
+                    <Button onClick={handleScheduleClick} p="0.5rem" mt="1rem">
+                      일정 바로보기
+                    </Button>
+                  </Card.Footer>
+                </Box>
+              </Card.Root>
+            </AutoCenter>
+          )}
           <PaddingMd />
           {review.file_urls.length > 0 && (
             <Gallery>
@@ -131,6 +223,7 @@ const ReviewDetailView = ({
               ))}
             </Gallery>
           )}
+
           <Text
             whiteSpace="pre-line"
             p="1rem 2rem"
@@ -142,46 +235,92 @@ const ReviewDetailView = ({
 
           <Separator mt="3rem" mb="3rem" size="lg" />
           <IconBox>
-            {/* 좋아요 아이콘 */}
-
-            <Icon onClick={handleLikeClick} style={{ cursor: "pointer" }}>
+            {/* 리뷰 좋아요/스크랩 */}
+            <Icon
+              onClick={toggleLike} // 훅에서 받아온 toggle 함수 바로 연결
+              style={{ cursor: "pointer" }}
+              role="button"
+              aria-pressed={liked}
+              aria-label={liked ? "좋아요 취소" : "좋아요"}
+              title={liked ? "좋아요 취소" : "좋아요"}
+            >
               {liked ? <FaHeart color="red" /> : <FaRegHeart />}
-              <span> {likeCount}</span>
+              <span>{fmt(likeCount)}</span>
             </Icon>
 
-            {/* 북마크 아이콘 */}
-
-            <Icon onClick={handleBookmarkClick} style={{ cursor: "pointer" }}>
+            <Icon
+              onClick={toggleBookmark} // 훅에서 받아온 toggle 함수 바로 연결
+              style={{ cursor: "pointer" }}
+              role="button"
+              aria-pressed={bookmarked}
+              aria-label={bookmarked ? "스크랩 취소" : "스크랩"}
+              title={bookmarked ? "스크랩 취소" : "스크랩"}
+            >
               {bookmarked ? <FaBookmark color="gold" /> : <FaRegBookmark />}
-              <span>{bookmarkCount}</span>
+              <span>{fmt(bookmarkCount)}</span>
             </Icon>
           </IconBox>
+          {/* 댓글 */}
           <CommentSection>
-            {comments.length > 0 ? (
-              <CommentList comments={comments} />
-            ) : (
-              <>
-                <PaddingMd />
-                <AutoCenter>
-                  <p style={{ color: "#919294" }}>
-                    댓글이 없습니다. <br />
-                    첫번째 댓글을 달아주세요!{" "}
-                  </p>
-                </AutoCenter>
-                <PaddingMd />
-              </>
-            )}
+            <PaddingMd />
             <InputWrap>
               <CommentInput
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 type="text"
                 placeholder="댓글을 입력하세요"
+                aria-label="댓글 입력"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+                    handleCommentSubmit();
+                  }
+                }}
               />
               <CommentSubmitBtn onClick={handleCommentSubmit}>
                 등록
               </CommentSubmitBtn>
             </InputWrap>
+
+            {comments.length > 0 ? (
+              <>
+                <CommentList comments={comments} />
+                <div
+                  style={{
+                    marginTop: "8px",
+                    fontSize: "12px",
+                    color: "#8a8a8a",
+                    textAlign: "right",
+                  }}
+                ></div>
+              </>
+            ) : (
+              <>
+                <PaddingMd />
+                <AutoCenter>
+                  <p style={{ color: "#919294", textAlign: "center" }}>
+                    댓글이 없습니다. <br />
+                    첫번째 댓글을 달아주세요!
+                  </p>
+                </AutoCenter>
+                <PaddingMd />
+              </>
+            )}
+
+            {/* 무한 스크롤 상태 */}
+            {isFetchingNext && (
+              <div style={{ textAlign: "center", marginTop: "8px" }}>
+                더 불러오는 중…
+              </div>
+            )}
+
+            {/* 바닥 센티넬: viewport에 들어오면 자동으로 다음 페이지 로드 */}
+            {hasMore && (
+              <div
+                ref={setSentinelEl}
+                style={{ height: 1 }}
+                aria-hidden="true"
+              />
+            )}
           </CommentSection>
         </SidePaddingTextbox>
       </Wrapper>

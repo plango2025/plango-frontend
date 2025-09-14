@@ -1,4 +1,3 @@
-import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -7,12 +6,6 @@ import { Pagination, Navigation } from "swiper/modules";
 import { Wrapper } from './Gallery.styles';
 import { createGlobalStyle } from "styled-components";
 
-interface ImageItem {
-  contentid: number;
-  imgname: string;
-  originimgurl: string;
-  serialnum: string;
-}
 interface GalleryProps {
   images: string[];
 }
@@ -39,7 +32,6 @@ const Gallery = ({ images }: GalleryProps) => {
     <Wrapper style={{ marginBottom:"4rem", maxWidth: "700px", margin: "0 auto"}}>
       <SwiperCustomStyle/>
       <Swiper
-     
         slidesPerView={1}
         spaceBetween={30}
         loop={true}
@@ -61,7 +53,7 @@ const Gallery = ({ images }: GalleryProps) => {
                 height: "auto", 
                 objectFit: "cover", 
                 borderRadius: "8px", 
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)", 
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
               }}
             ></img>
           </SwiperSlide>

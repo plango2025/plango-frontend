@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavItem, Nav } from './Sidenav.style';
 
 const SideNav = () => {

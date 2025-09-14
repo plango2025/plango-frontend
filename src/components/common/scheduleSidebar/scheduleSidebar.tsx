@@ -1,83 +1,211 @@
+import { useState } from "react";
 import {
   Button,
-  ButtonGroup,
   Stack,
-  Steps,
   Box,
   Image,
   Text,
   Flex,
+  Steps,
+  Spinner,
 } from "@chakra-ui/react";
 import styles from "./scheduleSidebar.module.scss";
-import { scheduleSidebarPresenter } from "./scheduleSidebarPresenter"; // StepItem 변환 함수
-import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { ScheduleResponse } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagesModel";
-import { getTravelPlan } from "@/pages/ScheduleCreationPage/scheduleCreationFeatures/Stepper/StepperPages/StepPagePresenter";
+import { scheduleSidebarModel } from "./scheduleSidebarModel";
+import { useLocation } from "react-router-dom";
+import { useMapContext } from "@/components/common/kakaomap/MapContext";
+import { FaRegBookmark, FaBookmark, FaArrowCircleUp } from "react-icons/fa";
+import pin from "@/assets/images/icons/scheduleCreation/pin (1).png";
+import emptypin from "@/assets/images/icons/scheduleCreation/empty_pin.png";
+import {
+  createApiWithToken,
+} from "@/api/axiosInstance";
 
-// StepItem 인터페이스 정의
+// StepItem 인터페이스
 export interface StepItem {
+  id: string;
+  name: string;
   title: string;
+  dayname: string;
   description: string;
-  imageUrl: string;
   imageAlt: string;
+  imageUrl: string;
+  latitude: number;
+  longitude: number;
 }
 
-// 컴포넌트 props에 대한 인터페이스 정의
-interface ScheduleSidebarProps {
-  stepsData?: StepItem[]; // StepItem 배열을 받거나 undefined일 수 있음
-}
 
-const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
-  const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<ScheduleResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
-  useEffect(() => {
-    if (!id) return;
+const ScheduleSidebar= () => {
+  const location = useLocation();
+  const { scheduleResponse } = location.state || {};
+  const { centerMapToLocation, showPlaceOverlay } = useMapContext();
+  const [feedback, setFeedback] = useState("");
+  const api = createApiWithToken(
+    () => localStorage.getItem("accessToken"),
+    () => {}
+  );
 
-    const fetchData = async () => {
+  // isLoading 상태 추가
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [stepItems, setStepItems] = useState<StepItem[]>(() =>
+    scheduleSidebarModel(scheduleResponse)
+  );
+  const [Bookmarked, setBookmarked] = useState(false);
+  const scheduleId = scheduleResponse.schedule_id;
+  const [pinnedPlaces, setPinnedPlaces] = useState<string[]>([]);
+
+  const handleBookmarkClick = async () => {
+    try {
+      await api.patch(`/schedules/${scheduleId}/keep`, {}, {
+        requiresAuth: true,
+      });
+      setBookmarked(true);
+      alert("일정이 보관되었습니다.");
+    } catch (error) {
+      console.error("보관 실패:", error);
+      alert("보관 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handlePinClick = async (placeName: string) => {
+    if (pinnedPlaces.includes(placeName)) {
+      alert("이미 저장된 핀입니다.");
+      return;
+    }
+
+    const pinPlaces = async (scheduleId: string, places: string[]) => {
+      const url = `/schedules/${scheduleId}/places/pin`;
+      const body = { places };
       try {
-        const res = await getTravelPlan(id);
-        setData(res);
-      } catch (err) {
-        setError("일정 데이터를 불러오는 데 실패했습니다.");
-      } finally {
-        setLoading(false);
+        const response = await api.patch(url, body, {
+          requiresAuth: true,
+        });
+        return response.data;
+      } catch (error) {
+        console.error("핀 저장 오류", error);
+        throw error;
       }
     };
 
-    fetchData();
-  }, [id]);
-  
-  // stepsData가 제공되지 않으면 기본값을 사용
-  const actualSteps = stepsData || (data ? scheduleSidebarPresenter(data.schedule) : steps);
-  const stepItems = data ? scheduleSidebarPresenter(data.schedule) : [];
+    try {
+      const updatedPlaces = [...pinnedPlaces, placeName];
+      await pinPlaces(scheduleId, updatedPlaces);
+      setPinnedPlaces(updatedPlaces);
+      alert(`"${placeName}"가 저장되었습니다.`);
+    } catch {
+      alert("핀 저장 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleFeedbackClick = async () => {
+    if (!scheduleId) return alert("스케줄 ID가 없습니다.");
+    if (!feedback.trim()) return alert("피드백을 입력해주세요.");
+
+    // 로딩 시작
+    setIsLoading(true);
+
+    const sendScheduleFeedback = async (
+      scheduleId: string,
+      feedback: string
+    ) => {
+      try {
+        const response = await api.patch(`/schedules/${scheduleId}/feedback`, {
+          feedback,
+        });
+        return response.data;
+      } catch (error) {
+        console.error("피드백 전송 실패:", error);
+        throw error;
+      }
+    };
+
+    try {
+      const result = await sendScheduleFeedback(scheduleId, feedback);
+      alert("피드백이 저장되었습니다!");
+      setFeedback("");
+
+      const newItems = scheduleSidebarModel(result);
+      setStepItems(newItems);
+    } catch (error) {
+      alert("피드백 저장 중 오류가 발생했습니다.");
+      console.error(error);
+    } finally {
+      // 로딩 종료
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
+      {/* 로딩 스피너 오버레이 */}
+      {isLoading && (
+        <Stack
+          position="fixed"
+          top={0}
+          left={0}
+          width="100vw"
+          height="100vh"
+          bg="rgba(0,0,0,0.3)"
+          align="center"
+          justify="center"
+          zIndex={9999}
+        >
+          <Spinner size="xl" color="blue.500" />
+          <Text mt={4} color="white" fontSize="lg" fontWeight="semibold">
+            여행 일정 재생성 중입니다...
+          </Text>
+        </Stack>
+      )}
+
       <div className={styles.layout}>
-        <div className={styles.title}>{actualSteps.map((step) => step.title)}</div>
+        {/* 타이틀 */}
+        <div className={styles.title}>
+          <Text fontSize="2xl" fontWeight="bold">
+            <button
+              onClick={handleBookmarkClick}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              {Bookmarked ? (
+                <FaBookmark size={24} color="#F9DE51" />
+              ) : (
+                <FaRegBookmark size={24} color="gray" />
+              )}
+              <span>{scheduleResponse.schedule.title}</span>
+            </button>{" "}
+          </Text>
+        </div>
+
+        {/* 인디케이터 */}
+        <div className={styles.indicatorTitleLine}></div>
+
+        {/* 메인 콘텐츠 */}
         <Flex className={styles.flexContent}>
-          {/* 왼쪽 열: 스텝 목록 */}
-          <Box flex="1">
-            {" "}
-            {/* Flex 비율 조정 */}
+          {/* 왼쪽: 스텝 리스트 */}
+          <Box>
             <Steps.Root
               orientation="vertical"
               defaultStep={0}
-              count={actualSteps.length}
+              count={stepItems.length}
             >
-              <Steps.List gap="3">
-                {actualSteps.map((step, index) => (
+              <Steps.List justifyContent="flex-start">
+                {stepItems.map((_, index) => (
                   <Steps.Item
                     key={index}
                     index={index}
-                    title={step.title}
                     minHeight="150px"
+                    maxHeight="150px"
+                    padding="0"
+                    marginLeft="15px"
+                    flex="initial" // 이 줄을 추가하세요!
                   >
-                    <Steps.Indicator />
-                    <Steps.Title>{step.title}</Steps.Title>
+                    <Steps.Indicator className={styles.indicator} />
                     <Steps.Separator />
                   </Steps.Item>
                 ))}
@@ -85,35 +213,69 @@ const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
             </Steps.Root>
           </Box>
 
-          {/* 오른쪽 열: 모든 스텝 내용 컨테이너 */}
-          <Box flex="2">
-            {" "}
-            {/* Flex 비율 및 왼쪽 여백 조정 */}
-            <Stack gap="3">
-              {" "}
-              {/* 내용 박스 사이의 간격 추가 */}
-              {actualSteps.map((step, index) => (
+          {/* 오른쪽: Step 내용 박스 */}
+          <Box>
+            <Stack gap="0" marginTop="25px" marginLeft="10px">
+              {stepItems.map((step, index) => (
                 <Box
-                  minHeight="150px"
                   key={index}
-                  p="4"
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  shadow="md"
+                  minHeight="150px"
+                  maxHeight="150px"
+                  cursor="pointer"
+                  onClick={() => {
+                    centerMapToLocation(step.latitude, step.longitude);
+                    showPlaceOverlay(step);
+                  }}
                 >
-                  <Flex align="center">
-                    <Image
-                      src={step.imageUrl} // StepItem에서 imageUrl 사용
-                      alt={step.imageAlt} // StepItem에서 imageAlt 사용
-                      boxSize="100px" // 필요에 따라 크기 조정
-                      objectFit="cover"
-                      mr="4" // 간격을 위한 오른쪽 여백
-                    />
-                    <Box>
-                      <Text fontWeight="bold" fontSize="lg">
-                        {step.title}
-                      </Text>
-                       <Text>{step.description}</Text>
+                  <Flex>
+                    <Box
+                      width="100px"
+                      height="100px"
+                      overflow="hidden"
+                      borderRadius="8px"
+                    >
+                      <Image
+                        src={step.imageUrl}
+                        alt={step.imageAlt}
+                        width="100%"
+                        height="100%"
+                        objectFit="cover"
+                      />
+                    </Box>
+                    <Box className={styles.discriptionBoxLayout}>
+                      <div className={styles.discriptionBox}>
+                        <Flex alignItems="center" gap="8px">
+                          <Button
+                            aria-label="핀 저장"
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handlePinClick(step.name)}
+                            padding="0"
+                            minW="auto"
+                          >
+                            <Image
+                              src={
+                                pinnedPlaces.includes(step.name)
+                                  ? pin
+                                  : emptypin
+                              }
+                              alt="핀 아이콘"
+                              boxSize="25px"
+                            />
+                          </Button>
+
+                          <Text className={styles.stepDayname}>
+                            {step.dayname}
+                          </Text>
+                        </Flex>
+                        <Text
+                          maxHeight="90px"
+                          overflow="hidden"
+                          overflowY="auto"
+                        >
+                          {step.description}
+                        </Text>
+                      </div>
                     </Box>
                   </Flex>
                 </Box>
@@ -121,9 +283,23 @@ const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
             </Stack>
           </Box>
         </Flex>
+
+        {/* 하단 버튼 */}
         <div className={styles.textBoxLayout}>
           <div className={styles.textBox}>
-            <Button className={styles.clickButton}>마음속에 저장!</Button>
+            <textarea
+              placeholder="수정하고 싶은 내용을 입력해주세요."
+              className={styles.textarea}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+
+            <button
+              className={styles.clickButton}
+              onClick={handleFeedbackClick}
+            >
+              <FaArrowCircleUp />
+            </button>
           </div>
         </div>
       </div>
@@ -131,38 +307,4 @@ const scheduleSidebar: React.FC<ScheduleSidebarProps> = ({ stepsData }) => {
   );
 };
 
-// 기본 단계 데이터 (StepItem 타입으로 명시)
-const steps: StepItem[] = [
-  {
-    title: "초기 설정",
-    description: "여정에 오신 것을 환영합니다! 첫 번째 구성을 시작해 봅시다.",
-    imageUrl: "https://via.placeholder.com/100/FF5733/FFFFFF?text=Step1",
-    imageAlt: "설정 일러스트",
-  },
-  {
-    title: "데이터 입력",
-    description: "이제 프로젝트에 필요한 정보를 제공해 주세요.",
-    imageUrl: "https://via.placeholder.com/100/33FF57/FFFFFF?text=Step2",
-    imageAlt: "데이터 입력 일러스트",
-  },
-  {
-    title: "검토 및 확인",
-    description: "최종 확정 전에 모든 세부 사항을 검토해 보세요.",
-    imageUrl: "https://via.placeholder.com/100/3357FF/FFFFFF?text=Step3",
-    imageAlt: "검토 일러스트",
-  },
-  {
-    title: "완료",
-    description: "축하합니다! 모든 단계가 완료되었으며, 프로세스가 끝났습니다.",
-    imageUrl: "https://via.placeholder.com/100/FFFF33/000000?text=Step4",
-    imageAlt: "완료 일러스트",
-  },
-  {
-    title: "완료",
-    description: "축하합니다! 모든 단계가 완료되었으며, 프로세스가 끝났습니다.",
-    imageUrl: "https://via.placeholder.com/100/FFFF33/000000?text=Step4",
-    imageAlt: "완료 일러스트",
-  },
-];
-
-export default scheduleSidebar;
+export default ScheduleSidebar;

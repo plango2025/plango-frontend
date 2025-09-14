@@ -1,29 +1,109 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { createApiWithToken } from "@/api/axiosInstance";
+import { toast } from "react-toastify";
 
-interface AccessTokenContextType{
-    accessToken:string|null;
-    setAccessToken:(token: string|null)=>void;
+type UserProfile = {
+  id: string;
+  profile_image: string;
+  nickname: string;
+};
 
+interface AccessTokenContextType {
+  accessToken: string | null;
+  setAccessToken: (token: string | null) => void;
+  isLoggedIn: boolean;
+  api: ReturnType<typeof createApiWithToken>;
+  logout: () => Promise<void>;
+  user: UserProfile | null;
+  setUser: (user: UserProfile | null) => void;
 }
 
-const AccessTokenContext = createContext<AccessTokenContextType|undefined>(undefined);
-//AccessTokenProvider 컴포넌트 안에 속한 컴포넌트들은
-//모두 accessToken을 사용가능
-export const AccessTokenProvider:React.FC<{children:React.ReactNode}>=({children})=>{
+const AccessTokenContext = createContext<AccessTokenContextType | undefined>(
+  undefined
+);
+
+export const AccessTokenProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  return(
-<AccessTokenContext.Provider value={{accessToken,setAccessToken}}>
-{children}
-</AccessTokenContext.Provider>
-  )
-}
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const isLoggedIn = !!accessToken;
 
-// AccessTokenContext에 저장된 acessToken, setAccessToken을 꺼내쓰기 위한 커스텀 훅!
-// 사용 예시) const { accessToken, setAccessToken } = useAccessToken();
-//- `AccessTokenProvider`로 감싸지 않았을 경우 `context`는 `undefined`가 됨
-//- 그럴 때는 명확한 에러를 던져서 개발자가 잘못 사용한 걸 알려준다.
-export const useAccessToken = ()=>{
+  // API 인스턴스 생성
+  const api = createApiWithToken(
+    () => accessToken,
+    (token) => {
+      setAccessToken(token);
+    }
+  );
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const res = await api.post(
+          "/auth/refresh",
+          {},
+          {
+            withCredentials: true,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const newToken = res.headers["authorization"]?.replace("Bearer ", "");
+
+        if (newToken) {
+          setAccessToken(newToken);
+          const profileRes = await api.get("/users/me/profile", {
+            requiresAuth: true,
+          });
+          setUser(profileRes.data);
+        } else {
+          console.warn("❌ refresh로도 accessToken 없음");
+          setAccessToken(null);
+          toast("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+        }
+      } catch (e) {
+        console.error("🚫 자동 로그인 실패", e);
+        setAccessToken(null);
+      }
+    };
+
+    init();
+  }, []);
+
+  // 로그아웃
+  const logout = async () => {
+    api.post("/auth/logout", {}, { requiresAuth: true }).then(() => {
+      console.log("일반 로그아웃 성공");
+      setAccessToken(null);
+      api
+        .get("/oauth/kakao/logout", { requiresAuth: false })
+        .then((result) => {
+          const logout_url = result.data.logout_redirect_uri;
+          window.location.href = logout_url;
+        });
+    });
+  };
+
+  return (
+    <AccessTokenContext.Provider
+      value={{
+        accessToken,
+        setAccessToken,
+        isLoggedIn,
+        api,
+        logout,
+        user,
+        setUser,
+      }}
+    >
+      {children}
+    </AccessTokenContext.Provider>
+  );
+};
+
+export const useAccessToken = () => {
   const context = useContext(AccessTokenContext);
-  if(!context) throw new Error("useAccessToken must be used within AccessTokenProvider");
+  if (!context)
+    throw new Error(
+      "useAccessToken must be used within an AccessTokenProvider"
+    );
   return context;
-}
+};
