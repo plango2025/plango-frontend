@@ -1,8 +1,8 @@
 // mypageview.tsx
 import  { useState } from "react";
 import CommonSidebar from "@/components/common/sidebar/CommonSidebar";
-import styles from "./MyPage.module.scss";
-import Tap from "./tap/Tap";
+import styles from "@pages/myPage/MyPage.module.scss";
+import Tap from "@/pages/myPage/tap/Tap";
 import {
   Page1,
   Page2,

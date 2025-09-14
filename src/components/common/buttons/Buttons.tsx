@@ -1,5 +1,5 @@
  import { useNavigate } from "react-router-dom";
-import { KakaoBtn, KakaoLoginBtnWrapper, LoginBtn, LoginBtnWrapper } from './Buttons.styles';
+import { KakaoBtn, KakaoLoginBtnWrapper, LoginBtn, LoginBtnWrapper } from '@components/common/buttons/Buttons.styles';
 
 export const LoginButton = () => {
     const navigate = useNavigate();
