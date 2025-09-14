@@ -1,5 +1,11 @@
 import { GridItem } from "@chakra-ui/react";
 import AppLayout from "@/layout/AppLayout";
+import main1 from "@assets/images/main/main1.png";
+import main2 from "@assets/images/main/main2.png";
+import main3 from "@assets/images/main/main3.png";
+import main4 from "@assets/images/main/main4.png";
+import main5 from "@assets/images/main/main5.png";
+import plane from "@assets/images/icons/plane.png";
 import {
   Image,
   StartBtn,
@@ -63,7 +69,7 @@ export default function MainPage() {
             ref={wrapperRef}
             style={{
               height: `${TOTAL_SECTIONS * 100}vh`,
-              transition: "transform 0.8s ease-in-out", 
+              transition: "transform 0.8s ease-in-out",
             }}
           >
             <LoginBtnWrapper>
@@ -79,20 +85,17 @@ export default function MainPage() {
                 <Text>여행 계획? 이제 클릭 한 번으로 끝!</Text>
                 <Logo>
                   <LogoTitle>Plango </LogoTitle>
-                  <PlaneIcon
-                    src="src/assets/images/icons/plane.png"
-                    alt="plane"
-                  />
+                  <PlaneIcon src={plane} alt="plane" />
                 </Logo>
                 <StartBtn onClick={() => navigate("/schedule")}>
                   바로 일정 만들기
                 </StartBtn>
               </TextContainer>
-              <Image src="src/assets/images/main/main1.png" />
+              <Image src={main1} />
             </Section>
 
             <Section>
-              <Image src="src/assets/images/main/main2.png" />
+              <Image src={main2} />
               <TextContainer>
                 <Text>맛집 투어를 좋아하는 유리씨도</Text>
               </TextContainer>
@@ -102,11 +105,11 @@ export default function MainPage() {
               <TextContainer>
                 <Text>혼자 있는 시간이 중요한 소희씨도</Text>
               </TextContainer>
-              <Image src="src/assets/images/main/main3.png" />
+              <Image src={main3} />
             </Section>
 
             <Section>
-              <Image src="src/assets/images/main/main4.png" />
+              <Image src={main4} />
               <TextContainer>
                 <Text>다양한 걸 보고 싶은 도윤씨도</Text>
               </TextContainer>
@@ -118,7 +121,7 @@ export default function MainPage() {
                   나중엔 우주여행까지 <Bold>Plango</Bold>와 함께!
                 </Text>
               </TextContainer>
-              <Image src="src/assets/images/main/main5.png" />
+              <Image src={main5} />
             </Section>
           </Wrapper>
         </Wrap>
