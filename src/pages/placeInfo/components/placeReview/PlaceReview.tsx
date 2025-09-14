@@ -81,7 +81,7 @@ const PlaceReview = ({
               <User>
                 <Avatar src={it.author.profile_image} />
                 <div>
-                 PlaceInfo<Nick>{it.author.nickname}</Nick>
+                  <Nick>{it.author.nickname}</Nick>
                   <Box display="flex" alignItems={"center"} gap="0.5rem">
                     <Rating>
                       <RatingGroup.Root

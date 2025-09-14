@@ -74,7 +74,7 @@ export const AccessTokenProvider = ({ children }: { children: React.ReactNode })
       console.log("일반 로그아웃 성공");
       setAccessToken(null);
       api
-        .get("/oauth/kakao/logout", {}, { requiresAuth: false })
+        .get("/oauth/kakao/logout", { requiresAuth: false })
         .then((result) => {
           const logout_url = result.data.logout_redirect_uri;
           window.location.href = logout_url;

@@ -23,8 +23,7 @@ const ReviewDetailPage = () => {
     hasMore,
     isFetchingNext,
     setSentinelEl,
-    isEditModalOpen,
-    setIsEditModalOpen
+
   } = useReviewDetailPresenter(id);
 
   if (!review || !user) return <div>로딩 중...</div>;
@@ -49,8 +48,7 @@ const ReviewDetailPage = () => {
         handleScheduleClick={handleScheduleClick}
         handleCommentSubmit={handleCommentSubmit}
         handleMenuClick={handleMenuClick}
-        isEditModalOpen={isEditModalOpen}
-        setIsEditModalOpen={setIsEditModalOpen}
+
       />
     </AppLayout>
   );

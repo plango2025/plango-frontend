@@ -55,7 +55,6 @@ type ReviewDetailViewProps = {
   handleMenuClick: (action: "edit" | "delete") => void;
   // 무한 스크롤 센티넬 엘리먼트 세터
   setSentinelEl: (el: HTMLDivElement | null) => void;
-
   // UX/액션
   loading: boolean;
   liked: boolean;
@@ -105,7 +104,7 @@ const ReviewDetailView = ({
       {review.file_urls.length > 0 && (
         <Header bgUrl={review.file_urls[0]}>
           {/* TODO: 수정모달 구현하기 */}
-  
+
           <Menu.Root>
             <Menu.Trigger asChild>
               <MenuIcon>
@@ -148,11 +147,11 @@ const ReviewDetailView = ({
                 p={1}
                 pr={3}
                 pl={3}
-                colorPalette={review.type.SCHEDULE ? "cyan" : "orange"} // PLACE: cyan, SCHEDULE: orange
+                colorPalette={review.type === "PLACE" ? "cyan" : "orange"} // PLACE: cyan, SCHEDULE: orange
                 size={"lg"}
               >
                 <Tag.Label>
-                  {review.type.PLACE ? "장소리뷰" : "일정리뷰"}
+                  {review.type === "PLACE" ? "장소리뷰" : "일정리뷰"}
                 </Tag.Label>
               </Tag.Root>
             </HStack>
@@ -181,7 +180,7 @@ const ReviewDetailView = ({
       <Wrapper>
         <SidePaddingTextbox>
           <PaddingMd />
-          {review.type === "SCHEDULE" && (
+          {review.type  === "SCHEDULE" && (
             <AutoCenter>
               <Card.Root
                 bg="white"

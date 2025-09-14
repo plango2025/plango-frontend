@@ -34,7 +34,6 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isFetchingNext, setIsFetchingNext] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // 합쳐진 댓글 리스트 (항상 전체 노출: 버튼 없음)
   const comments: Comment[] = useMemo(
@@ -146,7 +145,6 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
   const handleMenuClick = (action: "edit" | "delete") => {
     switch (action) {
       case "edit":
-        setIsEditModalOpen(true);
         break;
       case "delete":
         console.log("삭제");
@@ -168,8 +166,7 @@ export const useReviewDetailPresenter = (id: string | undefined) => {
     handleMenuClick,
     comment: commentInput,
     setComment: setCommentInput,
-    isEditModalOpen,
-    setIsEditModalOpen,
+
     liked,
     likeCount,
     bookmarked,

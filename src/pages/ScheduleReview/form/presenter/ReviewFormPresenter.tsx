@@ -127,7 +127,6 @@ const ReviewFormPresenter = () => {
       setShowModal={setShowModal}
       reviewData={reviewData}
       setReviewData={setReviewData}
-      imageFiles={imageFiles}
       setImageFiles={setImageFiles}
       savedSchedules={savedSchedules}
       handleSelectSchedule={handleSelectSchedule}

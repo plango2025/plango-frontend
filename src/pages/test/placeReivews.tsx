@@ -2,9 +2,22 @@
 import { useEffect, useState } from "react";
 import PlaceReview from "../placeInfo/components/placeReview/PlaceReview";
 import { usePlaceSearch } from "../placeInfo/presenter/PlaceInfoPresenter";
+import { Review } from '@/types/review/review';
 
 interface PlaceReviewsProps {
   keyword: string;
+  reviewItems: Review[];
+  hasMore: boolean;
+
+  loadFirstReviews: (keyword: string, limit?: number) => Promise<void>;
+  loadMoreReviews: (
+    keyword: string,
+    limit?: number
+  ) => Promise<{
+    reviewItems: Review[]; // 여기 이름만 실제 반환값 items로 바꿔도 됨
+    next_cursor?: string; // 필요하면 옵셔널 추가
+    has_more?: boolean; // 필요하면 옵셔널 추가
+  }>;
 }
 const PlaceReviews = ({ keyword }:PlaceReviewsProps) => {
   const {
@@ -35,7 +48,7 @@ const PlaceReviews = ({ keyword }:PlaceReviewsProps) => {
   if (!keyword.trim()) return <div>테스트용: URL에 /:keyword 가 필요해요.</div>;
   if (loading && reviewItems.length === 0) return <div>리뷰 불러오는 중…</div>;
 
-  const visibleReviews = expanded ? reviewItems : reviewItems.slice(0, 5);
+  const visibleReviews = expanded ? reviewItems : reviewItems.slice(0, 3);
 
   return (
     <div style={{ padding: 16 }}>
