@@ -32,7 +32,6 @@ const Gallery = ({ images }: GalleryProps) => {
     <Wrapper style={{ marginBottom:"4rem", maxWidth: "700px", margin: "0 auto"}}>
       <SwiperCustomStyle/>
       <Swiper
-     
         slidesPerView={1}
         spaceBetween={30}
         loop={true}
@@ -54,7 +53,7 @@ const Gallery = ({ images }: GalleryProps) => {
                 height: "auto", 
                 objectFit: "cover", 
                 borderRadius: "8px", 
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)", 
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
               }}
             ></img>
           </SwiperSlide>
