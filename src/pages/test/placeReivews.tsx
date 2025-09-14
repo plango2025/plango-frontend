@@ -14,7 +14,7 @@ interface PlaceReviewsProps {
     keyword: string,
     limit?: number
   ) => Promise<{
-    reviewItems: Review[]; // 여기 이름만 실제 반환값 items로 바꿔도 됨
+    items: Review[]; // 여기 이름만 실제 반환값 items로 바꿔도 됨
     next_cursor?: string; // 필요하면 옵셔널 추가
     has_more?: boolean; // 필요하면 옵셔널 추가
   }>;
