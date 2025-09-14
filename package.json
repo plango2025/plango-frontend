@@ -9,9 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "npm install rollup @rollup/plugin-node-resolve @rollup/plugin-commonjs"
-
   },
-  "dependencies": {  
+  "dependencies": {
     "@chakra-ui/react": "^3.15.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -20,6 +19,8 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@tanstack/react-query": "^5.85.5",
     "@types/babel__core": "^7.20.5",
     "@types/babel__generator": "^7.6.8",
@@ -40,6 +41,7 @@
     "react-simple-toasts": "^6.1.0",
     "react-toastify": "^11.0.5",
     "recoil": "^0.7.7",
+    "rollup": "^4.50.1",
     "sort-by": "^0.0.2",
     "styled-components": "^6.1.18",
     "swiper": "^11.2.7",
