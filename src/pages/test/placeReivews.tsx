@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import PlaceReview from "../placeInfo/components/placeReview/PlaceReview";
 import { usePlaceSearch } from "../placeInfo/presenter/PlaceInfoPresenter";
 import { Review } from '@/types/review/review';
+import { PlaceReviewItem } from '../placeInfo/types/type';
 
 interface PlaceReviewsProps {
   keyword: string;
-  reviewItems: Review[];
+  reviewItems: PlaceReviewItem[];
   hasMore: boolean;
 
   loadFirstReviews: (keyword: string, limit?: number) => Promise<void>;

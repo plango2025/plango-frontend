@@ -30,7 +30,6 @@ const PlaceInfo = () => {
     loading,
     reviewItems,
     hasMore,
-    likeCount,
     loadFirstReviews,
     loadMoreReviews,
     handleLikeClick,
@@ -40,7 +39,6 @@ const PlaceInfo = () => {
   const handleBack = () => navigate(-1);
 
   if (loading || !placeIntroData) return <Spinner />;
-  console.log(likeCount);
   const { title, sub_title, content, address, images, rating } =
     placeIntroData 
   return (

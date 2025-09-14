@@ -21,21 +21,5 @@ export const fetchPlaceReviews = async (
     requiresAuth: true,
   });
   console.log("장소 리뷰 불러오기:", res.data);
-  return res.data as {
-    items: Array<{
-      id: string;
-      title: string;
-      author: { id: string; nickname: string; profile_image?: string };
-      type: "PLACE";
-      thumbnail_url?: string;
-      rating: number;
-      like_count: number;
-      comment_count: number;
-      scrap_count: number;
-      is_liked: boolean;
-      is_scrapped: boolean;
-    }>;
-    next_cursor: string | null;
-    has_more: boolean;
-  };
+  return res.data
 };
