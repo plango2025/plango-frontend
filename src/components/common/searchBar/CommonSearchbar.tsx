@@ -12,7 +12,7 @@ type SearchBarMode =
   | "button5";
 
 type SearchBarPresenterProps = {
-  mode: SearchBarMode;
+  mode?: SearchBarMode;
   onSearch?: (text: string) => void;
 };
 
